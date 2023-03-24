@@ -1,0 +1,114 @@
+package com.example.appbackend.model;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Setter
+@Entity(name = "product")
+@Table(name = "product")
+public class Product {
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private Long id;
+
+    @Column(
+            name = "name",
+            nullable = false
+    )
+    private String name;
+
+    @Column(
+            name = "description",
+            columnDefinition = "TEXT"
+    )
+    private String description;
+
+    @Column(
+            name = "price",
+            nullable = false
+    )
+    private Long price;
+
+    @Column(
+            name = "rating"
+    )
+    private double rating;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "category_id",
+            nullable = false,
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(
+                    name = "category_fk"
+            )
+    )
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "shop_id",
+            nullable = false,
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(
+                    name = "shop_fk"
+            )
+    )
+    private Shop shop;
+
+    @OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            mappedBy = "product"
+    )
+    private List<InStock> inStockList = new ArrayList<>();
+
+    public Product(String name, String description, Long price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.rating = 0;
+    }
+
+    public Product() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void addStock(InStock inStock) throws Exception {
+        if (!inStockList.contains(inStock)) {
+            inStockList.add(inStock);
+            inStock.setProduct(this);
+        }else {
+            throw new Exception("Stock type is already exist");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return id + " - " + name;
+    }
+}
