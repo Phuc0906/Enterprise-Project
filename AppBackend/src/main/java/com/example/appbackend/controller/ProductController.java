@@ -7,6 +7,7 @@ import com.example.appbackend.service.CategoryService;
 import com.example.appbackend.service.InStockService;
 import com.example.appbackend.service.ProductService;
 import com.example.appbackend.service.ShopService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,12 @@ public class ProductController {
             throw new Exception("Type is already exist");
         }
 
+    }
+
+    @GetMapping(path = "/stock")
+    public List<InStock> getInStock(@RequestParam String productId) {
+        Product product = productService.getProductById(Long.parseLong(productId));
+        return product.getInStockList();
     }
 
 

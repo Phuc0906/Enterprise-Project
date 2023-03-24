@@ -36,6 +36,11 @@ public class Shop {
     )
     private List<Product> products = new ArrayList<>();
 
+    @OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            mappedBy = "shop"
+    )
+    private List<Billing> billingList = new ArrayList<>();
 
     public Shop(String name, String email) {
         this.name = name;
@@ -50,5 +55,10 @@ public class Shop {
     public void addProduct(Product product) {
         products.add(product);
         product.setShop(this);
+    }
+
+    public void addBilling(Billing billing) {
+        billingList.add(billing);
+        billing.setShop(this);
     }
 }

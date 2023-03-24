@@ -98,6 +98,10 @@ public class Product {
         return rating;
     }
 
+    public List<InStock> getInStockList() {
+        return inStockList;
+    }
+
     public void addStock(InStock inStock) throws Exception {
         if (!inStockList.contains(inStock)) {
             inStockList.add(inStock);

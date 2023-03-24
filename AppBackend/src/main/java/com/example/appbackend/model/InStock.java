@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import java.util.Objects;
 
-@Getter
 @Setter
 @Entity(name = "in_stock")
 @Table(name = "in_stock")
@@ -45,11 +44,23 @@ public class InStock {
         this.quantity = quantity;
     }
 
+    public InStock() {
+
+    }
+
     @Override
     public boolean equals(Object obj) {
         InStock inStockObj = (InStock) obj;
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         return Objects.equals(type, inStockObj.type);
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Long getQuantity() {
+        return quantity;
     }
 }
