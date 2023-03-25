@@ -67,6 +67,12 @@ public class Product {
     )
     private List<InStock> inStockList = new ArrayList<>();
 
+    @OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            mappedBy = "product"
+    )
+    private List<InCart> inCarts = new ArrayList<>();
+
     public Product(String name, String description, Long price) {
         this.name = name;
         this.description = description;
@@ -110,6 +116,12 @@ public class Product {
             throw new Exception("Stock type is already exist");
         }
     }
+
+    public void addInCart(InCart inCart) {
+        inCarts.add(inCart);
+        inCart.setProduct(this);
+    }
+
 
     @Override
     public String toString() {

@@ -53,6 +53,12 @@ public class AppUser {
     )
     private List<OnDelivery> deliveryList = new ArrayList<>();
 
+    @OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            mappedBy = "appUser"
+    )
+    private List<InCart> inCarts = new ArrayList<>();
+
     public AppUser(String name, String email, String role, String address, String phoneNumber, String password) {
         this.name = name;
         this.email = email;
@@ -77,5 +83,10 @@ public class AppUser {
     public void addDelivery(OnDelivery onDelivery) {
         deliveryList.add(onDelivery);
         onDelivery.setAppUser(this);
+    }
+
+    public void addInCart(InCart inCart) {
+        inCarts.add(inCart);
+        inCart.setAppUser(this);
     }
 }
