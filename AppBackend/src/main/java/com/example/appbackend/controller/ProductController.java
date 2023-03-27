@@ -31,7 +31,7 @@ public class ProductController {
     private InStockService inStockService;
 
     @PostMapping
-    public void adProduct(@RequestBody ProductDTO productDTO) {
+    public void addProduct(@RequestBody ProductDTO productDTO) {
 
         Product product = new Product(productDTO.getName(), productDTO.getDescription(), productDTO.getPrice());
         Category category = categoryService.findCategoryByName(productDTO.getCategoryname());
