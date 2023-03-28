@@ -1,5 +1,6 @@
 package com.example.appbackend.controller;
 
+import com.example.appbackend.dto.CategoryDTO;
 import com.example.appbackend.model.Category;
 import com.example.appbackend.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,8 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping
-    public void addCategory(@RequestBody Category category) {
+    public void addCategory(@RequestBody CategoryDTO categoryDTO) {
+        Category category = new Category(categoryDTO.getName());
         categoryService.addCategory(category);
     }
 }
