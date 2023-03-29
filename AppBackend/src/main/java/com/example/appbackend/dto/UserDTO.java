@@ -10,7 +10,6 @@ public class UserDTO {
     private String email;
     private String address;
     private String phoneNumber;
-    private double point;
     private String password;
 
 
