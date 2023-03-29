@@ -1,6 +1,7 @@
 package com.example.appbackend.controller;
 
 import com.example.appbackend.dto.InCartDTO;
+import com.example.appbackend.dto.UserDTO;
 import com.example.appbackend.model.AppUser;
 import com.example.appbackend.model.InCart;
 import com.example.appbackend.model.InCartId;
@@ -24,8 +25,8 @@ public class UserController {
 
 
     @PostMapping(path = "/register")
-    public void register(@RequestBody AppUser user) {
-        userService.register(user);
+    public void register(@RequestBody UserDTO user) {
+        userService.register(new AppUser(user.getName(), user.getEmail(), "USER", user.getAddress(), user.getPhoneNumber(), user.getPassword()));
     }
 
 
