@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import axios from "axios";
 
-const ProductFormPage = () => {
+const ProductForm = () => {
     const [image, setImage] = useState();
 
     const imageHandle = (images) => {
@@ -26,11 +26,11 @@ const ProductFormPage = () => {
         imageData.append("file", image);
         imageData.append("file", image);
 
-        axios.post(`http://localhost:8080/api/product`, fakeProduct)
+        axios.post(`http://localhost:8080/product`, fakeProduct)
             .then(res => {
                 console.log(res);
                 const productId = res.data.product_id;
-                axios.post(`http://localhost:8080/api/product/${productId}/image/upload`,
+                axios.post(`http://localhost:8080/product/${productId}/image/upload`,
                     imageData,
                     {
                         headers: {
@@ -56,4 +56,4 @@ const ProductFormPage = () => {
     </div>
 }
 
-export default ProductFormPage;
+export default ProductForm;
