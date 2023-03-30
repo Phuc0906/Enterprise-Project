@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
+import axios from "axios";
 
 const RegisterPage = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [phone, setPhone] = useState('');
-    const [account, setAccount] = useState('');
     const [password, setPassword] = useState('');
     const [reenterPassword, setReenterPassword] = useState('');
 
+    const user = {
+        name: name,
+        email: email,
+        address: address,
+        phone: phone,
+        password: password
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        // handle form submission
+        axios.post('http://localhost:8080/user/register', user)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 
     return (
@@ -49,15 +63,6 @@ const RegisterPage = () => {
                     type="tel"
                     value={phone}
                     onChange={(event) => setPhone(event.target.value)}
-                />
-            </label>
-            <br />
-            <label>
-                Account:
-                <input
-                    type="text"
-                    value={account}
-                    onChange={(event) => setAccount(event.target.value)}
                 />
             </label>
             <br />

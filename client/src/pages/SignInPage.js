@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 const SignInPage = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -10,6 +11,7 @@ const SignInPage = () => {
     }
 
     return (
+        <div>
         <form onSubmit={handleSubmit}>
             <label>
                 Username:
@@ -31,6 +33,8 @@ const SignInPage = () => {
             <br />
             <input type="submit" value="Submit" />
         </form>
+        <button onClick={()=>navigate('/register')}>Register</button>
+        </div>
     );
 }
 
