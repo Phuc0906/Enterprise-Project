@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/shop")
+@RequestMapping(path = "shop")
 @RequiredArgsConstructor
 public class ShopController {
     @Autowired

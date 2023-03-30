@@ -24,7 +24,5 @@ public class AmazonConfig {
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(Regions.AP_SOUTHEAST_1)
                 .build();
-
-
     }
 }
