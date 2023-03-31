@@ -52,6 +52,9 @@ public class ProductController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public void uploadImage(@RequestParam("file") MultipartFile[] file, @PathVariable("product_id") Long productId) {
+        Product product = productService.getProductById(productId);
+        product.setImageCount(file.length);
+        productService.addProduct(product);
         amazonS3Service.uploadImage(file, productId);
     }
 

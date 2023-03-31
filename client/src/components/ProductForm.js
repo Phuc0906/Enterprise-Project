@@ -1,24 +1,57 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {paste} from "@testing-library/user-event/dist/paste";
+import Select from "react-select";
 
 const ProductForm = () => {
     const [image, setImage] = useState([undefined]);
     const [imageTest, setImageTest] = useState(null);
+    const [categoryList, setCategoryList] = useState([{}]);
     const [productInfo, setProductInfo] = useState({
         "name": "",
         "description": "",
         "price": 0,
-        "shopname": "",
+        "shopname": "Adidas",
         "categoryname": ""
     })
     const [imgCount, setImgCount] = useState([0]);
 
-    const onRemoveImage = (imgIdx) => {
+    useEffect(() => {
+        axios.get("http://localhost:8080/category").then(res => {
+            const categories = res.data;
+            for (let i = 0; i < categories.length; i++) {
+                setCategoryList(prevCategory => [...prevCategory, {value: categories[i].name, label: categories[i].name}]);
+            }
+        })
+    }, []);
 
+
+
+    const onRemoveImage = imgIdx => () => {
+        const imgArr = [...image];
+        const imgCountArr = [...imgCount];
+        // shift image to delete
+        console.log("IMG length: " + imgArr.length);
+        if (imgArr.length == 1) {
+            imgArr[imgIdx] = undefined;
+            setImage(imgArr);
+            return;
+        }
+
+        for (let i = imgIdx; i < imgArr.length - 1; i++) {
+            imgArr[i] = imgArr[i + 1];
+        }
+
+        if (imgArr.length != 1) {
+            imgArr.pop();
+            imgCount.pop();
+            setImage(imgArr);
+            console.log(imgArr);
+        }
     }
 
     const ImageInputGenerator = (props) => {
+        console.log(image[parseInt(props.name)]);
         return <div className="pt-3">
             <label
                 htmlFor="formFile"
@@ -31,7 +64,14 @@ const ProductForm = () => {
                     name={props.name}
                     onChange={handleImgDivChange}
                 />
-                <div onChange={onRemoveImage(parseInt(props.name))} className="inline-block rounded bg-red-700 px-2 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-primary hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-yellow-500" >Remove</div>
+                <div onClick={onRemoveImage(parseInt(props.name))} >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                         stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round"
+                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                    </svg>
+
+                </div>
             </div>
 
             {image[parseInt(props.name)] && (
@@ -63,23 +103,22 @@ const ProductForm = () => {
     }
 
 
-    const uploadImage = () => {
-        const fakeProduct = {
-            "name": "Shoes 2",
-            "description": "Running shoes",
-            "price": 2000000,
-            "shopname": "Adidas",
-            "categoryname": "Running"
-        }
+    const onSelectedChangeHandle = (option) => {
+        setProductInfo({...productInfo, 'categoryname': option.value})
+    }
 
+
+    const uploadProduct = () => {
+        console.log("run")
         // data.files.push(image);
         let data = [];
         data.push(image);
         const imageData = new FormData();
-        imageData.append("file", image);
-        imageData.append("file", image);
+        for (let i = 0; i < image.length; i++) {
+            imageData.append('file', image[i]);
+        }
 
-        axios.post(`http://localhost:8080/product`, fakeProduct)
+        axios.post(`http://localhost:8080/product`, productInfo)
             .then(res => {
                 console.log(res);
                 const productId = res.data.product_id;
@@ -95,13 +134,21 @@ const ProductForm = () => {
                     console.log(err);
                 })
             })
+    }
 
+    const handleSubmitForm = () => {
+        if ((image.length == 1 && image[0] == undefined) || productInfo.name.length == 0 || productInfo.price == 0 || productInfo.categoryname.length == 0) {
+            alert("Please Fill Required Information");
+            return;
+        }
+        uploadProduct();
 
     }
 
+
     return <div>
         <h1 className="p-3.5 font-bold text-yellow-600 font-bold text-4xl">Product Information</h1>
-        <form className="w-full max-w-xl p-3.5">
+        <div className="w-full max-w-xl p-3.5" >
             <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
                     <label className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">
@@ -157,12 +204,8 @@ const ProductForm = () => {
                     </label>
                 </div>
                 <div className="md:w-2/3">
-                    <div className="flex justify-center">
-                        <div className="mb-3 xl:w-96">
-                            <select name="categoryname" onChange={inputHandleChange} className="p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" data-te-select-init>
-
-                            </select>
-                        </div>
+                    <div className="mb-3 xl:w-96">
+                        <Select placeholder="Select Category" onChange={onSelectedChangeHandle} options={categoryList} />
                     </div>
                 </div>
             </div>
@@ -171,11 +214,7 @@ const ProductForm = () => {
                 <div >
                     <div className="flex justify-center">
                         <div className="mb-3 w-96">
-
-
                             {imgCount.map(count => <ImageInputGenerator key={count} name={count} />)}
-
-
                             <div className="pt-6 flex items-end space-x-3">
                                 <div  onClick={addImageHandle}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -192,7 +231,13 @@ const ProductForm = () => {
                     </div>
                 </div>
             </div>
-        </form>
+            <button
+                type="click"
+                onClick={handleSubmitForm}
+                className="m-3 pt-3 inline-block rounded-full bg-blue-800 px-6 pt-2.5 pb-2 text-white text-sm font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)]">
+                Add Product
+            </button>
+        </div>
     </div>
 }
 
