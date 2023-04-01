@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Setter
 @Entity(name = "category")
 @Table(name = "category")
@@ -32,6 +31,10 @@ public class Category {
 
     public Category() {
 
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void addProduct(Product product) {

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
@@ -18,5 +20,9 @@ public class CategoryService {
 
     public Category findCategoryByName(String categoryName) {
         return categoryRepository.findByName(categoryName).orElse(null);
+    }
+
+    public List<Category> getCategories() {
+        return categoryRepository.findAll();
     }
 }

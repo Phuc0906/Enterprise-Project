@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "category")
 @CrossOrigin("*")
@@ -19,5 +21,10 @@ public class CategoryController {
     public void addCategory(@RequestBody CategoryDTO categoryDTO) {
         Category category = new Category(categoryDTO.getName());
         categoryService.addCategory(category);
+    }
+
+    @GetMapping
+    public List<Category> getCategories() {
+        return categoryService.getCategories();
     }
 }

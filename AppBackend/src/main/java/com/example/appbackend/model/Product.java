@@ -29,6 +29,11 @@ public class Product {
     private String description;
 
     @Column(
+            name = "image_count"
+    )
+    private int imageCount;
+
+    @Column(
             name = "price",
             nullable = false
     )
@@ -115,6 +120,10 @@ public class Product {
         }else {
             throw new Exception("Stock type is already exist");
         }
+    }
+
+    public int getImageCount() {
+        return imageCount;
     }
 
     public void addInCart(InCart inCart) {
