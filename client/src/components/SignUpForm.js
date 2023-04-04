@@ -12,6 +12,7 @@ const SignUpForm = () => {
                     lastName: "",
                     email: "",
                     password: "",
+                    role: "",
                     passwordConfirmation: "",
                     term: false,
                 }}
@@ -25,6 +26,7 @@ const SignUpForm = () => {
                     email: Yub.string()
                         .email("Email must be a valid email")
                         .required("Required"),
+                    role: Yub.string().required("Required"),
                     password: Yub.string().required("Password is required"),
                     passwordConfirmation: Yub.string().oneOf(
                         [Yub.ref("password"), null],
@@ -62,6 +64,19 @@ const SignUpForm = () => {
                         <div className="text-sm text-red-500 mt-[-8px]">
                             <ErrorMessage name="email"></ErrorMessage>
                         </div>
+
+                        <label htmlFor="email">Role</label>
+                        <Field
+                            name="role"
+                            className="p-3 border border-gray-100 rounded-lg mt-[-5px]"
+                            as="select"
+                            placeholder="Enter Your Email">
+                            <option value="Seller">Seller</option>
+                            <option value="User">User</option>
+                        </Field>
+                        <div className="text-sm text-red-500 mt-[-8px]">
+                            <ErrorMessage name="email"></ErrorMessage>
+                        </div>
                         <label htmlFor="password">Password</label>
                         <Field
                             name="password"
@@ -83,13 +98,18 @@ const SignUpForm = () => {
                             <ErrorMessage name="passwordConfirmation"></ErrorMessage>
                         </div>
 
-                        <button
-                            type="submit"
-                            className="w-full p-4 font-semibold text-white bg-blue-600 rounded-lg">
-                            {" "}
-                            Submit
-                        </button>
+                        <div className="flex items-center gap-x-3">
+                            <Field name="term" type="checkbox"></Field>
+                            <p className="font-semibold">
+                                I accept all terms and conditions
+                            </p>
+                        </div>
                     </div>
+                    <button
+                        type="submit"
+                        className="w-full p-4 mt-8 font-semibold text-white bg-blue-600 rounded-lg">
+                        Submit
+                    </button>
                 </Form>
             </Formik>
         </div>
