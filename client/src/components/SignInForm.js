@@ -2,8 +2,11 @@ import React from "react";
 import { Formik, Form, useField } from "formik";
 import * as Yub from "yup";
 import MField from "./MField";
+import { useNavigate } from "react-router-dom";
 
 const SignInForm = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="flex items-center w-full">
             <div className="w-[50%] h-screen">
@@ -39,12 +42,22 @@ const SignInForm = () => {
                     </Form>
                 </Formik>
             </div>
-            <div className="w-[50%] h-screen bg-gradient-to-br from-cyan-500 to-blue-500">
-                <div className="flex items-center justify-center w-full h-full">
-                    <h2 className="font-bold text-center text-white text-8xl">
-                        "Creative is intelligence having fun"
-                    </h2>
+            <div className="w-[50%] min-h-screen h-full bg-gradient-to-br from-cyan-500 to-blue-500">
+                <div className="flex items-center justify-center p-4 gap-x-5">
+                    <span
+                        onClick={() => navigate("/home")}
+                        className="font-semibold text-center text-white cursor-pointer select-none">
+                        Home
+                    </span>
+                    <span
+                        onClick={() => navigate("/register")}
+                        className="font-semibold text-center text-white cursor-pointer select-none">
+                        Register
+                    </span>
                 </div>
+                <h2 className="mt-[10rem] font-thin text-center text-white text-8xl ">
+                    "Creative is intelligence having fun"
+                </h2>
             </div>
         </div>
     );
