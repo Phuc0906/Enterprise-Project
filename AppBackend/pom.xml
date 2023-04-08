@@ -82,11 +82,11 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache</groupId>
-            <artifactId>apache</artifactId>
-            <version>27</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache</groupId>-->
+<!--            <artifactId>apache</artifactId>-->
+<!--            <version>27</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.amazonaws</groupId>
@@ -103,6 +103,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
         </plugins>
     </build>
 
