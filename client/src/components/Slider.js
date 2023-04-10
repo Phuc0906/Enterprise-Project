@@ -31,7 +31,7 @@ const Slider = () => {
                             obcaecati unde laudantium?
                         </p>
                         <div className="flex items-center mt-4 gap-x-4">
-                            <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-black rounded-xl">
+                            <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-slate-800 rounded-xl">
                                 Get This Product
                             </button>
                         </div>
@@ -39,7 +39,7 @@ const Slider = () => {
                     <div className="w-full h-full max-w-full">
                         <img
                             src={`${hyper}`}
-                            className="w-full h-full"
+                            className="w-full h-full select-none"
                             alt=""
                         />
                     </div>
