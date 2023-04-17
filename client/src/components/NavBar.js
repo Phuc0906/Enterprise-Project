@@ -2,11 +2,14 @@ import React, {useState} from "react";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import '../Burger.css'
+import {useNavigate} from "react-router-dom";
 
-const NavBar = () => {
+const NavBar = ({items}) => {
     const [burgerClass, setBurgerClass] = useState("burger-bar unclicked");
     const [menuClass, setMenuClass] = useState("menu unshow");
     const [isMenuClicked, setIsMenuClicked] = useState(false);
+    const navigate = useNavigate();
+
 
     const updateMenu = () => {
         if (!isMenuClicked) {
@@ -17,6 +20,16 @@ const NavBar = () => {
             setMenuClass("menu unshow")
         }
         setIsMenuClicked(!isMenuClicked);
+    }
+
+    const MenuItemsBuilder = ({item, toPage}) => {
+        const navigateToPage = () => {
+            navigate(toPage);
+        }
+
+        return <div onClick={navigateToPage} className="menu-item">
+            {item}
+        </div>
     }
 
     return (
@@ -68,18 +81,7 @@ const NavBar = () => {
             </div>
             <div className={menuClass}>
                 <div className="menu-list">
-                    <div className="menu-item">
-                        Home
-                    </div>
-                    <div className="menu-item">
-                        Home
-                    </div>
-                    <div className="menu-item">
-                        Home
-                    </div>
-                    <div className="menu-item">
-                        Home
-                    </div>
+                    {items.map(item => <MenuItemsBuilder item={item.name} toPage={item.page} />)}
                 </div>
             </div>
         </div>

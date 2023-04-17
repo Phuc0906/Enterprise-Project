@@ -2,9 +2,13 @@ import React from "react";
 import NavBar from "./NavBar";
 
 const Home = () => {
+    const items = [
+        {name: "Home", page: "/home"}
+    ]
+
     return (
         <div>
-            <NavBar></NavBar>
+            <NavBar items={items} />
         </div>
     );
 };
