@@ -25,6 +25,7 @@ const NavBar = ({items}) => {
     const MenuItemsBuilder = ({item, toPage}) => {
         const navigateToPage = () => {
             navigate(toPage);
+            window.location.reload();
         }
 
         return <div onClick={navigateToPage} className="menu-item">
@@ -85,7 +86,7 @@ const NavBar = ({items}) => {
             </div>
             <div className={menuClass} style={{zIndex: '9'}}>
                 <div className="menu-list">
-                    {items.map(item => <MenuItemsBuilder item={item.name} toPage={item.page} />)}
+                    {items.map((item, index) => <MenuItemsBuilder key={index} item={item.name} toPage={item.page} />)}
                 </div>
             </div>
 

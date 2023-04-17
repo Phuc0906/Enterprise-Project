@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "../components/NavBar";
 
-const ShopHomePage = () => {
+const ShopDashboard = () => {
     const items = [
         {name: "Dashboard", page: "/shop/dashboard"},
         {name: "Product", page: "/shop/product"}
@@ -12,4 +12,4 @@ const ShopHomePage = () => {
     </div>
 }
 
-export default ShopHomePage;
+export default ShopDashboard;

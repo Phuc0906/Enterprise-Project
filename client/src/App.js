@@ -17,6 +17,8 @@ function App() {
             <Route path="/product/upload" element={<ProductForm />} />
             <Route path="/category/upload" element={<CategoryForm />} />
             <Route path="/home/shop" element={<ShopHomePage />} />
+            <Route path="/shop/dashboard" element={<ShopHomePage />} />
+            <Route path="/shop/product" element={<ShopHomePage />} />
         </Routes>
     );
 }
