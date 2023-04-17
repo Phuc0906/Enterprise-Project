@@ -1,5 +1,7 @@
 import React from "react";
 import NavBar from "./NavBar";
+import Slider from "./Slider";
+import Category from "./Category";
 
 const Home = () => {
     const items = [
@@ -8,7 +10,9 @@ const Home = () => {
 
     return (
         <div>
-            <NavBar items={items} />
+            <NavBar items={items} ></NavBar>
+            <Slider></Slider>
+            <Category></Category>
         </div>
     );
 };

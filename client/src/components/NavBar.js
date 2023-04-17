@@ -62,19 +62,19 @@ const NavBar = ({items}) => {
                         <MagnifyingGlassIcon className="flex-shrink-0 w-6 h-6"></MagnifyingGlassIcon>
                     </div>
                 </div>
-                <div className="flex-1">
-                    <h1 className="text-lg font-semibold text-center">Lazada</h1>
-                </div>
-                <div className="flex items-end justify-end flex-1 p-3 mr-8 gap-x-3">
-                    <span className="uppercase font-extralight">Register</span>
-                    <span className="uppercase font-extralight">Sign in</span>
-                    <div className="relative">
-                        <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
-                        <span class="absolute flex h-5 w-5 top-0 right-0 translate-x-1/2 translate-y-[-70%]">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-5 w-5 bg-sky-500 items-center justify-center text-white text-[9px]">
-                                10
-                            </span>
+            </div>
+            <div className="flex-1">
+                <h1 className="text-lg font-semibold text-center">Lazada</h1>
+            </div>
+            <div className="flex items-end justify-end flex-1 p-3 mr-8 gap-x-3">
+                <span className="uppercase font-extralight">Register</span>
+                <span className="uppercase font-extralight">Sign in</span>
+                <div className="relative">
+                    <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
+                    <span className="absolute flex h-5 w-5 top-0 right-0 translate-x-1/2 translate-y-[-70%]">
+                        <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                        <span className="relative inline-flex rounded-full h-5 w-5 bg-sky-500 items-center justify-center text-white text-[9px]">
+                            10
                         </span>
                     </div>
                 </div>
