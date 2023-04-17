@@ -10,7 +10,7 @@ const Home = () => {
 
     return (
         <div>
-            <NavBar items={items} ></NavBar>
+            <NavBar items={items}/>
             <Slider></Slider>
             <Category></Category>
         </div>
