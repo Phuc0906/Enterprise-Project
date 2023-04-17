@@ -1,29 +1,66 @@
-import React from "react";
+import React, {useState} from "react";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import '../Burger.css'
+import {useNavigate} from "react-router-dom";
 
-const NavBar = () => {
+const NavBar = ({items}) => {
+    const [burgerClass, setBurgerClass] = useState("burger-bar unclicked");
+    const [menuClass, setMenuClass] = useState("menu unshow");
+    const [isMenuClicked, setIsMenuClicked] = useState(false);
+    const navigate = useNavigate();
+
+
+    const updateMenu = () => {
+        if (!isMenuClicked) {
+            setBurgerClass("burger-bar clicked");
+            setMenuClass("menu show")
+        }else {
+            setBurgerClass("burger-bar unclicked");
+            setMenuClass("menu unshow")
+        }
+        setIsMenuClicked(!isMenuClicked);
+    }
+
+    const MenuItemsBuilder = ({item, toPage}) => {
+        const navigateToPage = () => {
+            navigate(toPage);
+        }
+
+        return <div onClick={navigateToPage} className="menu-item">
+            {item}
+        </div>
+    }
+
     return (
-        <div className="flex items-center justify-center p-3">
-            <div className="flex items-center flex-1">
-                <Bars3Icon className="w-6 h-6"></Bars3Icon>
-                <div
-                    className={`flex items-center p-1 ml-3 border min-w-fit transition-all rounded-md`}>
-                    <input
-                        type="text"
-                        name="searchBar"
-                        className="focus:w-full"
-                        placeholder="Searching something"
-                        onFocus={(e) => {
-                            const parent = e.target.parentElement;
-                            parent.classList.add("w-full");
-                        }}
-                        onBlur={(e) => {
-                            const parent = e.target.parentElement;
-                            parent.classList.remove("w-full");
-                        }}
-                    />
-                    <MagnifyingGlassIcon className="flex-shrink-0 w-6 h-6"></MagnifyingGlassIcon>
+        <div>
+            <div className="flex items-center justify-center p-3">
+                <div className="flex items-center flex-1">
+                    <div style={{width: '100%', height: '5em', padding: '1em'}}>
+                        <div className="burger-menu" onClick={updateMenu}>
+                            <button className={burgerClass} ></button>
+                            <button className={burgerClass}></button>
+                            <button className={burgerClass}></button>
+                        </div>
+                    </div>
+                    <div
+                        className={`flex items-center p-1 ml-3 border min-w-fit transition-all rounded-md`}>
+                        <input
+                            type="text"
+                            name="searchBar"
+                            className="focus:w-full"
+                            placeholder="Searching something"
+                            onFocus={(e) => {
+                                const parent = e.target.parentElement;
+                                parent.classList.add("w-full");
+                            }}
+                            onBlur={(e) => {
+                                const parent = e.target.parentElement;
+                                parent.classList.remove("w-full");
+                            }}
+                        />
+                        <MagnifyingGlassIcon className="flex-shrink-0 w-6 h-6"></MagnifyingGlassIcon>
+                    </div>
                 </div>
             </div>
             <div className="flex-1">
@@ -39,7 +76,12 @@ const NavBar = () => {
                         <span className="relative inline-flex rounded-full h-5 w-5 bg-sky-500 items-center justify-center text-white text-[9px]">
                             10
                         </span>
-                    </span>
+                    </div>
+                </div>
+            </div>
+            <div className={menuClass}>
+                <div className="menu-list">
+                    {items.map(item => <MenuItemsBuilder item={item.name} toPage={item.page} />)}
                 </div>
             </div>
         </div>

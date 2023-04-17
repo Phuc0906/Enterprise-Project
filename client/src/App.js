@@ -6,6 +6,7 @@ import CategoryForm from "./components/CategoryForm";
 import SignUpForm from "./components/SignUpForm";
 import SignInForm from "./components/SignInForm";
 import Home from "./components/Home";
+import ShopHomePage from "./pages/ShopHomePage";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/register" element={<SignUpForm />} />
             <Route path="/product/upload" element={<ProductForm />} />
             <Route path="/category/upload" element={<CategoryForm />} />
+            <Route path="/home/shop" element={<ShopHomePage />} />
         </Routes>
     );
 }

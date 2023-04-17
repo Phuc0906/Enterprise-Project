@@ -4,9 +4,13 @@ import Slider from "./Slider";
 import Category from "./Category";
 
 const Home = () => {
+    const items = [
+        {name: "Home", page: "/home"}
+    ]
+
     return (
         <div>
-            <NavBar></NavBar>
+            <NavBar items={items} ></NavBar>
             <Slider></Slider>
             <Category></Category>
         </div>
