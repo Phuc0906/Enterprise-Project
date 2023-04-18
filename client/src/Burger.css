@@ -37,7 +37,8 @@ nav {
     border: 1px solid #333333;
     position: absolute;
     top: 0;
-
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -54,7 +55,7 @@ nav {
 
 /*click animation*/
 .burger-bar.clicked:nth-child(1){
-    transform: rotate(46deg) translate(0.25em, 0.1em);
+    transform: rotate(48deg) translate(0.18em, 0.18em);
     transition: ease-out 0.5s;
 }
 
