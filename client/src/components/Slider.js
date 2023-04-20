@@ -8,16 +8,26 @@ const Slider = () => {
     const [posX, setPosX] = useState(0);
     const lenElements = 2;
     const limit = lenElements * 100 - 100;
-    const handleRightClick = (e) => {
+
+    const handleRightClick = async (e) => {
+        const slider = document.querySelector(".slider");
+        if (slider) {
+            slider.style.transform = `translateX(${posX - 100}vw)`;
+        }
         setPosX((prev) => (prev = prev - 100));
     };
     const handleLeftClick = (e) => {
+        const slider = document.querySelector(".slider");
+        if (slider) {
+            slider.style.transform = `translateX(${posX + 100}vw)`;
+        }
         setPosX((prev) => (prev = prev + 100));
     };
+
     return (
         <div className="relative w-full h-screen overflow-hidden max-w-screen">
             <div
-                className={`flex items-center w-full h-full transition-all slide translate-x-[${posX}vw] `}>
+                className={`flex items-center w-full h-full transition-all slide  slider`}>
                 <div className="flex items-center flex-shrink-0 w-screen h-screen bg-gradient-to-br from-black to-slate-800">
                     <div className="flex flex-col text-white ml-[200px] mt-30 gap-y-3 flex-shrink-0 w-1/3">
                         <h2 className="text-[100px] font-bold leading-tight">
