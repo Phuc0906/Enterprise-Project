@@ -1,7 +1,9 @@
 import React from "react";
 import NavBar from "../components/NavBar";
+import ShopRecord from "../components/ShopRecord";
+import ShopRecordChart from "../components/ShopRecordChart";
 
-const ShopHomePage = () => {
+const ShopDashboard = () => {
     const items = [
         {name: "Dashboard", page: "/shop/dashboard"},
         {name: "Product", page: "/shop/product"}
@@ -9,7 +11,9 @@ const ShopHomePage = () => {
 
     return <div>
         <NavBar items={items} />
+        <ShopRecord />
+        <ShopRecordChart/>
     </div>
 }
 
-export default ShopHomePage;
+export default ShopDashboard;
