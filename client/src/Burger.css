@@ -50,7 +50,7 @@ nav {
 }
 
 .menu.show {
-    transition: ease-in-out 1.2s;
+    transition: ease-in-out 0.5s;
 }
 
 /*click animation*/
