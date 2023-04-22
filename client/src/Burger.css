@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+}
+
+nav {
+    width: 100%;
+    height: 5em;
+    background-color: aquamarine;
+    display: flex;
+    justify-content: flex-start;
+    padding: 1em;
+}
+
+.burger-menu {
+    height: 100%;
+    width: 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    cursor: pointer;
+}
+
+
+.burger-bar {
+    width: 2.6em;
+    height: 0.3em;
+    border-radius: 0.5em;
+    background-color: black;
+}
+
+.menu {
+    margin-top: 6.48em;
+    width: 12.5%;
+    height: 100vh;
+    background-color: white;
+    border: 1px solid #333333;
+    position: absolute;
+    top: 0;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.menu.unshow {
+    transform: translate(-100%);
+    transition: ease 0.5s;
+}
+
+.menu.show {
+    transition: ease-in-out 0.5s;
+}
+
+/*click animation*/
+.burger-bar.clicked:nth-child(1){
+    transform: rotate(48deg) translate(0.18em, 0.18em);
+    transition: ease-out 0.5s;
+}
+
+.burger-bar.clicked:nth-child(2){
+    transform: scale(0.0);
+    transition: ease-out 0.5s;
+}
+
+.burger-bar.clicked:nth-child(3){
+    transform: rotate(133deg) translate(-1em, 1em);
+    transition: ease-out 0.5s;
+}
+
+/*unclick animation*/
+.burger-bar.unclicked {
+    transform: rotate(0) translate(0);
+    transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s;
+}
+
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-item {
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+    padding: 20px 0;
+    cursor: pointer;
+
+}
+
+.menu-item:hover {
+    background-color: #87BCD9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
