@@ -60,7 +60,7 @@ public class ProductController {
 
 
     @GetMapping
-    public List<Product> getProduct() {
+    public List<ProductDTO> getProduct() {
         return productService.getAllProduct();
     }
 
