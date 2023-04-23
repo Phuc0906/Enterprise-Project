@@ -54,14 +54,8 @@ const AdminPage = () => {
     return <div>
         <NavBar items={items} />
         <div>
-            <h2 className="text-3xl mt-8 text-center">Shop Product</h2>
+            <h2 className="text-3xl mt-8 text-center">Product</h2>
             <div className="mt-8 ml-3">
-                <Link
-                    to={"/product/upload"}
-                    type="button"
-                    className="inline-block rounded bg-red-400 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
-                    Add Product
-                </Link>
             </div>
             <div className="ml-3">
                 <div className="flex flex-col overflow-x-auto">
