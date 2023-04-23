@@ -2,11 +2,14 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {paste} from "@testing-library/user-event/dist/paste";
 import Select from "react-select";
+import {useLocation} from "react-router-dom";
 
 const ProductForm = () => {
+    const IMAGE_URL = "https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/"
+    const location = useLocation();
     const [image, setImage] = useState([undefined]);
-    const [imageTest, setImageTest] = useState(null);
     const [categoryList, setCategoryList] = useState([{}]);
+    const [selectedCategory, setSelectedCategory] = useState({});
     const [productInfo, setProductInfo] = useState({
         "name": "",
         "description": "",
@@ -16,22 +19,54 @@ const ProductForm = () => {
     })
     const [imgCount, setImgCount] = useState([0]);
 
+    async function urlToBlob(url) {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        return blob;
+    }
+
+    async function urlToFile(url, mimeType) {
+        const blob = await urlToBlob(url);
+        const file = new File([blob], 'image1.png' ,  { type: mimeType });
+        return file;
+    }
+
     useEffect(() => {
+        const getProductDetail = async () => {
+            if (location.state.update) {
+                setProductInfo(location.state.product);
+                const settingImages = [];
+                const imagesCounting = [];
+                for (let i = 0; i < location.state.product.imagesCount; i++) {
+                    await urlToFile(IMAGE_URL + `${location.state.product.id}-${i}.png`, 'image/png').then(res => {
+                        settingImages.push(res);
+                        imagesCounting.push(imagesCounting.length);
+                    });
+                }
+                setImage(settingImages);
+                setImgCount(imagesCounting);
+            }
+        }
+
+        getProductDetail();
+
+
         axios.get("http://localhost:8080/category").then(res => {
             const categories = res.data;
             for (let i = 0; i < categories.length; i++) {
+                if ((location.state.update) && (location.state.product.categoryname === categories[i].name)) {
+                    setSelectedCategory({value: categories[i].name, label: categories[i].name})
+                }
                 setCategoryList(prevCategory => [...prevCategory, {value: categories[i].name, label: categories[i].name}]);
             }
-        })
+        });
     }, []);
 
 
 
     const onRemoveImage = imgIdx => () => {
         const imgArr = [...image];
-        const imgCountArr = [...imgCount];
         // shift image to delete
-        console.log("IMG length: " + imgArr.length);
         if (imgArr.length == 1) {
             imgArr[imgIdx] = undefined;
             setImage(imgArr);
@@ -46,12 +81,10 @@ const ProductForm = () => {
             imgArr.pop();
             imgCount.pop();
             setImage(imgArr);
-            console.log(imgArr);
         }
     }
 
     const ImageInputGenerator = (props) => {
-        console.log(image[parseInt(props.name)]);
         return <div className="pt-3">
             <label
                 htmlFor="formFile"
@@ -86,6 +119,8 @@ const ProductForm = () => {
             ...prevInfo,
             [name]: name === 'price' ? parseInt(value) : value
         }));
+
+
     }
 
     const addImageHandle = () => {
@@ -95,7 +130,6 @@ const ProductForm = () => {
     }
 
     const handleImgDivChange = (event) => {
-        setImageTest(event.target.files[0]);
         const imgIdx = parseInt(event.target.name);
         const imgArr = [...image];
         imgArr[imgIdx] = event.target.files[0];
@@ -105,11 +139,12 @@ const ProductForm = () => {
 
     const onSelectedChangeHandle = (option) => {
         setProductInfo({...productInfo, 'categoryname': option.value})
+        setSelectedCategory({value: option.value, label: option.value})
     }
 
 
     const uploadProduct = () => {
-        console.log("run")
+
         // data.files.push(image);
         let data = [];
         data.push(image);
@@ -136,12 +171,41 @@ const ProductForm = () => {
             })
     }
 
+    const updateProduct = () => {
+        let data = [];
+        data.push(image);
+        const imageData = new FormData();
+        for (let i = 0; i < image.length; i++) {
+            imageData.append('file', image[i]);
+        }
+
+        axios.put(`http://localhost:8080/product`, productInfo).then(res => {
+            console.log(res);
+        })
+
+        axios.post(`http://localhost:8080/product/${productInfo.id}/image/upload`,
+            imageData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     const handleSubmitForm = () => {
         if ((image.length == 1 && image[0] == undefined) || productInfo.name.length == 0 || productInfo.price == 0 || productInfo.categoryname.length == 0) {
             alert("Please Fill Required Information");
             return;
         }
-        uploadProduct();
+        if (location.state.update) {
+            updateProduct()
+        }else {
+            uploadProduct();
+        }
 
     }
 
@@ -158,7 +222,7 @@ const ProductForm = () => {
                 <div className="md:w-2/3">
                     <input
                         className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id="inline-full-name" name="name" type="text" onChange={inputHandleChange} />
+                        id="inline-full-name" name="name" value={productInfo.name} type="text" onChange={inputHandleChange} />
                 </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -170,7 +234,7 @@ const ProductForm = () => {
                 <div className="md:w-2/3">
                     <input
                         className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id="inline-full-name" name="description" type="text" onChange={inputHandleChange}/>
+                        id="inline-full-name" name="description" value={productInfo.description} type="text" onChange={inputHandleChange}/>
                 </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -182,7 +246,7 @@ const ProductForm = () => {
                 <div className="md:w-2/3">
                     <input
                         className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id="inline-full-name" name="price" type="number" onChange={inputHandleChange}/>
+                        id="inline-full-name" name="price" type="number" value={productInfo.price} onChange={inputHandleChange}/>
                 </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -194,7 +258,7 @@ const ProductForm = () => {
                 <div className="md:w-2/3">
                     <input
                         className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id="inline-full-name" name="shopname" type="text" value="Adidas"/>
+                        id="inline-full-name" name="shopname" type="text" value={productInfo.shopname}/>
                 </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -205,7 +269,7 @@ const ProductForm = () => {
                 </div>
                 <div className="md:w-2/3">
                     <div className="mb-3 xl:w-96">
-                        <Select placeholder="Select Category" onChange={onSelectedChangeHandle} options={categoryList} />
+                        <Select placeholder="Select Category" value={selectedCategory} onChange={onSelectedChangeHandle} options={categoryList} />
                     </div>
                 </div>
             </div>
