@@ -4,7 +4,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import EditProductForm from "../components/EditProductForm";
 
-const ShopProductPage = () => {
+const AdminPage = () => {
     const items = [
         {name: "Dashboard", page: "/shop/dashboard"},
         {name: "Product", page: "/shop/product"}
@@ -92,4 +92,4 @@ const ShopProductPage = () => {
     </div>
 }
 
-export default ShopProductPage;
+export default AdminPage;

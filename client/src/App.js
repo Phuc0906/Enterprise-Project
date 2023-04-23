@@ -9,6 +9,7 @@ import Home from "./components/Home";
 import ShopHomePage from "./pages/ShopHomePage";
 import ShopDashboard from "./pages/ShopDashboard";
 import ShopProductPage from "./pages/ShopProductPage";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/home/shop" element={<ShopHomePage />} />
             <Route path="/shop/dashboard" element={<ShopDashboard />} />
             <Route path="/shop/product" element={<ShopProductPage />} />
+            <Route path="/admin" element={<AdminPage />} />
         </Routes>
     );
 }

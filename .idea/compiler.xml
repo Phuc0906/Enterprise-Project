@@ -10,9 +10,6 @@
         <module name="AppBackend" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="AppBackend" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
