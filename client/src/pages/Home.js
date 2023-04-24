@@ -1,7 +1,7 @@
 import React from "react";
-import NavBar from "./NavBar";
-import Slider from "./Slider";
-import Category from "./Category";
+import NavBar from "../components/NavBar";
+import Slider from "../components/Slider";
+import Category from "../components/Category";
 
 const Home = () => {
     const items = [

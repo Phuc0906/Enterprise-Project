@@ -5,11 +5,10 @@ import ProductForm from "./components/ProductForm";
 import CategoryForm from "./components/CategoryForm";
 import SignUpForm from "./components/SignUpForm";
 import SignInForm from "./components/SignInForm";
-import Home from "./components/Home";
+import Home from "./pages/Home";
 import ShopHomePage from "./pages/ShopHomePage";
 import ShopDashboard from "./pages/ShopDashboard";
 import ShopProductPage from "./pages/ShopProductPage";
-import AdminPage from "./pages/AdminPage";
 
 function App() {
     return (
@@ -22,7 +21,6 @@ function App() {
             <Route path="/home/shop" element={<ShopHomePage />} />
             <Route path="/shop/dashboard" element={<ShopDashboard />} />
             <Route path="/shop/product" element={<ShopProductPage />} />
-            <Route path="/admin" element={<AdminPage />} />
         </Routes>
     );
 }

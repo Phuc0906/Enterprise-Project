@@ -2,23 +2,14 @@ import React, {useEffect, useState} from "react";
 import NavBar from "../components/NavBar";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import EditProductForm from "../components/EditProductForm";
 
 const ShopProductPage = () => {
     const items = [
         {name: "Dashboard", page: "/shop/dashboard"},
         {name: "Product", page: "/shop/product"}
     ]
-    const [selectedProduct, setSelectedProduct] = useState(null);
     const [products, setProducts] = useState([]);
 
-    const handleEditProduct = (product) => {
-        setSelectedProduct(product);
-    };
-
-    const handleCloseForm = () => {
-        setSelectedProduct(null);
-    };
 
     const RowBuilder = ({product}) => {
         return <tr className="border-b dark:border-neutral-500">
@@ -36,12 +27,6 @@ const ShopProductPage = () => {
                     View Detail
                 </Link>
             </th>
-            {selectedProduct && (
-                <EditProductForm
-                    selectedProduct={selectedProduct}
-                    handleCloseForm={handleCloseForm}
-                />
-            )}
         </tr>
     }
 

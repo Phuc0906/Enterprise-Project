@@ -3,6 +3,7 @@ import axios from "axios";
 import {paste} from "@testing-library/user-event/dist/paste";
 import Select from "react-select";
 import {useLocation} from "react-router-dom";
+import {urlToFile} from "../utils";
 
 const ProductForm = () => {
     const IMAGE_URL = "https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/"
@@ -18,18 +19,6 @@ const ProductForm = () => {
         "categoryname": ""
     })
     const [imgCount, setImgCount] = useState([0]);
-
-    async function urlToBlob(url) {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        return blob;
-    }
-
-    async function urlToFile(url, mimeType) {
-        const blob = await urlToBlob(url);
-        const file = new File([blob], 'image1.png' ,  { type: mimeType });
-        return file;
-    }
 
     useEffect(() => {
         const getProductDetail = async () => {
