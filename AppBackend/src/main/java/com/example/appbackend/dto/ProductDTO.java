@@ -21,12 +21,15 @@ public class ProductDTO {
 
     private String categoryname;
 
-    public ProductDTO(Long id, String name, String description, Long price, String shopname, String categoryname) {
+    private int imagesCount;
+
+    public ProductDTO(Long id, String name, String description, Long price, String shopname, String categoryname, int imagesCount) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.shopname = shopname;
         this.categoryname = categoryname;
+        this.imagesCount = imagesCount;
     }
 }

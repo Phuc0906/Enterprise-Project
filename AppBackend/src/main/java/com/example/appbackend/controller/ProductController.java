@@ -58,6 +58,10 @@ public class ProductController {
         amazonS3Service.uploadImage(file, productId);
     }
 
+    @PutMapping
+    public void updateProduct(@RequestBody ProductDTO productDTO) throws Exception {
+        productService.updateProduct(productDTO);
+    }
 
     @GetMapping
     public List<ProductDTO> getProduct() {

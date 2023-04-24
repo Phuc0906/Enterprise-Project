@@ -42,7 +42,7 @@ public class AmazonS3Service {
         Map<String, String> metadata = extractMetadata(file);
 
         String path = BucketName.PRODUCT_IMAGE.getBucketName();
-        String fileName = String.format("%s-%s", productId, imgOrder);
+        String fileName = String.format("%s-%s.png", productId, imgOrder);
         try {
             fileStore.save(path, fileName, Optional.of(metadata), file.getInputStream());
         }catch (Exception ex) {

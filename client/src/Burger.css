@@ -55,7 +55,7 @@ nav {
 
 /*click animation*/
 .burger-bar.clicked:nth-child(1){
-    transform: rotate(48deg) translate(0.18em, 0.18em);
+    transform: rotate(43deg) translate(0.4em, 0.4em);
     transition: ease-out 0.5s;
 }
 
