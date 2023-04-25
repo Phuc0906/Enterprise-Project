@@ -10,6 +10,7 @@ import ShopHomePage from "./pages/ShopHomePage";
 import ShopDashboard from "./pages/ShopDashboard";
 import ShopProductPage from "./pages/ShopProductPage";
 import {RequireAuth} from "react-auth-kit";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
     return (
@@ -22,6 +23,8 @@ function App() {
             <Route path="/home/shop" element={<RequireAuth loginPath="/login"><ShopHomePage/></RequireAuth>} />
             <Route path="/shop/dashboard" element={<RequireAuth loginPath="/login"><ShopDashboard/></RequireAuth>} />
             <Route path="/shop/product" element={<RequireAuth loginPath="/login"><ShopProductPage/></RequireAuth>} />
+
+            <Route path="/product/:id" element={<ProductDetails />} />
         </Routes>
     );
 }
