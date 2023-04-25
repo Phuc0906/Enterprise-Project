@@ -15,4 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select pr from product pr where pr.shop.id in ?1")
     List<Product> getProductsByBrands(List<Long> brands);
+
+    @Query("select pr from product pr where pr.category.id in ?1 or pr.shop.id in ?2")
+    List<Product> getProductsByCategoriesAndBrands(List<Long> categories, List<Long> brands);
 }

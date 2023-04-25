@@ -56,4 +56,8 @@ public class ProductService {
     public List<ProductDTO> getProductsByBrands(List<Long> brands) {
         return productRepository.getProductsByBrands(brands).stream().map(new ProductDtoMapper()).collect(Collectors.toList());
     }
+
+    public List<ProductDTO> getProductsByCategoriesAndBrands(List<Long> categories, List<Long> brands) {
+        return productRepository.getProductsByCategoriesAndBrands(categories, brands).stream().map(new ProductDtoMapper()).collect(Collectors.toList());
+    }
 }

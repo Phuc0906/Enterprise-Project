@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "product")
@@ -65,9 +67,35 @@ public class ProductController {
         productService.updateProduct(productDTO);
     }
 
-    @PostMapping("/test")
+    @PostMapping("/get-products")
     public List<ProductDTO> getProduct(@RequestBody ProductGetRequest request) {
+        System.out.println("Length cat: " + request.getCategories().length);
+        System.out.println("Length brands: " + request.getBrands().length);
+        List<Long> categories = new ArrayList<>();
+        List<Long> brands = new ArrayList<>();
+        for (int i = 0; i < request.getCategories().length; i++) {
+            categories.add(Long.valueOf(request.getCategories()[i]));
+        }
+        for (int i = 0; i < request.getBrands().length; i++) {
+            brands.add(Long.valueOf(request.getBrands()[i]));
+        }
+        if ((request.getBrands().length != 0) && (request.getCategories().length != 0)) {
+            return productService.getProductsByCategoriesAndBrands(
+                categories, brands
+            );
+        }
 
+        if (request.getBrands().length != 0) {
+            return productService.getProductsByBrands(
+                    brands
+            );
+        }
+
+        if (request.getCategories().length != 0) {
+            return productService.getProductsByCategories(
+                    categories
+            );
+        }
         return productService.getAllProduct();
     }
 
