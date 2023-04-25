@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "product")
+@RequestMapping(path = "api/product")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class ProductController {

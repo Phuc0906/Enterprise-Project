@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "shop")
+@RequestMapping(path = "api/shop")
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class ShopController {

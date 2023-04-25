@@ -24,18 +24,20 @@ public class SecurityConfig {
                 .csrf()
                     .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
+                .requestMatchers("/auth/**")
                     .permitAll()
-                .requestMatchers("/swagger-ui/index.html#/**")
-                .permitAll()
+                .requestMatchers("/api/**")
+                .authenticated()
                 .anyRequest()
-                    .authenticated()
+                    .permitAll()
+
                 .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+
         ;
 
         return http.build();
