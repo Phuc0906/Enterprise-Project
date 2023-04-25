@@ -2,6 +2,7 @@ package com.example.appbackend.controller;
 
 import com.example.appbackend.dto.InStockDTO;
 import com.example.appbackend.dto.ProductDTO;
+import com.example.appbackend.dto.ProductGetRequest;
 import com.example.appbackend.model.*;
 import com.example.appbackend.response.ProductAddResponse;
 import com.example.appbackend.service.*;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -63,8 +65,9 @@ public class ProductController {
         productService.updateProduct(productDTO);
     }
 
-    @GetMapping
-    public List<ProductDTO> getProduct() {
+    @PostMapping("/test")
+    public List<ProductDTO> getProduct(@RequestBody ProductGetRequest request) {
+
         return productService.getAllProduct();
     }
 
@@ -86,4 +89,6 @@ public class ProductController {
         Product product = productService.getProductById(Long.parseLong(productId));
         return product.getInStockList();
     }
+
+
 }
