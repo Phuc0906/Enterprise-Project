@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import NavBar from "../components/NavBar";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import {useAuthHeader} from "react-auth-kit";
+import {getAuthHeaders} from "../utils";
 
 const ShopProductPage = () => {
     const items = [
@@ -9,7 +11,7 @@ const ShopProductPage = () => {
         {name: "Product", page: "/shop/product"}
     ]
     const [products, setProducts] = useState([]);
-
+    const authHeader = useAuthHeader();
 
     const RowBuilder = ({product}) => {
         return <tr className="border-b dark:border-neutral-500">
@@ -31,11 +33,9 @@ const ShopProductPage = () => {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:8080/product').then(res => {
+         axios.get('http://localhost:8080/product',{withCredentials:true}).then(res => {
             setProducts(res.data);
-            console.log(res.data);
-        })
-
+         })
     }, [])
 
     return <div>
