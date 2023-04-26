@@ -24,10 +24,10 @@ public class UserController {
     @Autowired
     private UserService userService;
     
-    @PostMapping(path = "/register")
-    public void register(@RequestBody UserDTO user) {
-        userService.register(new AppUser(user.getName(), user.getEmail(), "USER", user.getAddress(), user.getPhoneNumber(), user.getPassword()));
-    }
+//    @PostMapping(path = "/register")
+//    public void register(@RequestBody UserDTO user) {
+//        userService.register(new AppUser(user.getName(), user.getEmail(), "USER", user.getAddress(), user.getPhoneNumber(), user.getPassword()));
+//    }
 
     @PostMapping(path = "/cart")
     public void addToCart(@RequestBody InCartDTO inCartDTO) throws Exception {
