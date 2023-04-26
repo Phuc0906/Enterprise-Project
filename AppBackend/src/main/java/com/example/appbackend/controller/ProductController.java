@@ -5,11 +5,15 @@ import com.example.appbackend.dto.ProductDTO;
 import com.example.appbackend.dto.ProductGetRequest;
 import com.example.appbackend.model.*;
 import com.example.appbackend.response.ProductAddResponse;
+import com.example.appbackend.response.ProductAuthResponse;
 import com.example.appbackend.service.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -67,31 +71,35 @@ public class ProductController {
         productService.updateProduct(productDTO);
     }
 
-    @PostMapping("/get-products")
-    public List<ProductDTO> getProduct(@RequestBody ProductGetRequest request) {
-        System.out.println("Length cat: " + request.getCategories().length);
-        System.out.println("Length brands: " + request.getBrands().length);
+    @PostMapping(path = "/get-products", consumes = "text/plain;charset=UTF-8")
+    public List<ProductDTO> getProduct(@RequestBody String request) {
+        System.out.println(request);
+        JSONObject jsonObject = new JSONObject(request);
+        JSONArray jsonCategory = jsonObject.getJSONArray("categories");
+        JSONArray jsonBrands = jsonObject.getJSONArray("brands");
         List<Long> categories = new ArrayList<>();
         List<Long> brands = new ArrayList<>();
-        for (int i = 0; i < request.getCategories().length; i++) {
-            categories.add(Long.valueOf(request.getCategories()[i]));
+        for (int i = 0; i < jsonCategory.length(); i++) {
+            categories.add(Long.valueOf(jsonCategory.getInt(i)));
         }
-        for (int i = 0; i < request.getBrands().length; i++) {
-            brands.add(Long.valueOf(request.getBrands()[i]));
+
+        for (int i = 0; i < jsonBrands.length(); i++) {
+            brands.add(Long.valueOf(jsonBrands.getInt(i)));
         }
-        if ((request.getBrands().length != 0) && (request.getCategories().length != 0)) {
+
+        if ((categories.size() != 0) && (brands.size() != 0)) {
             return productService.getProductsByCategoriesAndBrands(
                 categories, brands
             );
         }
 
-        if (request.getBrands().length != 0) {
+        if (brands.size() != 0) {
             return productService.getProductsByBrands(
                     brands
             );
         }
 
-        if (request.getCategories().length != 0) {
+        if (categories.size() != 0) {
             return productService.getProductsByCategories(
                     categories
             );

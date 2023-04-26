@@ -26,10 +26,26 @@ const ProductPage = () => {
         };
 
         console.log(requestQuery);
-        axios.post("http://localhost:8080/product/get-products", requestQuery).then(res => {
-            const retrievedProducts = res.data;
-            setProducts(retrievedProducts);
-        })
+        fetch('http://localhost:8080/product/get-products', {
+            method: 'POST',
+            credentials: "include",
+            body: JSON.stringify(requestQuery)
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                console.log(data);
+                setProducts(data)
+            })
+        }).then(data => {
+            console.log(data)
+        });
+        // axios.post("http://localhost:8080/product/get-products", requestQuery, {
+        //     withCredentials: true
+        // }).then(res => {
+        //     const retrievedProducts = res.data;
+        //     setProducts(retrievedProducts);
+        // })
+
     }
 
 
@@ -60,11 +76,15 @@ const ProductPage = () => {
 
     useEffect(() => {
         console.log("Re-run")
-        axios.get('http://localhost:8080/category').then(res => {
+        axios.get('http://localhost:8080/category', {
+            withCredentials: true
+        }).then(res => {
             setCategories(res.data);
         })
 
-        axios.get('http://localhost:8080/shop').then(res => {
+        axios.get('http://localhost:8080/shop', {
+            withCredentials: true
+        }).then(res => {
             setBrands(res.data);
             console.log(res);
         })
