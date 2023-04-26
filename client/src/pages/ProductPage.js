@@ -73,7 +73,7 @@ const ProductPage = () => {
 
     }, [])
 
-    
+
     return <div>
         <NavBar items={items}/>
         <div className="mt-10 ml-10">
@@ -94,7 +94,7 @@ const ProductPage = () => {
                 </div>
                 {/*Product Cards*/}
                 <div className="ml-10">
-                    <div className="flex gap-12 flex-wrap">
+                    <div className="flex gap-8 flex-wrap">
                         {products.map(product => <ProductCards key={product.id} product={product} />)}
                         {products.map(product => <ProductCards key={product.id} product={product} />)}
                         {products.map(product => <ProductCards key={product.id} product={product} />)}
