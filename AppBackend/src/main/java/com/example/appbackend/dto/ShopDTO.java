@@ -1,18 +1,17 @@
 package com.example.appbackend.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class CategoryDTO {
+public class ShopDTO {
     private Long id;
-    private String name;
+    String name;
 
-    public CategoryDTO(Long id, String name) {
+    public ShopDTO(Long id, String name) {
         this.id = id;
         this.name = name;
     }

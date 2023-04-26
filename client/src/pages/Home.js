@@ -5,7 +5,8 @@ import Category from "../components/Category";
 
 const Home = () => {
     const items = [
-        {name: "Home", page: "/home"}
+        {name: "Home", page: "/home"},
+        {name: "Products", page: "/products"}
     ]
 
     return (

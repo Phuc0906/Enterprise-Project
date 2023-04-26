@@ -3,10 +3,10 @@ package com.example.appbackend.config;
 import com.example.appbackend.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -28,14 +30,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        final String authHeader = request.getHeader("Authorization");
+
+        final Cookie[] cookies = request.getCookies();
         final String jwt;
         final String phoneNumber;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+        if (cookies == null) {
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(7);
+        Optional<Cookie> authCookie = Arrays.stream(cookies)
+                .filter(cookie -> cookie.getName().equals("_auth"))
+                .findFirst();
+        if (!authCookie.isPresent() || authCookie.get().getValue() == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        jwt = authCookie.get().getValue();
         phoneNumber = jwtService.extractPhoneNumber(jwt);
 
         if (phoneNumber != null && SecurityContextHolder.getContext().getAuthentication() == null) {

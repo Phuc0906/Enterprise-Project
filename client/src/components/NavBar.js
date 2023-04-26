@@ -72,7 +72,7 @@ const NavBar = ({ items }) => {
                 </div>
                 <div className="flex-1">
                     <h1 className="text-lg font-semibold text-center">
-                        Lazada
+                        Sneaker Market
                     </h1>
                 </div>
                 <div className="flex items-end justify-end flex-1 p-3 mr-8 gap-x-3">

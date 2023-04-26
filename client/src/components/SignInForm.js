@@ -3,9 +3,29 @@ import { Formik, Form, useField } from "formik";
 import * as Yub from "yup";
 import MField from "./MField";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import {useSignIn} from "react-auth-kit";
 
 const SignInForm = () => {
     const navigate = useNavigate();
+    const signIn = useSignIn();
+    const handleSubmit = async (values) => {
+        try {
+            const response = await axios.post("http://localhost:8080/api/v1/auth/authenticate", {
+                phoneNumber: values.account,
+                password: values.password,
+            });
+            console.log(response.data);
+            signIn({
+                token: response.data.accessToken,
+                expiresIn: 3600,
+                tokenType: "Bearer",
+                authState: {phonneNumber: values.account}
+            })
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <div className="flex items-center w-full">
@@ -15,17 +35,16 @@ const SignInForm = () => {
                 </h2>
                 <Formik
                     initialValues={{
-                        userName: "",
+                        account: "",
                         password: "",
                     }}
                     validationSchema={Yub.object({
-                        account: Yub.string().required("Required").email(),
+                        account: Yub.string().required("Required"),
                         password: Yub.string().required("Required"),
                     })}
-                    onSubmit={(val) => console.log(val)}>
+                    onSubmit={(val) => handleSubmit(val)}>
                     <Form className="w-2/3 p-4 mx-auto mt-[8rem] flex flex-col gap-y-3">
                         <MField
-                            type="email"
                             label="Account"
                             name="account"
                             placeholder="Enter your email address"></MField>
