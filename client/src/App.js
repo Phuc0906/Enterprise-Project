@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import ShopHomePage from "./pages/ShopHomePage";
 import ShopDashboard from "./pages/ShopDashboard";
 import ShopProductPage from "./pages/ShopProductPage";
+import ProductPage from "./pages/ProductPage";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/product/upload" element={<ProductForm />} />
             <Route path="/category/upload" element={<CategoryForm />} />
             <Route path="/home/shop" element={<ShopHomePage />} />
+            <Route path="/products" element={<ProductPage />} />
             <Route path="/shop/dashboard" element={<ShopDashboard />} />
             <Route path="/shop/product" element={<ShopProductPage />} />
         </Routes>
