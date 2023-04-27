@@ -40,7 +40,9 @@ const ProductForm = () => {
         getProductDetail();
 
 
-        axios.get("http://localhost:8080/category").then(res => {
+        axios.get("http://localhost:8080/category", {
+            withCredentials: true
+        }).then(res => {
             const categories = res.data;
             for (let i = 0; i < categories.length; i++) {
                 if ((location.state.update) && (location.state.product.categoryname === categories[i].name)) {
@@ -142,22 +144,31 @@ const ProductForm = () => {
             imageData.append('file', image[i]);
         }
 
-        axios.post(`http://localhost:8080/product`, productInfo)
-            .then(res => {
-                console.log(res);
-                const productId = res.data.product_id;
-                axios.post(`http://localhost:8080/product/${productId}/image/upload`,
+        fetch('http://localhost:8080/product', {
+            method: 'POST',
+            credentials: "include",
+            body: JSON.stringify(productInfo)
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                console.log(data);
+                axios.post(`http://localhost:8080/product/${data.product_id}/image/upload`,
                     imageData,
                     {
                         headers: {
                             "Content-Type": "multipart/form-data"
-                        }
+                        },
+                        withCredentials: true
                     }).then(res => {
                     console.log(res);
                 }).catch(err => {
                     console.log(err);
                 })
             })
+        }).then(data => {
+            console.log(data)
+        });
+
     }
 
     const updateProduct = () => {
@@ -168,7 +179,20 @@ const ProductForm = () => {
             imageData.append('file', image[i]);
         }
 
-        axios.put(`http://localhost:8080/product`, productInfo).then(res => {
+        // fetch('http://localhost:8080/product', {
+        //     method: 'PUT',
+        //     credentials: "include",
+        //     body: JSON.stringify(productInfo)
+        // }).then(res => {
+        //     console.log(res);
+        // })
+
+        axios.put(`http://localhost:8080/product`, productInfo,{
+            headers: {
+                "Content-Type": "text/plain"
+            },
+            withCredentials: true
+        }).then(res => {
             console.log(res);
         })
 
@@ -177,7 +201,8 @@ const ProductForm = () => {
             {
                 headers: {
                     "Content-Type": "multipart/form-data"
-                }
+                },
+                withCredentials: true
             }).then(res => {
             console.log(res);
         }).catch(err => {

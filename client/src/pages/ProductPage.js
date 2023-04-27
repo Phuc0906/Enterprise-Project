@@ -4,6 +4,7 @@ import axios from "axios";
 import CategoryBuilder from "../components/CategoryBuilder";
 import BrandsBuilder from "../components/BrandBuilder";
 import ProductCards from "../components/ProductCards";
+import qs from 'qs';
 
 const ProductPage = () => {
     const items = [
@@ -26,25 +27,47 @@ const ProductPage = () => {
         };
 
         console.log(requestQuery);
-        fetch('http://localhost:8080/product/get-products', {
-            method: 'POST',
-            credentials: "include",
-            body: JSON.stringify(requestQuery)
-        }).then(res => {
-            const serverRes = res.json();
-            serverRes.then(data => {
-                console.log(data);
-                setProducts(data)
-            })
-        }).then(data => {
-            console.log(data)
-        });
+        // fetch('http://localhost:8080/product/get-products', {
+        //     method: 'POST',
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     credentials: "include",
+        //     body: JSON.stringify(requestQuery)
+        // }).then(res => {
+        //     const serverRes = res.json();
+        //     serverRes.then(data => {
+        //         console.log(data);
+        //         setProducts(data)
+        //     })
+        // }).then(data => {
+        //     console.log(data)
+        // });
         // axios.post("http://localhost:8080/product/get-products", requestQuery, {
         //     withCredentials: true
         // }).then(res => {
         //     const retrievedProducts = res.data;
         //     setProducts(retrievedProducts);
         // })
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8080/product/get-products", true);
+        // xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+        // xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.withCredentials = true
+
+        xhr.onload = () => {
+            const data = xhr.response;
+            console.log(data);
+        }
+
+        // xhr.send(qs.stringify({
+        //     test: requestQuery
+        // }));
+        xhr.send(JSON.stringify({
+            test: 1
+        }))
 
     }
 
@@ -72,24 +95,52 @@ const ProductPage = () => {
         getProducts(selectedBrd, selectedCategories)
     }
 
+    const getCategory = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://localhost:8080/category");
+        xhr.withCredentials = true
+
+        xhr.onload = () => {
+            const data = xhr.response;
+            setCategories(JSON.parse(data))
+        }
+
+        xhr.send();
+    }
+
+    const getBrand = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://localhost:8080/shop");
+        xhr.withCredentials = true
+
+        xhr.onload = () => {
+            const data = xhr.response;
+            setBrands(JSON.parse(data))
+        }
+
+        xhr.send();
+    }
 
 
     useEffect(() => {
         console.log("Re-run")
-        axios.get('http://localhost:8080/category', {
-            withCredentials: true
-        }).then(res => {
-            setCategories(res.data);
-        })
+        // axios.get('http://localhost:8080/category', {
+        //     withCredentials: true
+        // }).then(res => {
+        //     setCategories(res.data);
+        // })
+        //
+        // axios.get('http://localhost:8080/shop', {
+        //     withCredentials: true
+        // }).then(res => {
+        //     setBrands(res.data);
+        //     console.log(res);
+        // })
 
-        axios.get('http://localhost:8080/shop', {
-            withCredentials: true
-        }).then(res => {
-            setBrands(res.data);
-            console.log(res);
-        })
-
-        getProducts([], [])
+        // getProducts([], [])
+        // getCategory();
+        // getBrand();
+        getProducts([],[]);
 
     }, [])
 

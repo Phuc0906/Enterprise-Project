@@ -12,14 +12,15 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class ProductController {
+
     @Autowired
     private ProductService productService;
 
@@ -43,15 +45,23 @@ public class ProductController {
     private AmazonS3Service amazonS3Service;
 
     @PostMapping()
-    public ProductAddResponse addProduct(@RequestBody ProductDTO productDTO) {
-        Product product = new Product(productDTO.getName(), productDTO.getDescription(), productDTO.getPrice());
-        Category category = categoryService.findCategoryByName(productDTO.getCategoryname());
-        System.out.println(productDTO.getCategoryname());
+    public ProductAddResponse addProduct(@RequestBody String productBody) {
+        System.out.println(productBody);
+        JSONObject object = new JSONObject(productBody);
+        Product product = new Product(object.getString("name"), object.getString("description"), Long.valueOf(object.getInt("price")));
+        Category category = categoryService.findCategoryByName(object.getString("categoryname"));
         category.addProduct(product);
-        Shop shop = shopService.findShopByName(productDTO.getShopname());
+        Shop shop = shopService.findShopByName(object.getString("shopname"));
         shop.addProduct(product);
         productService.addProduct(product);
         return new ProductAddResponse(product.getId().toString());
+    }
+
+    @PostMapping(
+            path = "test"
+    )
+    public String getTest(@RequestParam("test") int digit) {
+        return "hello";
     }
 
     @PostMapping(
@@ -66,44 +76,55 @@ public class ProductController {
         amazonS3Service.uploadImage(file, productId);
     }
 
-    @PutMapping
-    public void updateProduct(@RequestBody ProductDTO productDTO) throws Exception {
+    @PutMapping(consumes = "text/plain;charset=UTF-8")
+    public void updateProduct(@RequestBody String requestBody) throws Exception {
+        System.out.println("IN");
+        JSONObject object = new JSONObject(requestBody);
+        ProductDTO productDTO = new ProductDTO(
+                Long.valueOf(object.getInt("id")),
+                object.getString("name"),
+                object.getString("description"),
+                Long.valueOf(object.getInt("price")),
+                object.getString("shopname"),
+                object.getString("categoryname"),
+                object.getInt("imagesCount")
+        );
         productService.updateProduct(productDTO);
     }
 
-    @PostMapping(path = "/get-products", consumes = "text/plain;charset=UTF-8")
-    public List<ProductDTO> getProduct(@RequestBody String request) {
+    @PostMapping(path = "/get-products")
+    public List<ProductDTO> getProduct(@RequestParam("test") ProductGetRequest request) {
         System.out.println(request);
-        JSONObject jsonObject = new JSONObject(request);
-        JSONArray jsonCategory = jsonObject.getJSONArray("categories");
-        JSONArray jsonBrands = jsonObject.getJSONArray("brands");
-        List<Long> categories = new ArrayList<>();
-        List<Long> brands = new ArrayList<>();
-        for (int i = 0; i < jsonCategory.length(); i++) {
-            categories.add(Long.valueOf(jsonCategory.getInt(i)));
-        }
-
-        for (int i = 0; i < jsonBrands.length(); i++) {
-            brands.add(Long.valueOf(jsonBrands.getInt(i)));
-        }
-
-        if ((categories.size() != 0) && (brands.size() != 0)) {
-            return productService.getProductsByCategoriesAndBrands(
-                categories, brands
-            );
-        }
-
-        if (brands.size() != 0) {
-            return productService.getProductsByBrands(
-                    brands
-            );
-        }
-
-        if (categories.size() != 0) {
-            return productService.getProductsByCategories(
-                    categories
-            );
-        }
+//        JSONObject jsonObject = new JSONObject(request);
+//        JSONArray jsonCategory = jsonObject.getJSONArray("categories");
+//        JSONArray jsonBrands = jsonObject.getJSONArray("brands");
+//        List<Long> categories = new ArrayList<>();
+//        List<Long> brands = new ArrayList<>();
+//        for (int i = 0; i < jsonCategory.length(); i++) {
+//            categories.add(Long.valueOf(jsonCategory.getInt(i)));
+//        }
+//
+//        for (int i = 0; i < jsonBrands.length(); i++) {
+//            brands.add(Long.valueOf(jsonBrands.getInt(i)));
+//        }
+//
+//        if ((categories.size() != 0) && (brands.size() != 0)) {
+//            return productService.getProductsByCategoriesAndBrands(
+//                categories, brands
+//            );
+//        }
+//
+//        if (brands.size() != 0) {
+//            return productService.getProductsByBrands(
+//                    brands
+//            );
+//        }
+//
+//        if (categories.size() != 0) {
+//            return productService.getProductsByCategories(
+//                    categories
+//            );
+//        }
         return productService.getAllProduct();
     }
 

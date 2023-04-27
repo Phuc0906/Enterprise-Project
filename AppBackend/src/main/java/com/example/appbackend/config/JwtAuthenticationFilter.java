@@ -3,7 +3,6 @@ package com.example.appbackend.config;
 import com.example.appbackend.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,10 +14,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Optional;
@@ -35,29 +34,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        System.out.println(request.getContentType());
+        System.out.println(request.getContentType() + " - " + request.getServletPath() + " - " + request.getMethod() + " - " + request.getHeader("Origin") + " - " + request.getContentLength());
 
-//        Enumeration<String> headerNames = request.getAttributeNames();
-//
-//
-//        if (headerNames != null) {
-//            while (headerNames.hasMoreElements()) {
-//                String header = headerNames.nextElement();
-//                System.out.println("Attributes: " + request.getHeader(header) + " - " + header);
-//            }
-//        }
+        Enumeration<String> headerNames = request.getHeaderNames();
 
 
-//        BufferedReader reader = request.getReader();
-//        StringBuilder sb = new StringBuilder();
-//        String line;
-//        while ((line = reader.readLine()) != null) {
-//            sb.append(line);
-//        }
-//        String plainTextContent = sb.toString();
-//        System.out.println(plainTextContent);
-
-        ContentCachingRequestWrapper wrapper = new ContentCachingRequestWrapper(request);
+        if (headerNames != null) {
+            while (headerNames.hasMoreElements()) {
+                String header = headerNames.nextElement();
+                System.out.println("Header: " + request.getHeader(header) + " - " + header);
+            }
+        }
 
 
         final Cookie[] cookies = request.getCookies();
