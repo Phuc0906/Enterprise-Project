@@ -15,8 +15,11 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Optional;
 
 @Component
@@ -30,6 +33,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
+        System.out.println(request.getContentType() + " - " + request.getServletPath() + " - " + request.getMethod() + " - " + request.getHeader("Origin") + " - " + request.getContentLength());
+
+        Enumeration<String> headerNames = request.getHeaderNames();
+
+
+        if (headerNames != null) {
+            while (headerNames.hasMoreElements()) {
+                String header = headerNames.nextElement();
+                System.out.println("Header: " + request.getHeader(header) + " - " + header);
+            }
+        }
+
 
         final Cookie[] cookies = request.getCookies();
         final String jwt;
