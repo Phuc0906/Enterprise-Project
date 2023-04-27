@@ -48,4 +48,16 @@ public class ProductService {
             throw new Exception("Product Not found");
         }
     }
+
+    public List<ProductDTO> getProductsByCategories(List<Long> categories) {
+        return productRepository.getProductsByCategories(categories).stream().map(new ProductDtoMapper()).collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getProductsByBrands(List<Long> brands) {
+        return productRepository.getProductsByBrands(brands).stream().map(new ProductDtoMapper()).collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getProductsByCategoriesAndBrands(List<Long> categories, List<Long> brands) {
+        return productRepository.getProductsByCategoriesAndBrands(categories, brands).stream().map(new ProductDtoMapper()).collect(Collectors.toList());
+    }
 }

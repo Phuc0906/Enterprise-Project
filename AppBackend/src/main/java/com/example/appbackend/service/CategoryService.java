@@ -1,5 +1,7 @@
 package com.example.appbackend.service;
 
+import com.example.appbackend.dto.CategoryDTO;
+import com.example.appbackend.mapper.CategoryMapper;
 import com.example.appbackend.model.Category;
 import com.example.appbackend.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +25,7 @@ public class CategoryService {
         return categoryRepository.findByName(categoryName).orElse(null);
     }
 
-    public List<Category> getCategories() {
-        return categoryRepository.findAll();
+    public List<CategoryDTO> getCategories() {
+        return categoryRepository.findAll().stream().map(new CategoryMapper()).collect(Collectors.toList());
     }
 }
