@@ -92,8 +92,8 @@ public class ProductController {
         productService.updateProduct(productDTO);
     }
 
-    @PostMapping(path = "/get-products")
-    public List<ProductDTO> getProduct(@RequestParam("test") ProductGetRequest request) {
+    @PostMapping(path = "/get-products", produces = "application/json")
+    public List<ProductDTO> getProduct(@RequestBody ProductGetRequest request) {
         System.out.println(request);
 //        JSONObject jsonObject = new JSONObject(request);
 //        JSONArray jsonCategory = jsonObject.getJSONArray("categories");

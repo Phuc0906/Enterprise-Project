@@ -27,47 +27,48 @@ const ProductPage = () => {
         };
 
         console.log(requestQuery);
-        // fetch('http://localhost:8080/product/get-products', {
-        //     method: 'POST',
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     credentials: "include",
-        //     body: JSON.stringify(requestQuery)
-        // }).then(res => {
-        //     const serverRes = res.json();
-        //     serverRes.then(data => {
-        //         console.log(data);
-        //         setProducts(data)
-        //     })
-        // }).then(data => {
-        //     console.log(data)
-        // });
-        // axios.post("http://localhost:8080/product/get-products", requestQuery, {
-        //     withCredentials: true
-        // }).then(res => {
-        //     const retrievedProducts = res.data;
-        //     setProducts(retrievedProducts);
+
+        // this version is working
+        fetch('http://localhost:8080/product/get-products', {
+            method: 'POST',
+            headers: new Headers({
+                "Content-Type": "application/json"
+            }),
+            credentials: "include",
+            body: JSON.stringify(requestQuery)
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                console.log(data);
+                setProducts(data)
+            })
+        }).then(data => {
+            console.log(data)
+        });
+
+
+        // This version is on processing
+        // const headers = new Headers();
+        // headers.append('content-type', 'application/json');
+        //
+        // const xhr = new XMLHttpRequest();
+        // xhr.open("POST", "http://localhost:8080/product/get-products", true);
+        // // xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+        // // xhr.setRequestHeader(headers);
+        //
+        // xhr.withCredentials = true
+        //
+        // xhr.onload = () => {
+        //     const data = xhr.response;
+        //     console.log(data);
+        // }
+        //
+        // // xhr.send(qs.stringify({
+        // //     test: requestQuery
+        // // }));
+        // xhr.send({
+        //     test: 1
         // })
-
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:8080/product/get-products", true);
-        // xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-        // xhr.setRequestHeader('Content-Type', 'application/json');
-
-        xhr.withCredentials = true
-
-        xhr.onload = () => {
-            const data = xhr.response;
-            console.log(data);
-        }
-
-        // xhr.send(qs.stringify({
-        //     test: requestQuery
-        // }));
-        xhr.send(JSON.stringify({
-            test: 1
-        }))
 
     }
 
@@ -123,7 +124,11 @@ const ProductPage = () => {
 
 
     useEffect(() => {
-        console.log("Re-run")
+        console.log("Re-run");
+
+        // Both version for brands and category is working
+
+        // -------- axios version ----------
         // axios.get('http://localhost:8080/category', {
         //     withCredentials: true
         // }).then(res => {
@@ -137,9 +142,11 @@ const ProductPage = () => {
         //     console.log(res);
         // })
 
-        // getProducts([], [])
-        // getCategory();
-        // getBrand();
+        // ------- XMLHttpRequestVersion -------
+        getCategory();
+        getBrand();
+
+        
         getProducts([],[]);
 
     }, [])
