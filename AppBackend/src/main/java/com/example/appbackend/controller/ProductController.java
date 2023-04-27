@@ -24,7 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "product")
+@RequestMapping(path = "api/product")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class ProductController {
