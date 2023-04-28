@@ -44,6 +44,11 @@ public class ProductController {
     @Autowired
     private AmazonS3Service amazonS3Service;
 
+    @GetMapping(path = "/id/{id}")
+    public ProductDTO getProductById(@PathVariable("id") String id) {
+        return productService.getProductInfoById(Long.valueOf(id));
+    }
+
     @PostMapping()
     public ProductAddResponse addProduct(@RequestBody String productBody) {
         System.out.println(productBody);
@@ -57,12 +62,6 @@ public class ProductController {
         return new ProductAddResponse(product.getId().toString());
     }
 
-    @PostMapping(
-            path = "test"
-    )
-    public String getTest(@RequestParam("test") int digit) {
-        return "hello";
-    }
 
     @PostMapping(
             path = "{product_id}/image/upload",
@@ -84,36 +83,31 @@ public class ProductController {
     @PostMapping(path = "/get-products")
     public List<ProductDTO> getProduct(@RequestBody ProductGetRequest request) {
         System.out.println(request);
-//        JSONObject jsonObject = new JSONObject(request);
-//        JSONArray jsonCategory = jsonObject.getJSONArray("categories");
-//        JSONArray jsonBrands = jsonObject.getJSONArray("brands");
-//        List<Long> categories = new ArrayList<>();
-//        List<Long> brands = new ArrayList<>();
-//        for (int i = 0; i < jsonCategory.length(); i++) {
-//            categories.add(Long.valueOf(jsonCategory.getInt(i)));
-//        }
-//
-//        for (int i = 0; i < jsonBrands.length(); i++) {
-//            brands.add(Long.valueOf(jsonBrands.getInt(i)));
-//        }
-//
-//        if ((categories.size() != 0) && (brands.size() != 0)) {
-//            return productService.getProductsByCategoriesAndBrands(
-//                categories, brands
-//            );
-//        }
-//
-//        if (brands.size() != 0) {
-//            return productService.getProductsByBrands(
-//                    brands
-//            );
-//        }
-//
-//        if (categories.size() != 0) {
-//            return productService.getProductsByCategories(
-//                    categories
-//            );
-//        }
+        List<Long> categories = new ArrayList<>();
+        List<Long> brands = new ArrayList<>();
+        for (int i = 0; i < request.getCategories().length; i++) {
+            categories.add(Long.valueOf(request.getCategories()[i]));
+        }
+        for (int i = 0; i < request.getBrands().length; i++) {
+            brands.add(Long.valueOf(request.getBrands()[i]));
+        }
+        if ((request.getBrands().length != 0) && (request.getCategories().length != 0)) {
+            return productService.getProductsByCategoriesAndBrands(
+                    categories, brands
+            );
+        }
+
+        if (request.getBrands().length != 0) {
+            return productService.getProductsByBrands(
+                    brands
+            );
+        }
+
+        if (request.getCategories().length != 0) {
+            return productService.getProductsByCategories(
+                    categories
+            );
+        }
         return productService.getAllProduct();
     }
 

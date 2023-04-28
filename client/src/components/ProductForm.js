@@ -15,7 +15,7 @@ const ProductForm = () => {
         "name": "",
         "description": "",
         "price": 0,
-        "shopname": "Adidas",
+        "shopname": "Nike",
         "categoryname": ""
     })
     const [imgCount, setImgCount] = useState([0]);
@@ -146,19 +146,24 @@ const ProductForm = () => {
             imageData.append('file', image[i]);
         }
 
-        fetch('http://localhost:8080/product', {
+        fetch('http://localhost:8080/api/product', {
             method: 'POST',
             credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            },
             body: JSON.stringify(productInfo)
         }).then(res => {
             const serverRes = res.json();
             serverRes.then(data => {
                 console.log(data);
-                axios.post(`http://localhost:8080/product/${data.product_id}/image/upload`,
+                axios.post(`http://localhost:8080/api/product/${data.product_id}/image/upload`,
                     imageData,
                     {
                         headers: {
-                            "Content-Type": "multipart/form-data"
+                            "Content-Type": "multipart/form-data",
+                            'Authorization': 'Bearer ' + localStorage.token
                         },
                         withCredentials: true
                     }).then(res => {

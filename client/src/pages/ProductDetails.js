@@ -1,10 +1,11 @@
-import React , { useContext }from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 
 import NavBar from "../components/NavBar";
 //Import cart and product
 
 const ProductDetails = () => {
+    const IMAGE_URL = "https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/";
     const items = [
         {name: "Dashboard", page: "/shop/dashboard"},
         {name: "Product", page: "/shop/product"}
@@ -12,6 +13,35 @@ const ProductDetails = () => {
 
     //get the product id from the url
     const {id} = useParams();
+    const [product, setProduct] = useState({
+        "name": "",
+        "description": "",
+        "price": 0,
+        "shopname": "Nike",
+        "categoryname": ""
+    })
+
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/product/id/${id}`, {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            }
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                setProduct(data)
+
+            })
+        })
+    }, [])
+
+    //get products
+
+
 //    const {products} = useContext(Products);
 //    const {addToCart} = useContext(Cart);
 
@@ -29,6 +59,20 @@ const ProductDetails = () => {
 //    }
 //    const{name, price, description, image, cost, categoryname, shopname} = product;
 
+    const splittingPriceNumber = (price) => {
+        let splittingNum = "";
+        let countDigit = 0;
+        for (let i = price.length - 1; i >= 0; i--) {
+            if (countDigit > 2) {
+                countDigit = 0;
+                splittingNum = ',' + splittingNum;
+            }
+            splittingNum = price[i] + splittingNum;
+            countDigit++;
+        }
+        return splittingNum;
+    }
+
     return (
     <div>
         <NavBar items={items} />
@@ -36,12 +80,12 @@ const ProductDetails = () => {
             <div className="container mx-auto">
                 <div className="flex flex-col lg:flex-row items-center">
                     <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
-                        <img className="max-w[200px] lg:max-w-sm" src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/e777c881-5b62-4250-92a6-362967f54cca/air-force-1-07-womens-shoes-b19lqD.png" alt="image"/>
+                        <img className="max-w[200px] lg:max-w-sm" src={`${IMAGE_URL}${product.id}-0.png`} alt="image"/>
                     </div>
                     <div className="flex-1 text-center lg:text-left">
-                        <h1 className="text-[26px] font-medium mb-2 max-w-[450px] mx-auto lg:mx-0">Nike Air Force 107</h1>
-                        <div className="text-xl font-medium mb-6">$110</div>
-                        <p className="mb-8">The radiance lives on in the Nike Air Force 1 ’07, the b-ball icon that puts a fresh spin on what you know best: crisp leather, bold colors and the perfect amount of flash to make you shine</p>
+                        <h1 className="text-[26px] font-medium mb-2 max-w-[450px] mx-auto lg:mx-0">{product.name}</h1>
+                        <div className="text-xl font-medium mb-6">{splittingPriceNumber(product.price) + "vnd"}</div>
+                        <p className="mb-8">{product.description}</p>
                         <button className="bg-black py-4 px-8 text-white rounded-full">Add to cart</button>
                     </div>
                 </div>

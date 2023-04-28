@@ -57,6 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
             System.out.println("IN here error");
             filterChain.doFilter(request, response);
+
             return;
         }
 
