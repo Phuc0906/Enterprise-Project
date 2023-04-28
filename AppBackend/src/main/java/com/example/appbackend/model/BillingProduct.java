@@ -1,5 +1,6 @@
 package com.example.appbackend.model;
 
+import com.example.appbackend.dto.BillingProductDTO;
 import jakarta.persistence.*;
 import lombok.Setter;
 
@@ -47,6 +48,12 @@ public class BillingProduct {
         this.productId = productId;
         this.quantity = quantity;
         this.size = size;
+    }
+
+    public BillingProduct(BillingProductDTO  billingProductDTO) {
+        this.productId = billingProductDTO.getProductId();
+        this.quantity = billingProductDTO.getQuantity();
+        this.size = billingProductDTO.getSize();
     }
 
     public BillingProduct() {

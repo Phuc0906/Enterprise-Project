@@ -15,5 +15,5 @@ public class BillingDTO {
     private Long customerId;
     private Long shopId;
     private double totalPrice;
-    private List<BillingProduct> products;
+    private List<BillingProductDTO> products;
 }

@@ -1,7 +1,9 @@
 package com.example.appbackend.controller;
 
 import com.example.appbackend.dto.BillingDTO;
+import com.example.appbackend.dto.BillingProductDTO;
 import com.example.appbackend.model.Billing;
+import com.example.appbackend.model.BillingProduct;
 import com.example.appbackend.repository.ShopRepository;
 import com.example.appbackend.repository.UserRepository;
 import com.example.appbackend.service.BillingService;
@@ -41,7 +43,10 @@ public class BillingController {
         tempBill.setShop(shopRepository.findById(billingDTO.getShopId()).orElse(null));
         tempBill.setStatus(0);
         tempBill.setTotalPrice(billingDTO.getTotalPrice());
-        tempBill.setBillingProductList(billingDTO.getProducts());
+        for(BillingProductDTO productDTO : billingDTO.getProducts()) {
+            BillingProduct product = new BillingProduct(productDTO);
+            tempBill.addProduct(product);
+        }
         billingService.addBilling(tempBill);
     }
 }
