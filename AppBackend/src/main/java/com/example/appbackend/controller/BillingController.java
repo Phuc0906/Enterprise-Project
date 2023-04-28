@@ -9,8 +9,11 @@ import com.example.appbackend.repository.UserRepository;
 import com.example.appbackend.service.BillingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @RestController
@@ -32,8 +35,8 @@ public class BillingController {
     }
 
     @GetMapping(path = "{status}")
-    public List<Billing> getAllBillingByStatus(@PathVariable("status") int status) {
-        return billingService.getAllBillingByStatus(status);
+    public List<Billing> getAllBillingByStatus(@PathVariable("status") int status, @RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
+        return billingService.getAllBillingByStatus(status, pageNum, pageSize);
     }
 
     @PostMapping
