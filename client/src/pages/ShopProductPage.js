@@ -33,14 +33,18 @@ const ShopProductPage = () => {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/product/get-products', {
+        fetch('http://localhost:8080/api/product/get-products', {
             method: 'POST',
             credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            },
             body: JSON.stringify({
                 categories: [],
                 brands: []
             })
-        }).then(res => {
+            }).then(res => {
             const serverRes = res.json();
             serverRes.then(data => {
                 console.log(data);

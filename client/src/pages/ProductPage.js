@@ -26,15 +26,13 @@ const ProductPage = () => {
             brands: brandsArr
         };
 
-        console.log(requestQuery);
-
-        // this version is working
-        fetch('http://localhost:8080/product/get-products', {
+        fetch('http://localhost:8080/api/product/get-products', {
             method: 'POST',
-            headers: new Headers({
-                "Content-Type": "application/json"
-            }),
             credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            },
             body: JSON.stringify(requestQuery)
         }).then(res => {
             const serverRes = res.json();
@@ -45,30 +43,6 @@ const ProductPage = () => {
         }).then(data => {
             console.log(data)
         });
-
-
-        // This version is on processing
-        // const headers = new Headers();
-        // headers.append('content-type', 'application/json');
-        //
-        // const xhr = new XMLHttpRequest();
-        // xhr.open("POST", "http://localhost:8080/product/get-products", true);
-        // // xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-        // // xhr.setRequestHeader(headers);
-        //
-        // xhr.withCredentials = true
-        //
-        // xhr.onload = () => {
-        //     const data = xhr.response;
-        //     console.log(data);
-        // }
-        //
-        // // xhr.send(qs.stringify({
-        // //     test: requestQuery
-        // // }));
-        // xhr.send({
-        //     test: 1
-        // })
 
     }
 
@@ -96,56 +70,41 @@ const ProductPage = () => {
         getProducts(selectedBrd, selectedCategories)
     }
 
-    const getCategory = () => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:8080/category");
-        xhr.withCredentials = true
-
-        xhr.onload = () => {
-            const data = xhr.response;
-            setCategories(JSON.parse(data))
-        }
-
-        xhr.send();
-    }
-
-    const getBrand = () => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:8080/shop");
-        xhr.withCredentials = true
-
-        xhr.onload = () => {
-            const data = xhr.response;
-            setBrands(JSON.parse(data))
-        }
-
-        xhr.send();
-    }
 
 
     useEffect(() => {
         console.log("Re-run");
 
-        // Both version for brands and category is working
 
-        // -------- axios version ----------
-        // axios.get('http://localhost:8080/category', {
-        //     withCredentials: true
-        // }).then(res => {
-        //     setCategories(res.data);
-        // })
-        //
-        // axios.get('http://localhost:8080/shop', {
-        //     withCredentials: true
-        // }).then(res => {
-        //     setBrands(res.data);
-        //     console.log(res);
-        // })
+        fetch('http://localhost:8080/api/category', {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            }
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                const settingcate = data;
+                setCategories(settingcate)
+            })
+        })
 
-        // ------- XMLHttpRequestVersion -------
-        getCategory();
-        getBrand();
-
+        fetch('http://localhost:8080/api/shop', {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            }
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                const settingShop = data;
+                setBrands(settingShop)
+            })
+        })
         
         getProducts([],[]);
 

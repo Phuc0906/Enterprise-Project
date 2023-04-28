@@ -47,22 +47,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
 
-        final Cookie[] cookies = request.getCookies();
+        final String authHeader = request.getHeader("Authorization");
+        System.out.println(authHeader);
         final String jwt;
         final String phoneNumber;
-        if (cookies == null) {
+        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+            if ((authHeader == null) && (!request.getMethod().equals("OPTIONS"))) {
+                response.sendError(400);
+            }
+            System.out.println("IN here error");
             filterChain.doFilter(request, response);
             return;
         }
-        Optional<Cookie> authCookie = Arrays.stream(cookies)
-                .filter(cookie -> cookie.getName().equals("_auth"))
-                .findFirst();
-        if (!authCookie.isPresent() || authCookie.get().getValue() == null) {
+
+
+        jwt = authHeader.substring(7);
+        try {
+            phoneNumber = jwtService.extractPhoneNumber(jwt);
+        }catch (Exception ex) {
+            response.sendError(403);
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authCookie.get().getValue();
-        phoneNumber = jwtService.extractPhoneNumber(jwt);
+
 
         if (phoneNumber != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails =userDetailsService.loadUserByUsername(phoneNumber);
@@ -77,6 +84,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
+        }else {
+            response.sendError(403);
         }
         filterChain.doFilter(request, response);
     }
