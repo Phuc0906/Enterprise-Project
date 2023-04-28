@@ -11,8 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 public class BillingDTO {
-    private String customerId;
-    private String shopId;
+    private Long customerId;
+    private Long shopId;
     private double totalPrice;
     private List<BillingProductDTO> products;
 }

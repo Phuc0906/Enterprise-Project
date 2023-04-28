@@ -1,6 +1,8 @@
 package com.example.appbackend.controller;
 
 import com.example.appbackend.dto.BillingDTO;
+import com.example.appbackend.model.Billing;
+import com.example.appbackend.repository.UserRepository;
 import com.example.appbackend.service.BillingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,11 @@ public class BillingController {
     @Autowired
     private BillingService billingService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping
     public void addBilling(@RequestBody BillingDTO billingDTO) {
-
+        Billing tempBill = new Billing();
     }
 }
