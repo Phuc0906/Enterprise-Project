@@ -37,4 +37,14 @@ public class BillingService {
         Page<Billing> page = billingRepository.findAllByStatus(status, pageable);
         return page.getContent();
     }
+
+    public void increaseStatus(Long id) {
+        int currentStatus = billingRepository.findById(id).orElseThrow().getStatus();
+        billingRepository.findById(id).orElseThrow().setStatus(currentStatus+1);
+    }
+
+    public void decreaseStatus(Long id) {
+        int currentStatus = billingRepository.findById(id).orElseThrow().getStatus();
+        billingRepository.findById(id).orElseThrow().setStatus(currentStatus-1);
+    }
 }

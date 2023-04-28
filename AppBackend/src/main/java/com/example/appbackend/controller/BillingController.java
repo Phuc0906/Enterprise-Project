@@ -39,6 +39,16 @@ public class BillingController {
         return billingService.getAllBillingByStatus(status, pageNum, pageSize);
     }
 
+    @PostMapping(path = "/up/{id}")
+    public void upStatus(@PathVariable("id") Long id) {
+        billingService.increaseStatus(id);
+    }
+
+    @PostMapping(path = "/down/{id}")
+    public void downStatus(@PathVariable("id") Long id) {
+        billingService.decreaseStatus(id);
+    }
+
     @PostMapping
     public void addBilling(@RequestBody BillingDTO billingDTO) {
         Billing tempBill = new Billing();
