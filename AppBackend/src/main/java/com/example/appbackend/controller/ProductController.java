@@ -76,23 +76,12 @@ public class ProductController {
         amazonS3Service.uploadImage(file, productId);
     }
 
-    @PutMapping(consumes = "text/plain;charset=UTF-8")
-    public void updateProduct(@RequestBody String requestBody) throws Exception {
-        System.out.println("IN");
-        JSONObject object = new JSONObject(requestBody);
-        ProductDTO productDTO = new ProductDTO(
-                Long.valueOf(object.getInt("id")),
-                object.getString("name"),
-                object.getString("description"),
-                Long.valueOf(object.getInt("price")),
-                object.getString("shopname"),
-                object.getString("categoryname"),
-                object.getInt("imagesCount")
-        );
+    @PutMapping
+    public void updateProduct(@RequestBody ProductDTO productDTO) throws Exception {
         productService.updateProduct(productDTO);
     }
 
-    @PostMapping(path = "/get-products", produces = "application/json")
+    @PostMapping(path = "/get-products")
     public List<ProductDTO> getProduct(@RequestBody ProductGetRequest request) {
         System.out.println(request);
 //        JSONObject jsonObject = new JSONObject(request);

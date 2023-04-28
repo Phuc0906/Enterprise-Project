@@ -40,8 +40,10 @@ const ProductForm = () => {
         getProductDetail();
 
 
-        axios.get("http://localhost:8080/category", {
-            withCredentials: true
+        axios.get("http://localhost:8080/api/category", {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.token
+            }
         }).then(res => {
             const categories = res.data;
             for (let i = 0; i < categories.length; i++) {
@@ -179,28 +181,25 @@ const ProductForm = () => {
             imageData.append('file', image[i]);
         }
 
-        // fetch('http://localhost:8080/product', {
-        //     method: 'PUT',
-        //     credentials: "include",
-        //     body: JSON.stringify(productInfo)
-        // }).then(res => {
-        //     console.log(res);
-        // })
-
-        axios.put(`http://localhost:8080/product`, productInfo,{
+        fetch('http://localhost:8080/api/product', {
+            method: 'PUT',
+            credentials: "include",
             headers: {
-                "Content-Type": "text/plain"
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
             },
-            withCredentials: true
+            body: JSON.stringify(productInfo)
         }).then(res => {
             console.log(res);
         })
 
-        axios.post(`http://localhost:8080/product/${productInfo.id}/image/upload`,
+
+        axios.post(`http://localhost:8080/api/product/${productInfo.id}/image/upload`,
             imageData,
             {
                 headers: {
-                    "Content-Type": "multipart/form-data"
+                    "Content-Type": "multipart/form-data",
+                    'Authorization': 'Bearer ' + localStorage.token
                 },
                 withCredentials: true
             }).then(res => {
