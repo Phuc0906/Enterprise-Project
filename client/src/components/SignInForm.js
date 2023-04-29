@@ -48,7 +48,7 @@ const SignInForm = () => {
                         <MField
                             label="Account"
                             name="account"
-                            placeholder="Enter your email address"></MField>
+                            placeholder="Phone Number" type="text"></MField>
                         <MField
                             label="Password"
                             name="password"

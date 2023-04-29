@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Formik, Form, useField } from "formik";
 import MField from "./MField";
+import * as Yub from "yup";
+import axios from "axios";
 // import * as Yub from "yup";
 
 const SignUpForm = () => {
@@ -18,30 +20,29 @@ const SignUpForm = () => {
                     passwordConfirmation: "",
                     terms: false,
                 }}
-                // validationSchema={Yub.object({
-                //     firstName: Yub.string()
-                //         .max(20, "Must be 20 characters or less")
-                //         .required("Required"),
-                //     lastName: Yub.string()
-                //         .max(15, "Must be 15 characters or less")
-                //         .required("Required"),
-                //     email: Yub.string()
-                //         .email("Email must be a valid email")
-                //         .required("Required"),
-                //     role: Yub.string().required("Required"),
-                //     password: Yub.string().required("Password is required"),
-                //     passwordConfirmation: Yub.string().oneOf(
-                //         [Yub.ref("password"), null],
-                //         "Passwords must match"
-                //     ),
-                //     terms: Yub.boolean().oneOf(
-                //         [true],
-                //         "Please agree with the terms and conditions"
-                //     ),
-                // })}
+                validationSchema={Yub.object({
+                    fullname: Yub.string()
+                        .max(20, "Must be 20 characters or less")
+                        .required("Required"),
+                    phone: Yub.string().required("Required"),
+                    email: Yub.string()
+                        .email("Invalid")
+                        .required("Required"),
+                    address: Yub.string().required("Required"),
+                    role: Yub.string().required("Required"),
+                    password: Yub.string().required("Password is required"),
+                    passwordConfirmation: Yub.string().oneOf(
+                        [Yub.ref("password"), null],
+                        "Passwords must match"
+                    ),
+                    terms: Yub.boolean().oneOf(
+                        [true],
+                        "Please agree with the terms and conditions"
+                    ),
+                })}
                 onSubmit={(values, actions) => {
                     // console.log("SignUpFormFinal ~ actions", actions);
-                    // console.log(values);
+                    console.log(values);
                     setTimeout(() => {
                         actions.resetForm({
                             firstName: "",
@@ -55,6 +56,17 @@ const SignUpForm = () => {
                         actions.setSubmitting(false);
                     }, 2000);
                     setState(true);
+
+                    axios.post('http://localhost:8080/auth/register', {
+                        name: values.fullname,
+                        email: values.email,
+                        address: values.address,
+                        role: (values.role === 'user') ? 'USER' : 'SHOP',
+                        phoneNumber: values.phone,
+                        password: values.password
+                    }).then(res => {
+                        console.log(res);
+                    })
 
                     const parent = document.querySelector(".parent");
                     const template = `<div>Successfull</div>`;
@@ -71,18 +83,24 @@ const SignUpForm = () => {
                                 }`}>
                                 <div className="flex flex-col gap-3">
                                     <MField
-                                        name="firstName"
-                                        placeholder="Enter your first name"
-                                        label="First Name"></MField>
+                                        name="fullname"
+                                        placeholder="Enter your Full name"
+                                        label="Full Name"></MField>
                                     <MField
-                                        name="lastName"
-                                        placeholder="Enter your last name"
-                                        label="Last Name"></MField>
+                                        name="phone"
+                                        placeholder="Enter your phone"
+                                        label="Phone"
+                                        type="text"></MField>
                                     <MField
                                         name="email"
                                         placeholder="Enter your email address"
                                         label="Email Address"
                                         type="email"></MField>
+                                    <MField
+                                        name="address"
+                                        placeholder="Enter your address"
+                                        label="Address"
+                                        type="text"></MField>
                                     <MSelect name="role" label="Role">
                                         <option value="seller">Seller</option>
                                         <option value="user">User</option>
