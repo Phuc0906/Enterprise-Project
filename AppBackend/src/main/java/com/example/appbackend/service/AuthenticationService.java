@@ -39,6 +39,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
+                .role(user.getRole().name())
                 .build();
     }
 
@@ -52,10 +53,11 @@ public class AuthenticationService {
                 .build();
 
         if (!(request.getRole().equals("USER"))) {
-            Shop shop = Shop.builder()
-                            .name(request.getName())
-                            .email(request.getEmail())
-                            .build();
+//            Shop shop = Shop.builder()
+//                            .name(request.getName())
+//                            .email(request.getEmail())
+//                            .build();
+            Shop shop = new Shop(request.getName(), request.getEmail());
             shopRepository.save(shop);
         }
 
@@ -63,6 +65,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
+                .role(user.getRole().name())
                 .build();
     }
 

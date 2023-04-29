@@ -1,16 +1,13 @@
 package com.example.appbackend.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@Builder
 @Entity(name = "shop")
 @Table(name = "shop")
 public class Shop {
@@ -44,6 +41,16 @@ public class Shop {
     )
     private List<Billing> billingList = new ArrayList<>();
 
+
+    public Shop(String name, String email) {
+        this.name = name;
+        this.rating = 0;
+        this.email = email;
+    }
+
+    public Shop() {
+
+    }
 
 
     public void addProduct(Product product) {

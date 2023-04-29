@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
-import { Route, Routes } from "react-router-dom";
-
+import {Route, Routes, useNavigate} from "react-router-dom";
 import ProductForm from "./components/ProductForm";
 import CategoryForm from "./components/CategoryForm";
 import SignUpForm from "./components/SignUpForm";
@@ -14,6 +13,8 @@ import {RequireAuth} from "react-auth-kit";
 import ProductDetails from "./pages/ProductDetails";
 
 function App() {
+    const navigate = useNavigate();
+
     return (
         <Routes>
             <Route path="/login" element={<SignInForm />} />
