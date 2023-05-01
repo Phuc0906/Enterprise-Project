@@ -11,11 +11,12 @@ const SignInForm = () => {
     const signIn = useSignIn();
     const handleSubmit = async (values) => {
         try {
-            const response = await axios.post("http://localhost:8080/api/v1/auth/authenticate", {
+            const response = await axios.post("http://localhost:8080/auth/authenticate", {
                 phoneNumber: values.account,
                 password: values.password,
             });
             console.log(response.data);
+            localStorage.token = response.data.accessToken;
             signIn({
                 token: response.data.accessToken,
                 expiresIn: 3600,

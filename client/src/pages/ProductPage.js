@@ -4,6 +4,7 @@ import axios from "axios";
 import CategoryBuilder from "../components/CategoryBuilder";
 import BrandsBuilder from "../components/BrandBuilder";
 import ProductCards from "../components/ProductCards";
+import qs from 'qs';
 
 const ProductPage = () => {
     const items = [
@@ -25,11 +26,24 @@ const ProductPage = () => {
             brands: brandsArr
         };
 
-        console.log(requestQuery);
-        axios.post("http://localhost:8080/product/get-products", requestQuery).then(res => {
-            const retrievedProducts = res.data;
-            setProducts(retrievedProducts);
-        })
+        fetch('http://localhost:8080/api/product/get-products', {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            },
+            body: JSON.stringify(requestQuery)
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                console.log(data);
+                setProducts(data)
+            })
+        }).then(data => {
+            console.log(data)
+        });
+
     }
 
 
@@ -59,17 +73,40 @@ const ProductPage = () => {
 
 
     useEffect(() => {
-        console.log("Re-run")
-        axios.get('http://localhost:8080/category').then(res => {
-            setCategories(res.data);
+        console.log("Re-run");
+
+
+        fetch('http://localhost:8080/api/category', {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            }
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                const settingcate = data;
+                setCategories(settingcate)
+            })
         })
 
-        axios.get('http://localhost:8080/shop').then(res => {
-            setBrands(res.data);
-            console.log(res);
+        fetch('http://localhost:8080/api/shop', {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            }
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                const settingShop = data;
+                setBrands(settingShop)
+            })
         })
-
-        getProducts([], [])
+        
+        getProducts([],[]);
 
     }, [])
 

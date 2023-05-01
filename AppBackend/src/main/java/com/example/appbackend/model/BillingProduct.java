@@ -1,5 +1,6 @@
 package com.example.appbackend.model;
 
+import com.example.appbackend.dto.BillingProductDTO;
 import jakarta.persistence.*;
 import lombok.Setter;
 
@@ -25,12 +26,12 @@ public class BillingProduct {
     @Column(
             name = "quantity"
     )
-    private Long quantity;
+    private int quantity;
 
     @Column(
-            name = "type"
+            name = "size"
     )
-    private String type;
+    private int size;
 
     @ManyToOne
     @JoinColumn(
@@ -43,10 +44,16 @@ public class BillingProduct {
     )
     private Billing billing;
 
-    public BillingProduct(Long productId, Long quantity, String type) {
+    public BillingProduct(Long productId, int quantity, int size) {
         this.productId = productId;
         this.quantity = quantity;
-        this.type = type;
+        this.size = size;
+    }
+
+    public BillingProduct(BillingProductDTO  billingProductDTO) {
+        this.productId = billingProductDTO.getProductId();
+        this.quantity = billingProductDTO.getQuantity();
+        this.size = billingProductDTO.getSize();
     }
 
     public BillingProduct() {
@@ -57,12 +64,12 @@ public class BillingProduct {
         return productId;
     }
 
-    public Long getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public String getType() {
-        return type;
+    public int getSize() {
+        return size;
     }
 
     @Override
@@ -70,6 +77,6 @@ public class BillingProduct {
         BillingProduct billingProduct = (BillingProduct) obj;
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        return Objects.equals(type, billingProduct.type) && Objects.equals(productId, billingProduct.productId);
+        return Objects.equals(size, billingProduct.size) && Objects.equals(productId, billingProduct.productId);
     }
 }

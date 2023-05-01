@@ -33,9 +33,26 @@ const ShopProductPage = () => {
     }
 
     useEffect(() => {
-         axios.get('http://localhost:8080/product',{withCredentials:true}).then(res => {
-            setProducts(res.data);
-         })
+        fetch('http://localhost:8080/api/product/get-products', {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            },
+            body: JSON.stringify({
+                categories: [],
+                brands: []
+            })
+            }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                console.log(data);
+                setProducts(data)
+            })
+        }).then(data => {
+            console.log(data)
+        });
     }, [])
 
     return <div>

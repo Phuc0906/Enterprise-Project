@@ -8,8 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BillingProductDTO {
-    private String productId;
-    private Long quantity;
-    private String type;
-
+    private Long productId;
+    private int quantity;
+    private int size;
 }

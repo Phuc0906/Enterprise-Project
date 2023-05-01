@@ -1,5 +1,6 @@
 package com.example.appbackend.model;
 
+import com.example.appbackend.dto.BillingProductDTO;
 import jakarta.persistence.*;
 import lombok.Setter;
 

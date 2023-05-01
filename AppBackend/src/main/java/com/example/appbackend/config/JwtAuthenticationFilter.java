@@ -15,8 +15,11 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Optional;
 
 @Component
@@ -31,22 +34,43 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        final Cookie[] cookies = request.getCookies();
+        System.out.println(request.getContentType() + " - " + request.getServletPath() + " - " + request.getMethod() + " - " + request.getHeader("Origin") + " - " + request.getContentLength());
+
+        Enumeration<String> headerNames = request.getHeaderNames();
+
+
+        if (headerNames != null) {
+            while (headerNames.hasMoreElements()) {
+                String header = headerNames.nextElement();
+                System.out.println("Header: " + request.getHeader(header) + " - " + header);
+            }
+        }
+
+
+        final String authHeader = request.getHeader("Authorization");
+        System.out.println(authHeader);
         final String jwt;
         final String phoneNumber;
-        if (cookies == null) {
+        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+            if ((authHeader == null) && (!request.getMethod().equals("OPTIONS"))) {
+                response.sendError(400);
+            }
+            System.out.println("IN here error");
+            filterChain.doFilter(request, response);
+
+            return;
+        }
+
+
+        jwt = authHeader.substring(7);
+        try {
+            phoneNumber = jwtService.extractPhoneNumber(jwt);
+        }catch (Exception ex) {
+            response.sendError(403);
             filterChain.doFilter(request, response);
             return;
         }
-        Optional<Cookie> authCookie = Arrays.stream(cookies)
-                .filter(cookie -> cookie.getName().equals("_auth"))
-                .findFirst();
-        if (!authCookie.isPresent() || authCookie.get().getValue() == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        jwt = authCookie.get().getValue();
-        phoneNumber = jwtService.extractPhoneNumber(jwt);
+
 
         if (phoneNumber != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails =userDetailsService.loadUserByUsername(phoneNumber);
@@ -61,6 +85,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
+        }else {
+            response.sendError(403);
         }
         filterChain.doFilter(request, response);
     }

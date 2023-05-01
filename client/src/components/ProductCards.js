@@ -1,7 +1,9 @@
 import React from "react";
+import {useNavigate} from "react-router-dom";
 
 const ProductCards = ({product}) => {
     const IMAGE_URL = "https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/";
+    const navigate = useNavigate();
 
     const splittingPriceNumber = (price) => {
         let splittingNum = "";
@@ -18,10 +20,11 @@ const ProductCards = ({product}) => {
     }
 
     const cardClickedHandle = () => {
-        // move to product detail page
+        navigate(`/product/${product.id}`)
+        window.location.reload();
     }
 
-    return <div className="relative w-[250px] h-[300px] border-2 flex-wrap p-2 rounded-2xl shadow-lg hover:shadow-2xl">
+    return <div onClick={cardClickedHandle} className="cursor-pointer relative w-[250px] h-[300px] border-2 flex-wrap p-2 rounded-2xl shadow-lg hover:shadow-2xl">
         <div className="w-full">
             <img className="ml-auto mr-auto w-full h-40 rounded-2xl" src={`${IMAGE_URL}${product.id}-${0}.png`}/>
         </div>

@@ -29,7 +29,22 @@ public class ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
-
+    public ProductDTO getProductInfoById(Long id) {
+        Product product = getProductById(id);
+        if (product != null) {
+            return new ProductDTO(
+                    product.getId(),
+                    product.getName(),
+                    product.getDescription(),
+                    product.getPrice(),
+                    product.getShop().getName(),
+                    product.getCategory().getName(),
+                    product.getImageCount()
+            );
+        }else {
+            throw new IllegalStateException("Product not found");
+        }
+    }
 
     public List<ProductDTO> getAllProduct() {
         return productRepository.findAll().stream().map(new ProductDtoMapper()).collect(Collectors.toList());
@@ -60,4 +75,6 @@ public class ProductService {
     public List<ProductDTO> getProductsByCategoriesAndBrands(List<Long> categories, List<Long> brands) {
         return productRepository.getProductsByCategoriesAndBrands(categories, brands).stream().map(new ProductDtoMapper()).collect(Collectors.toList());
     }
+
+
 }

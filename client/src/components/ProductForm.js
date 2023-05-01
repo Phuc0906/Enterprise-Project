@@ -15,7 +15,7 @@ const ProductForm = () => {
         "name": "",
         "description": "",
         "price": 0,
-        "shopname": "Adidas",
+        "shopname": "Nike",
         "categoryname": ""
     })
     const [imgCount, setImgCount] = useState([0]);
@@ -40,7 +40,11 @@ const ProductForm = () => {
         getProductDetail();
 
 
-        axios.get("http://localhost:8080/category").then(res => {
+        axios.get("http://localhost:8080/api/category", {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.token
+            }
+        }).then(res => {
             const categories = res.data;
             for (let i = 0; i < categories.length; i++) {
                 if ((location.state.update) && (location.state.product.categoryname === categories[i].name)) {
@@ -142,22 +146,36 @@ const ProductForm = () => {
             imageData.append('file', image[i]);
         }
 
-        axios.post(`http://localhost:8080/product`, productInfo)
-            .then(res => {
-                console.log(res);
-                const productId = res.data.product_id;
-                axios.post(`http://localhost:8080/product/${productId}/image/upload`,
+        fetch('http://localhost:8080/api/product', {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            },
+            body: JSON.stringify(productInfo)
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                console.log(data);
+                axios.post(`http://localhost:8080/api/product/${data.product_id}/image/upload`,
                     imageData,
                     {
                         headers: {
-                            "Content-Type": "multipart/form-data"
-                        }
+                            "Content-Type": "multipart/form-data",
+                            'Authorization': 'Bearer ' + localStorage.token
+                        },
+                        withCredentials: true
                     }).then(res => {
                     console.log(res);
                 }).catch(err => {
                     console.log(err);
                 })
             })
+        }).then(data => {
+            console.log(data)
+        });
+
     }
 
     const updateProduct = () => {
@@ -168,16 +186,27 @@ const ProductForm = () => {
             imageData.append('file', image[i]);
         }
 
-        axios.put(`http://localhost:8080/product`, productInfo).then(res => {
+        fetch('http://localhost:8080/api/product', {
+            method: 'PUT',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            },
+            body: JSON.stringify(productInfo)
+        }).then(res => {
             console.log(res);
         })
 
-        axios.post(`http://localhost:8080/product/${productInfo.id}/image/upload`,
+
+        axios.post(`http://localhost:8080/api/product/${productInfo.id}/image/upload`,
             imageData,
             {
                 headers: {
-                    "Content-Type": "multipart/form-data"
-                }
+                    "Content-Type": "multipart/form-data",
+                    'Authorization': 'Bearer ' + localStorage.token
+                },
+                withCredentials: true
             }).then(res => {
             console.log(res);
         }).catch(err => {

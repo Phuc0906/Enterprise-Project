@@ -1,9 +1,6 @@
 package com.example.appbackend.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -31,5 +28,14 @@ public class ProductDTO {
         this.shopname = shopname;
         this.categoryname = categoryname;
         this.imagesCount = imagesCount;
+    }
+
+    public ProductDTO(String name, String description, Long price, String shopname, String categoryname) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.shopname = shopname;
+        this.categoryname = categoryname;
+        this.imagesCount = 0;
     }
 }

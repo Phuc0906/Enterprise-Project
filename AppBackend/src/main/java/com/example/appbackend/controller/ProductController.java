@@ -5,24 +5,30 @@ import com.example.appbackend.dto.ProductDTO;
 import com.example.appbackend.dto.ProductGetRequest;
 import com.example.appbackend.model.*;
 import com.example.appbackend.response.ProductAddResponse;
+import com.example.appbackend.response.ProductAuthResponse;
 import com.example.appbackend.service.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "product")
+@RequestMapping(path = "api/product")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class ProductController {
+
     @Autowired
     private ProductService productService;
 
@@ -38,17 +44,24 @@ public class ProductController {
     @Autowired
     private AmazonS3Service amazonS3Service;
 
+    @GetMapping(path = "/id/{id}")
+    public ProductDTO getProductById(@PathVariable("id") String id) {
+        return productService.getProductInfoById(Long.valueOf(id));
+    }
+
     @PostMapping()
-    public ProductAddResponse addProduct(@RequestBody ProductDTO productDTO) {
-        Product product = new Product(productDTO.getName(), productDTO.getDescription(), productDTO.getPrice());
-        Category category = categoryService.findCategoryByName(productDTO.getCategoryname());
-        System.out.println(productDTO.getCategoryname());
+    public ProductAddResponse addProduct(@RequestBody String productBody) {
+        System.out.println(productBody);
+        JSONObject object = new JSONObject(productBody);
+        Product product = new Product(object.getString("name"), object.getString("description"), Long.valueOf(object.getInt("price")));
+        Category category = categoryService.findCategoryByName(object.getString("categoryname"));
         category.addProduct(product);
-        Shop shop = shopService.findShopByName(productDTO.getShopname());
+        Shop shop = shopService.findShopByName(object.getString("shopname"));
         shop.addProduct(product);
         productService.addProduct(product);
         return new ProductAddResponse(product.getId().toString());
     }
+
 
     @PostMapping(
             path = "{product_id}/image/upload",
@@ -67,10 +80,9 @@ public class ProductController {
         productService.updateProduct(productDTO);
     }
 
-    @PostMapping("/get-products")
+    @PostMapping(path = "/get-products")
     public List<ProductDTO> getProduct(@RequestBody ProductGetRequest request) {
-        System.out.println("Length cat: " + request.getCategories().length);
-        System.out.println("Length brands: " + request.getBrands().length);
+        System.out.println(request);
         List<Long> categories = new ArrayList<>();
         List<Long> brands = new ArrayList<>();
         for (int i = 0; i < request.getCategories().length; i++) {
@@ -81,7 +93,7 @@ public class ProductController {
         }
         if ((request.getBrands().length != 0) && (request.getCategories().length != 0)) {
             return productService.getProductsByCategoriesAndBrands(
-                categories, brands
+                    categories, brands
             );
         }
 
