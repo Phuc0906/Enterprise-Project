@@ -35,9 +35,6 @@ const {id} = useParams();
 return (
 <div>
     <NavBar items={items} />
-
-
-
     <div className="flex flex-col min-h-screen">
         <div className="flex-grow mb-4">
             <div className="w-full">
