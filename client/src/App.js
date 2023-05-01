@@ -20,7 +20,7 @@ function App() {
             <Route path="/login" element={<SignInForm />} />
             <Route path="/" element={<RequireAuth loginPath="/login"><Home/></RequireAuth>} />
             <Route path="/register" element={<SignUpForm />} />
-            <Route path="/products" element={<ProductPage />} />
+            <Route path="/products" element={<RequireAuth loginPath="/login"><ProductPage /></RequireAuth>} />
             <Route path="/product/upload" element={<RequireAuth loginPath="/login"><ProductForm/></RequireAuth>} />
             <Route path="/category/upload" element={<RequireAuth loginPath="/login"><CategoryForm/></RequireAuth>} />
             <Route path="/home/shop" element={<RequireAuth loginPath="/login"><ShopHomePage/></RequireAuth>} />

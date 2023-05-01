@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { ShoppingCartIcon, UsersIcon } from "@heroicons/react/24/outline";
 import "../Burger.css";
 import { useNavigate } from "react-router-dom";
+import {useSignOut} from "react-auth-kit";
 
 const NavBar = ({ items }) => {
     const [burgerClass, setBurgerClass] = useState("burger-bar unclicked");
     const [menuClass, setMenuClass] = useState("menu unshow");
     const [isMenuClicked, setIsMenuClicked] = useState(false);
+    const [isShowDropDown, setIsShopDropDown] = useState(false);
     const navigate = useNavigate();
+    const signOut = useSignOut();
+
+    const handleAccountClick = () => {
+        setIsShopDropDown(!isShowDropDown);
+    }
+
+    const signOutHandle = () => {
+        signOut();
+        window.location.reload();
+    }
 
     const updateMenu = () => {
         if (!isMenuClicked) {
@@ -75,7 +87,7 @@ const NavBar = ({ items }) => {
                         Sneaker Market
                     </h1>
                 </div>
-                <div className="flex items-end justify-end flex-1 p-3 mr-8 gap-x-3">
+                <div className="flex items-end justify-end flex-1 p-3 mr-8 gap-x-6">
                     <span className="uppercase font-extralight">Register</span>
                     <span className="uppercase font-extralight">Sign in</span>
                     <div className="relative">
@@ -86,6 +98,23 @@ const NavBar = ({ items }) => {
                                 10
                             </span>
                         </span>
+                    </div>
+                    <div>
+                        <UsersIcon className="w-6 h-6 " onClick={handleAccountClick}/>
+                        {isShowDropDown && <div
+                            className="absolute right-10 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                            <div className="py-1" role="none">
+                                <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
+                                     tabIndex="-1" id="menu-item-0 ">Profile</div>
+                                <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
+                                     tabIndex="-1" id="menu-item-1">Change Password</div>
+                                <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
+                                     tabIndex="-1" id="menu-item-2">Billing History</div>
+                                <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
+                                     tabIndex="-1" id="menu-item-2" onClick={signOutHandle}>Sign out</div>
+                            </div>
+                        </div>}
                     </div>
                 </div>
             </div>
