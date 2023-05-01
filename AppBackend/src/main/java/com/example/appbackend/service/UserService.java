@@ -1,9 +1,7 @@
 package com.example.appbackend.service;
 
-import com.example.appbackend.dto.InCartDTO;
 import com.example.appbackend.model.AppUser;
 import com.example.appbackend.model.InCart;
-import com.example.appbackend.model.InCartId;
 import com.example.appbackend.model.Product;
 import com.example.appbackend.repository.InCartRepository;
 import com.example.appbackend.repository.ProductRepository;
@@ -28,21 +26,6 @@ public class UserService {
 
     public void register(AppUser user) {
         userRepository.save(user);
-    }
-
-    public void addToCart(InCartDTO inCartDTO) throws Exception {
-        Product product = productRepository.findById(Long.parseLong(inCartDTO.getProductId())).orElse(null);
-        AppUser user = userRepository.findById(Long.parseLong(inCartDTO.getUserId())).orElse(null);
-        if (product != null && user != null) {
-            InCart cart = new InCart(Long.parseLong(inCartDTO.getQuantity()), inCartDTO.getType());
-            product.addInCart(cart);
-            user.addInCart(cart);
-            cart.setProduct(product);
-            cart.setAppUser(user);
-            inCartRepository.save(cart);
-        }else {
-            throw new Exception("Invalid argument");
-        }
     }
 
     public List<InCart> getCartProduct(Long userId) throws Exception {

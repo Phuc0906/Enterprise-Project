@@ -1,8 +1,5 @@
 package com.example.appbackend.controller;
 
-import com.example.appbackend.dto.InCartDTO;
-import com.example.appbackend.model.InCart;
-import com.example.appbackend.model.InCartId;
 import com.example.appbackend.service.BillingService;
 import com.example.appbackend.service.UserService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -22,14 +19,5 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(path = "/cart")
-    public void addToCart(@RequestBody InCartDTO inCartDTO) throws Exception {
-        userService.addToCart(inCartDTO);
 
-    }
-
-    @GetMapping(path = "/cart")
-    public List<InCart> getCartProducts(@RequestParam String userId) throws Exception {
-        return userService.getCartProduct(Long.parseLong(userId));
-    }
 }

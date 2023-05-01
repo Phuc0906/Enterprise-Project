@@ -39,25 +39,6 @@ const ProductDetails = () => {
         })
     }, [])
 
-    //get products
-
-
-//    const {products} = useContext(Products);
-//    const {addToCart} = useContext(Cart);
-
-
-////      get the specific product based on the product id
-//     const product = products.find(item => {
-//        return item.id === parseInt(id);
-//     })
-
-//// cannot find the product
-//    if(!product){
-//        return (
-//        <section className="h-screen flex justify-center items-center">Loading...</section>
-//        );
-//    }
-//    const{name, price, description, image, cost, categoryname, shopname} = product;
 
     const splittingPriceNumber = (price) => {
         let splittingNum = "";
@@ -73,6 +54,25 @@ const ProductDetails = () => {
         return splittingNum;
     }
 
+    const addToCartHandle = () => {
+        fetch(`http://localhost:8080/api/in-cart`, {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            },
+            body: JSON.stringify({
+                productId: product.id,
+                size: '5.5',
+                quantity: 1
+            })
+        }).then(res => {
+            const serverRes = res.json();
+            console.log(serverRes);
+        })
+    }
+
     return (
     <div>
         <NavBar items={items} />
@@ -86,7 +86,7 @@ const ProductDetails = () => {
                         <h1 className="text-[26px] font-medium mb-2 max-w-[450px] mx-auto lg:mx-0">{product.name}</h1>
                         <div className="text-xl font-medium mb-6">{splittingPriceNumber(product.price) + "vnd"}</div>
                         <p className="mb-8">{product.description}</p>
-                        <button className="bg-black py-4 px-8 text-white rounded-full">Add to cart</button>
+                        <button onClick={addToCartHandle} className="bg-black py-4 px-8 text-white rounded-full">Add to cart</button>
                     </div>
                 </div>
             </div>
