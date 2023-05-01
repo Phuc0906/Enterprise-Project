@@ -11,6 +11,8 @@ const ProductDetailsCarousel = () => {
             thumbWidth={90}
             className="productCarousel"
         >
+
+
         <img src="https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/dddfe7a5-318b-40ea-8374-623b53314ff3/air-force-1-07-lv8-womens-shoes-PsnCh2.png" alt="image" />
         <img src= "https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/ec91f07c-ccff-471a-926a-3c7ec1957870/air-force-1-07-lv8-womens-shoes-PsnCh2.png" alt="image" alt="image" />
         <img src="https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/a9c5031b-492a-4bf5-a818-78b142016e03/air-force-1-07-lv8-womens-shoes-PsnCh2.png" alt="image" alt="image" />
@@ -24,3 +26,11 @@ const ProductDetailsCarousel = () => {
 }
 
 export default ProductDetailsCarousel;
+
+
+//        {images?.map((image) =>(
+//            <img key={image.id}
+//                src={image.url}
+//                alt={image.url}
+//            />
+//        ))}
