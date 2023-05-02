@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartIcon, UsersIcon } from "@heroicons/react/24/outline";
 import "../Burger.css";
+
 import {Link, useNavigate} from "react-router-dom";
 import {useSignOut} from "react-auth-kit";
+import { Outlet } from "react-router-dom";
+
+import Cart from "../pages/Cart";
 
 const NavBar = ({ items }) => {
     const [burgerClass, setBurgerClass] = useState("burger-bar unclicked");
@@ -91,7 +95,11 @@ const NavBar = ({ items }) => {
                     <span className="uppercase font-extralight">Register</span>
                     <span className="uppercase font-extralight">Sign in</span>
                     <div className="relative">
+
+                        <Link to="/cart">
                         <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
+                        </Link>
+
                         <span className="absolute flex h-5 w-5 top-0 right-0 translate-x-1/2 translate-y-[-70%]">
                             <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
                             <span className="relative inline-flex rounded-full h-5 w-5 bg-sky-500 items-center justify-center text-white text-[9px]">
