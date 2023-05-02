@@ -1,102 +1,75 @@
-import React, {useContext, useEffect, useState} from "react";
+import React , { useContext }from "react";
 import {useParams} from "react-router-dom";
 
+import Wrapper from "../components/Wrapper";
 import NavBar from "../components/NavBar";
+import ProductDetailsCarousel from "../components/ProductDetailsCarousel";
+import Footer from "../components/Footer";
 //Import cart and product
 
 const ProductDetails = () => {
-    const IMAGE_URL = "https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/";
-    const items = [
-        {name: "Dashboard", page: "/shop/dashboard"},
-        {name: "Product", page: "/shop/product"}
-    ]
+const items = [
+{name: "Dashboard", page: "/shop/dashboard"},
+{name: "Product", page: "/shop/product"}
+]
 
-    //get the product id from the url
-    const {id} = useParams();
-    const [product, setProduct] = useState({
-        "name": "",
-        "description": "",
-        "price": 0,
-        "shopname": "Nike",
-        "categoryname": ""
-    })
+//get the product id from the display page
+const {id} = useParams();
+// const {products} = useContext(Products);
+// const {addToCart} = useContext(Cart);
 
 
-    useEffect(() => {
-        fetch(`http://localhost:8080/api/product/id/${id}`, {
-            method: 'GET',
-            credentials: "include",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.token
-            }
-        }).then(res => {
-            const serverRes = res.json();
-            serverRes.then(data => {
-                setProduct(data)
-
-            })
-        })
-    }, [])
-
-    //get products
-
-
-//    const {products} = useContext(Products);
-//    const {addToCart} = useContext(Cart);
-
-
-////      get the specific product based on the product id
-//     const product = products.find(item => {
-//        return item.id === parseInt(id);
-//     })
+//// get the specific product based on the product id
+// const product = products.find(item => {
+// return item.id === parseInt(id);
+// })
 
 //// cannot find the product
-//    if(!product){
-//        return (
-//        <section className="h-screen flex justify-center items-center">Loading...</section>
-//        );
-//    }
-//    const{name, price, description, image, cost, categoryname, shopname} = product;
+// if(!product){
+// return (
+// <section className="h-screen flex justify-center items-center">Loading...</section>
+// );
+// }
+// const{name, price, description, image, cost, categoryname, shopname} = product;
 
-    const splittingPriceNumber = (price) => {
-        let splittingNum = "";
-        let countDigit = 0;
-        for (let i = price.length - 1; i >= 0; i--) {
-            if (countDigit > 2) {
-                countDigit = 0;
-                splittingNum = ',' + splittingNum;
-            }
-            splittingNum = price[i] + splittingNum;
-            countDigit++;
-        }
-        return splittingNum;
-    }
-
-    return (
-    <div>
-        <NavBar items={items} />
-        <section className="pt-32 pb-12 lg:py-32 h-screen flex items-center">
-            <div className="container mx-auto">
-                <div className="flex flex-col lg:flex-row items-center">
-                    <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
-                        <img className="max-w[200px] lg:max-w-sm" src={`${IMAGE_URL}${product.id}-0.png`} alt="image"/>
+return (
+<div>
+    <NavBar items={items} />
+    <div className="flex flex-col min-h-screen">
+        <div className="flex-grow mb-4">
+            <div className="w-full">
+                <Wrapper>
+                    <div className="flex flex-col lg:flex-row md:px-10 gap-[50px] lg:gap-[100px]">
+                        <div className="w-full md:w-auto flex-[1.5] max-w-[500px] lg:max-w-full mx-auto lg:mx-0">
+                            <ProductDetailsCarousel />
+                        </div>
+                        <div className="flex-[1] py-3">
+                            <div className="text-3xl font-semibold mb-2">Nike Air Force 1 '07 LV8</div>
+                            <div></div>
+                            <div className="text-lg  font-semibold mb-5">Running</div>
+                            <div></div>
+                            <div className="text-lg font-bold mt-3">$120</div>
+                            <div className="text-lg font-light mt-3">The radiance lives on in the Nike Air Force 1 ’07,
+                                the b-ball icon that puts a fresh spin on what you know best: crisp leather, bold colors
+                                and the perfect amount of flash to make you shine.
+                                Air Force 1 Origins. Debuting in 1982, the AF1 was the first basketball shoe to house
+                                Nike Air, revolutionizing the game while rapidly gaining traction around the world.
+                            </div>
+                            <button className="w-full mt-5 bg-black text-white py-3 rounded-full">Add to Cart</button>
+                        </div>
                     </div>
-                    <div className="flex-1 text-center lg:text-left">
-                        <h1 className="text-[26px] font-medium mb-2 max-w-[450px] mx-auto lg:mx-0">{product.name}</h1>
-                        <div className="text-xl font-medium mb-6">{splittingPriceNumber(product.price) + "vnd"}</div>
-                        <p className="mb-8">{product.description}</p>
-                        <button className="bg-black py-4 px-8 text-white rounded-full">Add to cart</button>
-                    </div>
-                </div>
+                </Wrapper>
             </div>
-        </section>
+        </div>
+        <Footer />
     </div>
 
-    );
+</div>
+
+);
 };
 
 export default ProductDetails;
 
-//                        <img src="../images/hyper.png" alt="image"/>
-//                        <img src={} alt="image"/>
+
+// image: image_id_index.png
