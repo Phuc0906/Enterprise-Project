@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartIcon, UsersIcon } from "@heroicons/react/24/outline";
 import "../Burger.css";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useSignOut} from "react-auth-kit";
 
 const NavBar = ({ items }) => {
@@ -105,10 +105,8 @@ const NavBar = ({ items }) => {
                             className="absolute right-10 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                             <div className="py-1" role="none">
-                                <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
-                                     tabIndex="-1" id="menu-item-0 ">Profile</div>
-                                <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
-                                     tabIndex="-1" id="menu-item-1">Change Password</div>
+                                <Link to={"/profile"} className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
+                                     tabIndex="-1" id="menu-item-0 ">Profile</Link>
                                 <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
                                      tabIndex="-1" id="menu-item-2">Billing History</div>
                                 <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"

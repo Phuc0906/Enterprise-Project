@@ -11,6 +11,7 @@ import ShopProductPage from "./pages/ShopProductPage";
 import ProductPage from "./pages/ProductPage";
 import {RequireAuth} from "react-auth-kit";
 import ProductDetails from "./pages/ProductDetails";
+import UserProfilePage from "./pages/UserProfilePage";
 
 function App() {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ function App() {
             <Route path="/home/shop" element={<RequireAuth loginPath="/login"><ShopHomePage/></RequireAuth>} />
             <Route path="/shop/dashboard" element={<RequireAuth loginPath="/login"><ShopDashboard/></RequireAuth>} />
             <Route path="/shop/product" element={<RequireAuth loginPath="/login"><ShopProductPage/></RequireAuth>} />
+            <Route path="/profile" element={<RequireAuth loginPath="/login"><UserProfilePage/></RequireAuth>} />
             <Route path="/product/:id" element={<ProductDetails />} />
         </Routes>
     );

@@ -41,7 +41,6 @@ const SignUpForm = () => {
                     ),
                 })}
                 onSubmit={(values, actions) => {
-                    // console.log("SignUpFormFinal ~ actions", actions);
                     console.log(values);
                     setTimeout(() => {
                         actions.resetForm({
