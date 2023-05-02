@@ -23,8 +23,8 @@ public class InCartController {
         inCartService.addProductToCart(request, httpRequest);
     }
 
-    @GetMapping(path = "{userid}")
-    public List<InCartDTO> getUserCartProducts(@PathVariable("userid") int userId) {
-        return inCartService.getUserCartProduct(Long.valueOf(userId));
+    @GetMapping()
+    public List<InCartDTO> getUserCartProducts(HttpServletRequest request) {
+        return inCartService.getUserCartProduct(request);
     }
 }

@@ -5,6 +5,7 @@ import Wrapper from "../components/Wrapper";
 import NavBar from "../components/NavBar";
 import ProductDetailsCarousel from "../components/ProductDetailsCarousel";
 import Footer from "../components/Footer";
+import SizeLabel from "../components/SizeLabel";
 //Import cart and product
 
 const ProductDetails = () => {
@@ -22,6 +23,8 @@ const ProductDetails = () => {
         "imagesCount": 0
     })
     const [imagesCounting, setImagesCounting] = useState(0);
+    const size = ["5.5", "6.0", "6.5", "7", "7.5", "8", "8.5", "9", "9.5"];
+    const [sizeSelected, setSizeSelected] = useState("");
 
 
     useEffect(() => {
@@ -59,6 +62,11 @@ const ProductDetails = () => {
     }
 
     const addToCartHandle = () => {
+
+        if (sizeSelected.length === 0) {
+            return;
+        }
+
         fetch(`http://localhost:8080/api/in-cart`, {
             method: 'POST',
             credentials: "include",
@@ -67,8 +75,8 @@ const ProductDetails = () => {
                 'Authorization': 'Bearer ' + localStorage.token
             },
             body: JSON.stringify({
-                productId: product.id,
-                size: '5.5',
+                productId: id,
+                size: sizeSelected,
                 quantity: 1
             })
         }).then(res => {
@@ -96,7 +104,13 @@ const ProductDetails = () => {
                                 <div className="text-lg font-light mt-3">
                                   {product.description}
                                 </div>
-                                <button className="w-full mt-5 bg-black text-white py-3 rounded-full">Add to Cart</button>
+                                <div className="mt-3">
+                                    <label className="text-lg font-bold">Size</label>
+                                    <div className="mt-3 flex flex-wrap gap-3">
+                                        {size.map(size => <SizeLabel size={size} setSelected={setSizeSelected} selectedSize={sizeSelected}/>)}
+                                    </div>
+                                </div>
+                                <button onClick={addToCartHandle} className="w-full mt-5 bg-black text-white py-3 rounded-full">Add to Cart</button>
                             </div>
                         </div>
                     </Wrapper>
