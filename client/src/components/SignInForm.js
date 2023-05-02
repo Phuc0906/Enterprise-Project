@@ -15,14 +15,34 @@ const SignInForm = () => {
                 phoneNumber: values.account,
                 password: values.password,
             });
+
             console.log(response.data);
             localStorage.token = response.data.accessToken;
+            const userProfile = response.data.profile;
+            const profileData = {
+                name: userProfile.name,
+                phone: userProfile.phoneNumber,
+                address: userProfile.address,
+                email: userProfile.email
+            }
+            localStorage.profile = JSON.stringify(profileData);
+
             signIn({
                 token: response.data.accessToken,
                 expiresIn: 3600,
                 tokenType: "Bearer",
                 authState: {phonneNumber: values.account}
             })
+
+            if (response.data.role === 'USER') {
+                localStorage.role = 1; // 1 for use and 0 for shop
+                navigate('/');
+            }else {
+                localStorage.role = 0;
+                navigate('/shop/dashboard')
+            }
+            window.location.reload();
+
         } catch (error) {
             console.error(error);
         }
@@ -48,7 +68,7 @@ const SignInForm = () => {
                         <MField
                             label="Account"
                             name="account"
-                            placeholder="Enter your email address"></MField>
+                            placeholder="Phone Number" type="text"></MField>
                         <MField
                             label="Password"
                             name="password"

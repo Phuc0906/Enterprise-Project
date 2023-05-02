@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,35 +30,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().contains("/api/v1/auth")) {
+        if (request.getServletPath().contains("/auth") || request.getServletPath().contains("api-docs") || request.getServletPath().contains("swagger-ui") || request.getServletPath().contains("favicon.ico")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         System.out.println(request.getContentType() + " - " + request.getServletPath() + " - " + request.getMethod() + " - " + request.getHeader("Origin") + " - " + request.getContentLength());
 
-        Enumeration<String> headerNames = request.getHeaderNames();
-
-
-        if (headerNames != null) {
-            while (headerNames.hasMoreElements()) {
-                String header = headerNames.nextElement();
-                System.out.println("Header: " + request.getHeader(header) + " - " + header);
-            }
-        }
-
 
         final String authHeader = request.getHeader("Authorization");
-        System.out.println(authHeader);
         final String jwt;
         final String phoneNumber;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             if ((authHeader == null) && (!request.getMethod().equals("OPTIONS"))) {
-                response.sendError(400);
+                response.sendError(403);
+                System.out.println("Send 400 error");
+                return;
             }
             System.out.println("IN here error");
-            filterChain.doFilter(request, response);
 
+            filterChain.doFilter(request, response);
             return;
         }
 
@@ -67,7 +59,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             phoneNumber = jwtService.extractPhoneNumber(jwt);
         }catch (Exception ex) {
             response.sendError(403);
-            filterChain.doFilter(request, response);
             return;
         }
 
@@ -84,9 +75,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            }else {
+                return;
             }
         }else {
-            response.sendError(403);
+            return;
         }
         filterChain.doFilter(request, response);
     }

@@ -1,4 +1,4 @@
-import React , { useContext }from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 
 import Wrapper from "../components/Wrapper";
@@ -8,68 +8,105 @@ import Footer from "../components/Footer";
 //Import cart and product
 
 const ProductDetails = () => {
-const items = [
-{name: "Dashboard", page: "/shop/dashboard"},
-{name: "Product", page: "/shop/product"}
-]
+    const items = [
+        {name: "Dashboard", page: "/shop/dashboard"},
+        {name: "Product", page: "/shop/product"}
+    ]
+    const {id} = useParams();
+    const [product, setProduct] = useState({
+        "name": "",
+        "description": "",
+        "price": 0,
+        "shopname": "Nike",
+        "categoryname": "",
+        "imagesCount": 0
+    })
+    const [imagesCounting, setImagesCounting] = useState(0);
 
-//get the product id from the display page
-const {id} = useParams();
-// const {products} = useContext(Products);
-// const {addToCart} = useContext(Cart);
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/product/id/${id}`, {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            }
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                setProduct(data)
+                setImagesCounting(data.imagesCount);
+                console.log(product);
+                console.log(data.imagesCount)
+            })
+        })
+    }, [])
 
 
-//// get the specific product based on the product id
-// const product = products.find(item => {
-// return item.id === parseInt(id);
-// })
+    const splittingPriceNumber = (price) => {
+        let splittingNum = "";
+        let countDigit = 0;
+        for (let i = price.length - 1; i >= 0; i--) {
+            if (countDigit > 2) {
+                countDigit = 0;
+                splittingNum = ',' + splittingNum;
+            }
+            splittingNum = price[i] + splittingNum;
+            countDigit++;
+        }
+        return splittingNum;
+    }
 
-//// cannot find the product
-// if(!product){
-// return (
-// <section className="h-screen flex justify-center items-center">Loading...</section>
-// );
-// }
-// const{name, price, description, image, cost, categoryname, shopname} = product;
-
-return (
-<div>
-    <NavBar items={items} />
-    <div className="flex flex-col min-h-screen">
-        <div className="flex-grow mb-4">
-            <div className="w-full">
-                <Wrapper>
-                    <div className="flex flex-col lg:flex-row md:px-10 gap-[50px] lg:gap-[100px]">
-                        <div className="w-full md:w-auto flex-[1.5] max-w-[500px] lg:max-w-full mx-auto lg:mx-0">
-                            <ProductDetailsCarousel />
-                        </div>
-                        <div className="flex-[1] py-3">
-                            <div className="text-3xl font-semibold mb-2">Nike Air Force 1 '07 LV8</div>
-                            <div></div>
-                            <div className="text-lg  font-semibold mb-5">Running</div>
-                            <div></div>
-                            <div className="text-lg font-bold mt-3">$120</div>
-                            <div className="text-lg font-light mt-3">The radiance lives on in the Nike Air Force 1 ’07,
-                                the b-ball icon that puts a fresh spin on what you know best: crisp leather, bold colors
-                                and the perfect amount of flash to make you shine.
-                                Air Force 1 Origins. Debuting in 1982, the AF1 was the first basketball shoe to house
-                                Nike Air, revolutionizing the game while rapidly gaining traction around the world.
+    const addToCartHandle = () => {
+        fetch(`http://localhost:8080/api/in-cart`, {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            },
+            body: JSON.stringify({
+                productId: product.id,
+                size: '5.5',
+                quantity: 1
+            })
+        }).then(res => {
+            const serverRes = res.json();
+            console.log(serverRes);
+        })
+    }
+    return (
+    <div>
+        <NavBar items={items} />
+        <div className="flex flex-col min-h-screen">
+            <div className="flex-grow mb-4">
+                <div className="w-full">
+                    <Wrapper>
+                        <div className="flex flex-col lg:flex-row md:px-10 gap-[50px] lg:gap-[100px]">
+                            <div className="w-full md:w-auto flex-[1.5] max-w-[500px] lg:max-w-full mx-auto lg:mx-0">
+                                <ProductDetailsCarousel product={product} imageCount={imagesCounting} productId={id}/>
                             </div>
-                            <button className="w-full mt-5 bg-black text-white py-3 rounded-full">Add to Cart</button>
+                            <div className="flex-[1] py-3">
+                                <div className="text-3xl font-semibold mb-2">{product.name}</div>
+                                <div></div>
+                                <div className="text-lg  font-semibold mb-5">{product.categoryname}</div>
+                                <div></div>
+                                <div className="text-lg font-bold mt-3">{splittingPriceNumber(product.price) + "vnd"}</div>
+                                <div className="text-lg font-light mt-3">
+                                  {product.description}
+                                </div>
+                                <button className="w-full mt-5 bg-black text-white py-3 rounded-full">Add to Cart</button>
+                            </div>
                         </div>
-                    </div>
-                </Wrapper>
+                    </Wrapper>
+                </div>
             </div>
+            <Footer />
         </div>
-        <Footer />
+
     </div>
-
-</div>
-
-);
+    );
 };
 
 export default ProductDetails;
-
-
-// image: image_id_index.png

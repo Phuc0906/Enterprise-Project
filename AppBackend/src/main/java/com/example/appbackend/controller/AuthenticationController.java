@@ -1,6 +1,8 @@
 package com.example.appbackend.controller;
 
+import com.example.appbackend.dto.UserDTO;
 import com.example.appbackend.request.AuthenticationRequest;
+import com.example.appbackend.request.PasswordChangedRequest;
 import com.example.appbackend.request.RegisterRequest;
 import com.example.appbackend.response.AuthenticationResponse;
 import com.example.appbackend.service.AuthenticationService;
@@ -16,7 +18,7 @@ public class AuthenticationController {
     private final AuthenticationService service;
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+            @RequestBody UserDTO request
     ) {
         return ResponseEntity.ok(service.register(request));
     }
@@ -27,5 +29,6 @@ public class AuthenticationController {
         System.out.println("auth receive");
         return ResponseEntity.ok(service.authenticate(request));
     }
+
 
 }
