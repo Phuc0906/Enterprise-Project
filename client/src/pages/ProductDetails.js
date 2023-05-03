@@ -6,6 +6,7 @@ import NavBar from "../components/NavBar";
 import ProductDetailsCarousel from "../components/ProductDetailsCarousel";
 import Footer from "../components/Footer";
 import SizeLabel from "../components/SizeLabel";
+import RatingStar from "../components/RatingStar";
 //Import cart and product
 
 const ProductDetails = () => {
@@ -25,6 +26,8 @@ const ProductDetails = () => {
     const [imagesCounting, setImagesCounting] = useState(0);
     const size = ["5.5", "6.0", "6.5", "7", "7.5", "8", "8.5", "9", "9.5"];
     const [sizeSelected, setSizeSelected] = useState("");
+    const starCount = [0, 1, 2, 3, 4];
+    const [startSelect, setStarSelect] = useState(-1);
 
 
     useEffect(() => {
@@ -38,9 +41,10 @@ const ProductDetails = () => {
         }).then(res => {
             const serverRes = res.json();
             serverRes.then(data => {
-                setProduct(data)
+                const settingData = data;
+                setProduct(settingData)
                 setImagesCounting(data.imagesCount);
-                console.log(product);
+                console.log(data);
                 console.log(data.imagesCount)
             })
         })
@@ -100,7 +104,7 @@ const ProductDetails = () => {
                                 <div></div>
                                 <div className="text-lg  font-semibold mb-5">{product.categoryname}</div>
                                 <div></div>
-                                <div className="text-lg font-bold mt-3">{splittingPriceNumber(product.price) + "vnd"}</div>
+                                <div className="text-lg font-bold mt-3">{splittingPriceNumber(product.price.toString()) + " vnd"}</div>
                                 <div className="text-lg font-light mt-3">
                                   {product.description}
                                 </div>
@@ -109,6 +113,18 @@ const ProductDetails = () => {
                                     <div className="mt-3 flex flex-wrap gap-3">
                                         {size.map(size => <SizeLabel size={size} setSelected={setSizeSelected} selectedSize={sizeSelected}/>)}
                                     </div>
+                                </div>
+                                <div className="mt-3">
+                                    <label className="text-lg font-bold">Rating</label>
+                                    <div className="flex items-center">
+                                        <div className="flex gap-4 mt-2">
+                                            {starCount.map(star => <RatingStar key={star} idx={star} ratingCount={startSelect} starSelect={setStarSelect} />)}
+                                        </div>
+                                        <div className="mt-3 ml-3">
+                                            <button className="animate-bounce cursor-pointer bg-gray-400 text-white p-2 rounded-full hover:bg-gray-600">Rate</button>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <button onClick={addToCartHandle} className="w-full mt-5 bg-black text-white py-3 rounded-full">Add to Cart</button>
                             </div>
