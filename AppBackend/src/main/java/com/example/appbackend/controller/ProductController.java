@@ -130,5 +130,11 @@ public class ProductController {
         return product.getInStockList();
     }
 
+    @GetMapping(path = "/get")
+    public List<ProductDTO> getAll() {
+        return productService.getAllProduct();
+    }
+
+
 
 }
