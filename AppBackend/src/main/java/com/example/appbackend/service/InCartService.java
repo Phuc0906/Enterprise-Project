@@ -31,14 +31,20 @@ public class InCartService {
     @Autowired
     private JwtService jwtService;
 
+    private AppUser getUserByToken(HttpServletRequest request) {
+        final String authHeader = request.getHeader("Authorization");
+        final String jwt = authHeader.substring(7);
+        String phoneNumber = jwtService.extractPhoneNumber(jwt);
+        return userRepository.findByPhoneNumber(phoneNumber).orElse(null);
+    }
+
     public void addProductToCart(CartRequest request, HttpServletRequest httpRequest) {
         System.out.println("Given id: " + request.getProductId());
         System.out.println("Quantity: " + request.getQuantity());
         System.out.println("Size: " + request.getSize());
-        final String authHeader = httpRequest.getHeader("Authorization");
-        final String jwt = authHeader.substring(7);
-        String phoneNumber = jwtService.extractPhoneNumber(jwt);
-        AppUser user = userRepository.findByPhoneNumber(phoneNumber).orElse(null);
+
+        AppUser user = getUserByToken(httpRequest);
+
         Product product = productRepository.findById(Long.valueOf(request.getProductId())).orElse(null);
         if ((product != null) && (user != null)) {
             InCart inCart = new InCart(request.getQuantity(), request.getSize());
@@ -50,7 +56,11 @@ public class InCartService {
         }
     }
 
-    public List<InCartDTO> getUserCartProduct(Long userId) {
-        return inCartRepository.getUserCartProducts(userId);
+    public List<InCartDTO> getUserCartProduct(HttpServletRequest request) {
+        AppUser user = getUserByToken(request);
+        if (user == null) {
+            throw new IllegalStateException("User not found");
+        }
+        return inCartRepository.getUserCartProducts(user.getId());
     }
 }

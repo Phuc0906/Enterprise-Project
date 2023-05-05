@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class InCartDTO {
+    private Long productId;
     private String productName;
     private Long productPrice;
     private String categoryName;
@@ -14,7 +15,8 @@ public class InCartDTO {
     private String size;
     private Long quantity;
 
-    public InCartDTO(String productName, Long productPrice, String categoryName, String shopName, String size, Long quantity) {
+    public InCartDTO(Long productId, String productName, Long productPrice, String categoryName, String shopName, String size, Long quantity) {
+        this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
         this.categoryName = categoryName;
