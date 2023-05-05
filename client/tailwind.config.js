@@ -5,6 +5,7 @@ module.exports = {
         extend: {
             boxShadow: {
                 primary: "0px 7px 29px 0px rgb(100 100 111 / 0.2)",
+                secondary: "rgb(124 58 237 /0.56) 0px 22px 100px 4px;",
             },
             keyframes: {
                 fadeout: {

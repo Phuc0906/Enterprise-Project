@@ -1,16 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
-import axios from "axios";
 import CategoryBuilder from "../components/CategoryBuilder";
 import BrandsBuilder from "../components/BrandBuilder";
 import ProductCards from "../components/ProductCards";
-import qs from 'qs';
 
 const ProductPage = () => {
     const items = [
-        {name: "Home", page: "/home"},
-        {name: "Products", page: "/products"}
-    ]
+        { name: "Home", page: "/home" },
+        { name: "Products", page: "/products" },
+    ];
 
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
@@ -18,130 +16,160 @@ const ProductPage = () => {
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [products, setProducts] = useState([]);
 
-
-
     const getProducts = (categoryArr, brandsArr) => {
         const requestQuery = {
             categories: categoryArr,
-            brands: brandsArr
+            brands: brandsArr,
         };
 
-        fetch('http://localhost:8080/api/product/get-products', {
-            method: 'POST',
+        fetch("http://localhost:8080/api/product/get-products", {
+            method: "POST",
             credentials: "include",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.token
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.token,
             },
-            body: JSON.stringify(requestQuery)
-        }).then(res => {
-            const serverRes = res.json();
-            serverRes.then(data => {
-                console.log(data);
-                setProducts(data)
+            body: JSON.stringify(requestQuery),
+        })
+            .then((res) => {
+                const serverRes = res.json();
+                serverRes.then((data) => {
+                    console.log(data);
+                    setProducts(data);
+                });
             })
-        }).then(data => {
-            console.log(data)
-        });
-
-    }
-
+            .then((data) => {
+                console.log(data);
+            });
+    };
 
     const handleCheckBox = async (isChecked, idx) => {
         let selectedCat = [...selectedCategories];
         if (isChecked) {
             selectedCat.push(idx);
-        }else {
-            selectedCat = selectedCat.filter(cat => cat != idx);
+        } else {
+            selectedCat = selectedCat.filter((cat) => cat != idx);
         }
         await setSelectedCategory(selectedCat);
-        getProducts(selectedCat, selectedBrands)
-    }
+        getProducts(selectedCat, selectedBrands);
+    };
 
     const handleBrandCheckBox = async (isCheck, idx) => {
         let selectedBrd = [...selectedBrands];
         if (isCheck) {
             selectedBrd.push(idx);
-        }else {
-            selectedBrd = selectedBrd.filter(brand => brand != idx);
+        } else {
+            selectedBrd = selectedBrd.filter((brand) => brand != idx);
         }
         await setSelectedBrands(selectedBrd);
         console.log(selectedBrd);
-        getProducts(selectedBrd, selectedCategories)
-    }
-
-
+        getProducts(selectedBrd, selectedCategories);
+    };
 
     useEffect(() => {
         console.log("Re-run");
 
-
-        fetch('http://localhost:8080/api/category', {
-            method: 'GET',
+        fetch("http://localhost:8080/api/category", {
+            method: "GET",
             credentials: "include",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.token
-            }
-        }).then(res => {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.token,
+            },
+        }).then((res) => {
             const serverRes = res.json();
-            serverRes.then(data => {
+            serverRes.then((data) => {
                 const settingcate = data;
-                setCategories(settingcate)
-            })
-        })
+                setCategories(settingcate);
+            });
+        });
 
-        fetch('http://localhost:8080/api/shop', {
-            method: 'GET',
+        fetch("http://localhost:8080/api/shop", {
+            method: "GET",
             credentials: "include",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.token
-            }
-        }).then(res => {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.token,
+            },
+        }).then((res) => {
             const serverRes = res.json();
-            serverRes.then(data => {
+            serverRes.then((data) => {
                 const settingShop = data;
-                setBrands(settingShop)
-            })
-        })
-        
-        getProducts([],[]);
+                setBrands(settingShop);
+            });
+        });
 
-    }, [])
+        getProducts([], []);
+    }, []);
 
-
-    return <div>
-        <NavBar items={items}/>
-        <div className="mt-10 ml-10">
-            <div className="flex">
-                <div>
-                    <div className="border-b-2 border-[#BDBDBD] w-40 pb-5 pr-16">
-                        <h3 className="text-xl text-[#003F62]">Categories</h3>
-                        <div>
-                            {categories.map((category, index) => <CategoryBuilder onHandleCheckbox={handleCheckBox} key={category.id} category={category} idx={category.id} />)}
+    return (
+        <div>
+            <NavBar items={items} />
+            <div className="mt-10 ml-10">
+                <div className="flex">
+                    <div>
+                        <div className="border-b-2 border-[#BDBDBD] w-40 pb-5 pr-16">
+                            <h3 className="text-xl text-[#003F62]">
+                                Categories
+                            </h3>
+                            <div>
+                                {categories.map((category, index) => (
+                                    <CategoryBuilder
+                                        onHandleCheckbox={handleCheckBox}
+                                        key={category.id}
+                                        category={category}
+                                        idx={category.id}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        <div className="border-b-2 border-[#BDBDBD] mt-3 w-40 pb-5 pr-16">
+                            <h3 className="text-xl text-[#003F62]">Brands</h3>
+                            <div>
+                                {brands.map((brand, index) => (
+                                    <BrandsBuilder
+                                        onHandleCheckBox={handleBrandCheckBox}
+                                        key={index}
+                                        brand={brand}
+                                        idx={brand.id}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     </div>
-                    <div className="border-b-2 border-[#BDBDBD] mt-3 w-40 pb-5 pr-16">
-                        <h3 className="text-xl text-[#003F62]">Brands</h3>
-                        <div>
-                            {brands.map((brand, index) => <BrandsBuilder onHandleCheckBox={handleBrandCheckBox} key={index} brand={brand} idx={brand.id} />)}
+                    {/*Product Cards*/}
+                    <div className="ml-10">
+                        <div className="flex flex-wrap gap-8">
+                            {products.map((product) => (
+                                <ProductCards
+                                    key={product.id}
+                                    product={product}
+                                />
+                            ))}
+                            {products.map((product) => (
+                                <ProductCards
+                                    key={product.id}
+                                    product={product}
+                                />
+                            ))}
+                            {products.map((product) => (
+                                <ProductCards
+                                    key={product.id}
+                                    product={product}
+                                />
+                            ))}
+                            {products.map((product) => (
+                                <ProductCards
+                                    key={product.id}
+                                    product={product}
+                                />
+                            ))}
                         </div>
-                    </div>
-                </div>
-                {/*Product Cards*/}
-                <div className="ml-10">
-                    <div className="flex gap-8 flex-wrap">
-                        {products.map(product => <ProductCards key={product.id} product={product} />)}
-                        {products.map(product => <ProductCards key={product.id} product={product} />)}
-                        {products.map(product => <ProductCards key={product.id} product={product} />)}
-                        {products.map(product => <ProductCards key={product.id} product={product} />)}
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-}
+    );
+};
 
 export default ProductPage;

@@ -6,7 +6,7 @@ const Category = () => {
             <h2 className="mb-3 text-2xl font-bold text-center">
                 The Essentials
             </h2>
-            <div className="grid-cols-3 grid h-[500px] max-w-full w-full gap-x-4">
+            <div className="grid w-full max-w-full grid-cols-3 gap-x-4">
                 <div className="relative w-full h-full">
                     <img
                         className="object-cover w-full h-full"
