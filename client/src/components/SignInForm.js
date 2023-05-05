@@ -26,6 +26,7 @@ const SignInForm = () => {
                 email: userProfile.email
             }
             localStorage.profile = JSON.stringify(profileData);
+            localStorage.role = response.data.role;
 
             signIn({
                 token: response.data.accessToken,
@@ -34,14 +35,14 @@ const SignInForm = () => {
                 authState: {phonneNumber: values.account}
             })
 
-            if (response.data.role === 'USER') {
-                localStorage.role = 1; // 1 for use and 0 for shop
-                navigate('/');
-            }else {
-                localStorage.role = 0;
-                navigate('/shop/dashboard')
-            }
-            window.location.reload();
+            // if (response.data.role === 'USER') {
+            //     localStorage.role = 1; // 1 for use and 0 for shop
+            //     navigate('/');
+            // }else {
+            //     localStorage.role = 0;
+            //     navigate('/shop/dashboard')
+            // }
+            // window.location.reload();
 
         } catch (error) {
             console.error(error);

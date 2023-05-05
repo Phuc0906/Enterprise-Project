@@ -29,6 +29,7 @@ const Cart = () => {
             const serverRes = res.json();
             serverRes.then(data => {
                 const productSetting = data;
+                console.log(data);
                 setProducts(productSetting);
                 let totalPriceSetting = 0;
                 for (let i = 0; i < productSetting.length; i++) {
@@ -68,7 +69,7 @@ const Cart = () => {
                             <div className="flex flex-col lg:flex-row gap-12 py-10">
                                 <div className="flex-[2]">
                                     <div className="text-lg font-bold">Cart Item</div>
-                                    {products.map((product, index) => <CartItem product={product} key={index} />)}
+                                    {/*{products.map((product, index) => <CartItem product={product} key={index} />)}*/}
                                 </div>
                                 <div className="flex-[1]">
                                     <div className="text-lg font-bold">Summary</div>

@@ -2,6 +2,7 @@ package com.example.appbackend.controller;
 
 import com.example.appbackend.dto.InCartDTO;
 import com.example.appbackend.request.CartRequest;
+import com.example.appbackend.response.InCartResponse;
 import com.example.appbackend.service.InCartService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class InCartController {
     }
 
     @GetMapping()
-    public List<InCartDTO> getUserCartProducts(HttpServletRequest request) {
+    public List<InCartResponse> getUserCartProducts(HttpServletRequest request) {
         return inCartService.getUserCartProduct(request);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.appbackend.service;
 
 import com.example.appbackend.dto.InCartDTO;
+import com.example.appbackend.dto.ProductDTO;
 import com.example.appbackend.model.AppUser;
 import com.example.appbackend.model.InCart;
 import com.example.appbackend.model.Product;
@@ -8,11 +9,14 @@ import com.example.appbackend.repository.InCartRepository;
 import com.example.appbackend.repository.ProductRepository;
 import com.example.appbackend.repository.UserRepository;
 import com.example.appbackend.request.CartRequest;
+import com.example.appbackend.response.InCartResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -56,11 +60,33 @@ public class InCartService {
         }
     }
 
-    public List<InCartDTO> getUserCartProduct(HttpServletRequest request) {
+    public List<InCartResponse> getUserCartProduct(HttpServletRequest request) {
         AppUser user = getUserByToken(request);
         if (user == null) {
             throw new IllegalStateException("User not found");
         }
-        return inCartRepository.getUserCartProducts(user.getId());
+
+        List<InCartResponse> responses = new ArrayList<>();
+        List<InCartDTO> inCartDTOList = inCartRepository.getUserCartProducts(user.getId());
+        HashMap<String, List<InCartDTO>> hashMap = new HashMap<>();
+
+        String shopName = "";
+        InCartResponse inCartResponse = null;
+        System.out.println("Lisr: " + inCartDTOList.size());
+        for (int i = 0; i < inCartDTOList.size(); i++) {
+            if (!hashMap.keySet().contains(inCartDTOList.get(i).getShopName())) {
+                System.out.println(inCartDTOList.get(i).getShopName());
+                hashMap.put(inCartDTOList.get(i).getShopName(), new ArrayList<>());
+            }
+            hashMap.get(inCartDTOList.get(i).getShopName()).add(inCartDTOList.get(i));
+        }
+
+        List<String> keys = new ArrayList<>(hashMap.keySet());
+        for (int i = 0; i < hashMap.size(); i++) {
+            System.out.println(keys.get(i) + " - " + hashMap.get(keys.get(i)).size());
+            responses.add(new InCartResponse(keys.get(i), hashMap.get(keys.get(i))));
+        }
+
+        return responses;
     }
 }
