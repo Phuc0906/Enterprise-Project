@@ -13,9 +13,8 @@ const Cart = () => {
         {name: "Dashboard", page: "/shop/dashboard"},
         {name: "Product", page: "/shop/product"}
     ]
-    const [products, setProducts] = useState([]);
-    const [isLoadProduct, setLoad] = useState(false);
-    const [totalPrice, setTotalPrice] = useState(0);
+    const [shops, setShops] = useState([]);
+    const [isLoadShop, setLoad] = useState(false);
 
     useEffect(() => {
         fetch('http://localhost:8080/api/in-cart', {
@@ -28,15 +27,9 @@ const Cart = () => {
         }).then(res => {
             const serverRes = res.json();
             serverRes.then(data => {
-                const productSetting = data;
+                const shopSetting = data;
                 console.log(data);
-                setProducts(productSetting);
-                let totalPriceSetting = 0;
-                for (let i = 0; i < productSetting.length; i++) {
-                    totalPriceSetting += productSetting[i].productPrice;
-                }
-                setTotalPrice(totalPriceSetting);
-
+                setShops(shopSetting);
                 setLoad(true);
             })
         })
@@ -69,23 +62,12 @@ const Cart = () => {
                             <div className="flex flex-col lg:flex-row gap-12 py-10">
                                 <div className="flex-[2]">
                                     <div className="text-lg font-bold">Cart Item</div>
-                                    {/*{products.map((product, index) => <CartItem product={product} key={index} />)}*/}
-                                </div>
-                                <div className="flex-[1]">
-                                    <div className="text-lg font-bold">Summary</div>
-                                    <div className="p-5 my-5 bg-black/[0.9] rounded-xl">
-                                        <div className="flex justify-between">
-                                            <div className="uppercase text-md font-medium text-white">Subtotal</div>
-                                            <div className="uppercase text-md font-medium text-white">{splittingPriceNumber(totalPrice.toString()) + " vnd"}</div>
-                                        </div>
-                                        <div className="text-sm md:text-md py-5 border-t mt-5 text-white">The subtotal reflects the total price of your order before any applicable discounts. It does not include shipping costs and taxes</div>
-                                    </div>
-                                    <button className="w-full mt-5 bg-black text-white py-4 rounded-full text:lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75">Check out</button>
+                                    {shops.map((shop, index) => <CartItem shop={shop} key={index} />)}
                                 </div>
                             </div>
 
                         {/*If the cart is empty*/}
-                        <div className={`flex-[2] flex flex-col items-center pb-[50px] md:-mt-14 ${(!isLoadProduct) ? '' : 'hidden'}`}>
+                        <div className={`flex-[2] flex flex-col items-center pb-[50px] md:-mt-14 ${(!isLoadShop) ? '' : 'hidden'}`}>
                             <img src="https://www.99fashionbrands.com/wp-content/uploads/2020/12/empty_cart.png" width={500} height={500} className="w-[500px] md:w-[400px]"/>
                             <span className="text-xl font-bold">Look like your cart is empty</span>
                             <span className="text-center mt-4">Go ahead and explore top categories</span>
