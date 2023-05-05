@@ -10,7 +10,7 @@ const MField = ({ label, ...props }) => {
                 {label}
             </label>
             <input
-                className="p-3 border border-gray-100 rounded-lg"
+                className="p-3 border border-gray-300 rounded-lg"
                 {...field}
                 {...props}
             />

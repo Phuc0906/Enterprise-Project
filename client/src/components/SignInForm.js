@@ -18,6 +18,14 @@ const SignInForm = () => {
 
             console.log(response.data);
             localStorage.token = response.data.accessToken;
+            const userProfile = response.data.profile;
+            const profileData = {
+                name: userProfile.name,
+                phone: userProfile.phoneNumber,
+                address: userProfile.address,
+                email: userProfile.email
+            }
+            localStorage.profile = JSON.stringify(profileData);
 
             signIn({
                 token: response.data.accessToken,

@@ -30,26 +30,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().contains("/auth")) {
+        if (request.getServletPath().contains("/auth") || request.getServletPath().contains("api-docs") || request.getServletPath().contains("swagger-ui") || request.getServletPath().contains("favicon.ico")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         System.out.println(request.getContentType() + " - " + request.getServletPath() + " - " + request.getMethod() + " - " + request.getHeader("Origin") + " - " + request.getContentLength());
 
-        Enumeration<String> headerNames = request.getHeaderNames();
-
-
-        if (headerNames != null) {
-            while (headerNames.hasMoreElements()) {
-                String header = headerNames.nextElement();
-                System.out.println("Header: " + request.getHeader(header) + " - " + header);
-            }
-        }
-
 
         final String authHeader = request.getHeader("Authorization");
-        System.out.println(authHeader);
         final String jwt;
         final String phoneNumber;
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -86,9 +75,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            }else {
+                return;
             }
         }else {
-            response.sendError(403);
+            return;
         }
         filterChain.doFilter(request, response);
     }

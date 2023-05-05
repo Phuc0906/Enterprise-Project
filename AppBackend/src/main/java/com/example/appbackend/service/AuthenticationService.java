@@ -7,6 +7,7 @@ import com.example.appbackend.model.Shop;
 import com.example.appbackend.repository.ShopRepository;
 import com.example.appbackend.repository.UserRepository;
 import com.example.appbackend.request.AuthenticationRequest;
+import com.example.appbackend.request.PasswordChangedRequest;
 import com.example.appbackend.request.RegisterRequest;
 import com.example.appbackend.response.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,18 +29,23 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getPhoneNumber(),
-                        request.getPassword()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getPhoneNumber(),
+                            request.getPassword()
+                    )
+            );
+        }catch (Exception ex) {
+            throw new IllegalStateException("Invalid password or username");
+        }
         var user = userRepository.findByPhoneNumber(request.getPhoneNumber())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .role(user.getRole().name())
+                .profile(new UserDTO(user.getName(), user.getEmail(), user.getAddress(), user.getRole().name(), user.getPhoneNumber(), user.getPassword()))
                 .build();
     }
 
@@ -47,16 +53,14 @@ public class AuthenticationService {
         var user = AppUser.builder()
                 .name(request.getName())
                 .phoneNumber(request.getPhoneNumber())
+                .address(request.getAddress())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role((request.getRole().equals("USER")) ? Role.USER : Role.SHOP)
                 .build();
 
+
         if (!(request.getRole().equals("USER"))) {
-//            Shop shop = Shop.builder()
-//                            .name(request.getName())
-//                            .email(request.getEmail())
-//                            .build();
             Shop shop = new Shop(request.getName(), request.getEmail());
             shopRepository.save(shop);
         }
@@ -66,6 +70,7 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .role(user.getRole().name())
+                .profile(new UserDTO(user.getName(), user.getEmail(), user.getAddress(), user.getRole().name(), user.getPhoneNumber(), user.getPassword()))
                 .build();
     }
 
