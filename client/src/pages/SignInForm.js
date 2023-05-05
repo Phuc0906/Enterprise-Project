@@ -1,20 +1,23 @@
 import React from "react";
 import { Formik, Form, useField } from "formik";
 import * as Yub from "yup";
-import MField from "./MField";
+import MField from "../components/MField";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {useSignIn} from "react-auth-kit";
+import { useSignIn } from "react-auth-kit";
 
 const SignInForm = () => {
     const navigate = useNavigate();
     const signIn = useSignIn();
     const handleSubmit = async (values) => {
         try {
-            const response = await axios.post("http://localhost:8080/auth/authenticate", {
-                phoneNumber: values.account,
-                password: values.password,
-            });
+            const response = await axios.post(
+                "http://localhost:8080/auth/authenticate",
+                {
+                    phoneNumber: values.account,
+                    password: values.password,
+                }
+            );
 
             console.log(response.data);
             localStorage.token = response.data.accessToken;
@@ -23,26 +26,24 @@ const SignInForm = () => {
                 name: userProfile.name,
                 phone: userProfile.phoneNumber,
                 address: userProfile.address,
-                email: userProfile.email
-            }
+                email: userProfile.email,
+            };
             localStorage.profile = JSON.stringify(profileData);
-
             signIn({
                 token: response.data.accessToken,
                 expiresIn: 3600,
                 tokenType: "Bearer",
-                authState: {phonneNumber: values.account}
-            })
+                authState: { phonneNumber: values.account },
+            });
 
-            if (response.data.role === 'USER') {
+            if (response.data.role === "USER") {
                 localStorage.role = 1; // 1 for use and 0 for shop
-                navigate('/');
-            }else {
+                navigate("/");
+            } else {
                 localStorage.role = 0;
-                navigate('/shop/dashboard')
+                navigate("/shop/dashboard");
             }
             window.location.reload();
-
         } catch (error) {
             console.error(error);
         }
@@ -68,7 +69,8 @@ const SignInForm = () => {
                         <MField
                             label="Account"
                             name="account"
-                            placeholder="Phone Number" type="text"></MField>
+                            placeholder="Phone Number"
+                            type="text"></MField>
                         <MField
                             label="Password"
                             name="password"

@@ -3,8 +3,8 @@ import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartIcon, UsersIcon } from "@heroicons/react/24/outline";
 import "../Burger.css";
 
-import {Link, useNavigate} from "react-router-dom";
-import {useSignOut} from "react-auth-kit";
+import { Link, useNavigate } from "react-router-dom";
+import { useSignOut } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
 
 import Cart from "../pages/Cart";
@@ -19,12 +19,12 @@ const NavBar = ({ items }) => {
 
     const handleAccountClick = () => {
         setIsShopDropDown(!isShowDropDown);
-    }
+    };
 
     const signOutHandle = () => {
         signOut();
         window.location.reload();
-    }
+    };
 
     const updateMenu = () => {
         if (!isMenuClicked) {
@@ -87,40 +87,78 @@ const NavBar = ({ items }) => {
                     </div>
                 </div>
                 <div className="flex-1">
-                    <h1 className="text-lg font-semibold text-center">
+                    <h1 className="text-lg font-semibold text-center select-none">
                         Sneaker Market
                     </h1>
                 </div>
                 <div className="flex items-end justify-end flex-1 p-3 mr-8 gap-x-6">
-                    <span className="uppercase font-extralight">Register</span>
-                    <span className="uppercase font-extralight">Sign in</span>
-                    <div className="relative">
-
-                        <Link to="/cart">
-                        <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
-                        </Link>
-
-                        <span className="absolute flex h-5 w-5 top-0 right-0 translate-x-1/2 translate-y-[-70%]">
-                            <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
-                            <span className="relative inline-flex rounded-full h-5 w-5 bg-sky-500 items-center justify-center text-white text-[9px]">
-                                10
+                    {!localStorage.token && (
+                        <div className="flex items-center gap-x-2">
+                            <span
+                                onClick={navigate("/register")}
+                                className="uppercase select-none font-extralight">
+                                Register
                             </span>
-                        </span>
-                    </div>
+                            <span
+                                onClick={navigate("/register")}
+                                className="uppercase select-none font-extralight">
+                                Sign in
+                            </span>
+                        </div>
+                    )}
+                    {localStorage.role === 1 && (
+                        <div className="relative">
+                            <Link to="/cart">
+                                <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
+                            </Link>
+
+                            <span className="absolute flex h-5 w-5 top-0 right-0 translate-x-1/2 translate-y-[-70%]">
+                                <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                                <span className="relative inline-flex rounded-full h-5 w-5 bg-sky-500 items-center justify-center text-white text-[9px]">
+                                    10
+                                </span>
+                            </span>
+                        </div>
+                    )}
                     <div>
-                        <UsersIcon className="w-6 h-6 " onClick={handleAccountClick}/>
-                        {isShowDropDown && <div
-                            className="absolute right-10 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
-                            <div className="py-1" role="none">
-                                <Link to={"/profile"} className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
-                                     tabIndex="-1" id="menu-item-0 ">Profile</Link>
-                                <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
-                                     tabIndex="-1" id="menu-item-2">Billing History</div>
-                                <div className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
-                                     tabIndex="-1" id="menu-item-2" onClick={signOutHandle}>Sign out</div>
+                        <UsersIcon
+                            className="w-6 h-6 "
+                            onClick={handleAccountClick}
+                        />
+                        {isShowDropDown && (
+                            <div
+                                className="absolute z-10 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg right-10 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                role="menu"
+                                aria-orientation="vertical"
+                                aria-labelledby="menu-button"
+                                tabIndex="-1">
+                                <div className="py-1" role="none">
+                                    <Link
+                                        to={"/profile"}
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                        tabIndex="-1"
+                                        id="menu-item-0 ">
+                                        Profile
+                                    </Link>
+                                    <div
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                        tabIndex="-1"
+                                        id="menu-item-2">
+                                        Billing History
+                                    </div>
+                                    <div
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                        tabIndex="-1"
+                                        id="menu-item-2"
+                                        onClick={signOutHandle}>
+                                        Sign out
+                                    </div>
+                                </div>
                             </div>
-                        </div>}
+                        )}
                     </div>
                 </div>
             </div>
