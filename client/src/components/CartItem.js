@@ -16,7 +16,7 @@ const CartItem = ({shop}) => {
             const productBilling = {
                 productId: shop.productList[i].productId,
                 quantity: shop.productList[i].quantity,
-                size: shop.productList[i].size,
+                size: parseFloat(shop.productList[i].size),
             };
             productBillingDTO.push(productBilling)
 

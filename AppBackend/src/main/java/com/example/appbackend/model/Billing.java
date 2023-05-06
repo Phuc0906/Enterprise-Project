@@ -4,6 +4,7 @@ import com.example.appbackend.dto.BillingProductDTO;
 import jakarta.persistence.*;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,10 @@ public class Billing {
             name = "total_price"
     )
     private double totalPrice;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date")
+    private LocalDate buyDate;
 
     @Column(
             name = "status"
@@ -68,6 +73,10 @@ public class Billing {
 
     public double getTotalPrice() {
         return totalPrice;
+    }
+
+    public Billing() {
+        buyDate = LocalDate.now();
     }
 
     public int getStatus() {
