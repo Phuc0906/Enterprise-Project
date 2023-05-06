@@ -8,7 +8,7 @@ import HomeFooter from "../components/HomeFooter";
 
 const Home = () => {
     const items = [
-        { name: "Home", page: "/home" },
+        { name: "Home", page: "/" },
         { name: "Products", page: "/products" },
     ];
 

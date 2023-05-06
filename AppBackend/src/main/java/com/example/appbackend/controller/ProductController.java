@@ -121,11 +121,15 @@ public class ProductController {
         return product.getInStockList().stream().map(new InStockMapper()).collect(Collectors.toList());
     }
 
+
     @GetMapping(path = "/get")
     public List<ProductDTO> getAll() {
         return productService.getAllProduct();
     }
 
-
+    @GetMapping(path = "/page/get")
+    public List<ProductDTO> get(@RequestParam int page) {
+        return productService.getAllProduct(page);
+    }
 
 }

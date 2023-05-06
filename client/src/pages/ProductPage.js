@@ -6,7 +6,7 @@ import ProductCards from "../components/ProductCards";
 
 const ProductPage = () => {
     const items = [
-        { name: "Home", page: "/home" },
+        { name: "Home", page: "/" },
         { name: "Products", page: "/products" },
     ];
 

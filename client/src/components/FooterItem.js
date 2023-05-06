@@ -5,7 +5,8 @@ const FooterItem = (props) => {
     return (
         <ul className="leading-relaxed">
             <li className="mb-2 font-semibold">{title}</li>
-            {items.length > 0 && items.map((item) => <li>{item}</li>)}
+            {items.length > 0 &&
+                items.map((item, idx) => <li key={idx}>{item}</li>)}
         </ul>
     );
 };

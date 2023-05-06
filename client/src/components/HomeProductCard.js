@@ -6,11 +6,7 @@ import {
 const HomeProductCard = (props) => {
     const IMAGE_URL =
         "https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/";
-    const { product } = props;
-    console.log(
-        "🚀 ~ file: HomeProductCard.js:13 ~ HomeProductCard ~ products:",
-        product
-    );
+    const { key, product } = props;
 
     return (
         <div className="relative flex flex-col h-full max-h-[400px] border rounded-lg shadow-primary group">

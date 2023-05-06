@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String phoneNumber;
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             if ((authHeader == null) && (!request.getMethod().equals("OPTIONS"))) {
-                response.sendError(403);
+                response.sendError (403);
                 System.out.println("Send 400 error");
                 return;
             }
