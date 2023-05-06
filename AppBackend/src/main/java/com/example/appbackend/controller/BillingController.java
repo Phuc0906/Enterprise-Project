@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/billing")
 @RequiredArgsConstructor
+@CrossOrigin
 public class BillingController {
     @Autowired
     private BillingService billingService;
@@ -51,9 +52,10 @@ public class BillingController {
 
     @PostMapping
     public void addBilling(@RequestBody BillingDTO billingDTO) {
+        System.out.println(billingDTO);
         Billing tempBill = new Billing();
-        tempBill.setAppUser(userRepository.findById(billingDTO.getCustomerId()).orElse(null));
-        tempBill.setShop(shopRepository.findById(billingDTO.getShopId()).orElse(null));
+        tempBill.setAppUser(userRepository.findByPhoneNumber(billingDTO.getCustomerPhoneNumber()).orElse(null));
+        tempBill.setShop(shopRepository.findByName(billingDTO.getShopName()).orElse(null));
         tempBill.setStatus(0);
         tempBill.setTotalPrice(billingDTO.getTotalPrice());
         for(BillingProductDTO productDTO : billingDTO.getProducts()) {
