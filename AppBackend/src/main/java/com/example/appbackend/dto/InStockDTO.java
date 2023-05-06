@@ -1,5 +1,6 @@
 package com.example.appbackend.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -7,8 +8,9 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @Setter
 @Getter
+@AllArgsConstructor
 public class InStockDTO {
-    private String productId;
+    private Long productId;
     private String type;
-    private String quantity;
+    private Long quantity;
 }

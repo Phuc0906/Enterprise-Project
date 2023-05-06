@@ -28,7 +28,11 @@ const ProductDetails = () => {
     const [sizeSelected, setSizeSelected] = useState("");
     const starCount = [0, 1, 2, 3, 4];
     const [startSelect, setStarSelect] = useState(-1);
+    const [quantity, setQuantity] = useState([]);
 
+    useEffect(() => {
+
+    }, [quantity])
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/product/id/${id}`, {
@@ -46,6 +50,23 @@ const ProductDetails = () => {
                 setImagesCounting(data.imagesCount);
                 console.log(data);
                 console.log(data.imagesCount)
+            })
+        })
+
+        fetch(`http://localhost:8080/api/product/stock?productId=${id}`, {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            }
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                console.log(data);
+                const settingData = data;
+                setQuantity(settingData);
+                console.log(quantity)
             })
         })
     }, [])
@@ -111,7 +132,7 @@ const ProductDetails = () => {
                                 <div className="mt-3">
                                     <label className="text-lg font-bold">Size</label>
                                     <div className="mt-3 flex flex-wrap gap-3">
-                                        {size.map(size => <SizeLabel size={size} setSelected={setSizeSelected} selectedSize={sizeSelected}/>)}
+                                        {size.map((size,index) => <SizeLabel key={index} size={size} setSelected={setSizeSelected} selectedSize={sizeSelected} quantity={(quantity.length === 0) ? 0 : quantity[index].quantity} />)}
                                     </div>
                                 </div>
                                 <div className="mt-3">

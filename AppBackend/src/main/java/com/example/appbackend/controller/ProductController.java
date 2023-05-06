@@ -3,7 +3,9 @@ package com.example.appbackend.controller;
 import com.example.appbackend.dto.InStockDTO;
 import com.example.appbackend.dto.ProductDTO;
 import com.example.appbackend.dto.ProductGetRequest;
+import com.example.appbackend.mapper.InStockMapper;
 import com.example.appbackend.model.*;
+import com.example.appbackend.request.ProductAddRequest;
 import com.example.appbackend.response.ProductAddResponse;
 import com.example.appbackend.response.ProductAuthResponse;
 import com.example.appbackend.service.*;
@@ -50,15 +52,15 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ProductAddResponse addProduct(@RequestBody String productBody) {
-        System.out.println(productBody);
-        JSONObject object = new JSONObject(productBody);
-        Product product = new Product(object.getString("name"), object.getString("description"), Long.valueOf(object.getInt("price")));
-        Category category = categoryService.findCategoryByName(object.getString("categoryname"));
+    public ProductAddResponse addProduct(@RequestBody ProductAddRequest productDTO) {
+        Product product = new Product(productDTO.getName(), productDTO.getDescription(), productDTO.getPrice());
+        Category category = categoryService.findCategoryByName(productDTO.getCategoryname());
+        System.out.println(productDTO.getCategoryname());
         category.addProduct(product);
-        Shop shop = shopService.findShopByName(object.getString("shopname"));
+        Shop shop = shopService.findShopByName(productDTO.getShopname());
         shop.addProduct(product);
         productService.addProduct(product);
+        inStockService.addStock(productDTO.getSize(), product);
         return new ProductAddResponse(product.getId().toString());
     }
 
@@ -76,7 +78,8 @@ public class ProductController {
     }
 
     @PutMapping
-    public void updateProduct(@RequestBody ProductDTO productDTO) throws Exception {
+    public void updateProduct(@RequestBody ProductAddRequest productDTO) throws Exception {
+        inStockService.updateStock(productDTO);
         productService.updateProduct(productDTO);
     }
 
@@ -111,23 +114,11 @@ public class ProductController {
         return productService.getAllProduct();
     }
 
-    @PostMapping(path = "/stock")
-    public void addStock(@RequestBody InStockDTO inStockDTO) throws Exception {
-        Product product = productService.getProductById(Long.parseLong(inStockDTO.getProductId()));
-        InStock inStock = new InStock(inStockDTO.getType(), Long.parseLong(inStockDTO.getQuantity()));
-        try {
-            product.addStock(inStock);
-            inStockService.addStock(inStock);
-        }catch (Exception ex) {
-            throw new Exception("Type is already exist");
-        }
-
-    }
 
     @GetMapping(path = "/stock")
-    public List<InStock> getInStock(@RequestParam String productId) {
+    public List<InStockDTO> getInStock(@RequestParam String productId) {
         Product product = productService.getProductById(Long.parseLong(productId));
-        return product.getInStockList();
+        return product.getInStockList().stream().map(new InStockMapper()).collect(Collectors.toList());
     }
 
     @GetMapping(path = "/get")

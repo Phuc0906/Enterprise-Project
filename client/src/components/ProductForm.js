@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {paste} from "@testing-library/user-event/dist/paste";
 import Select from "react-select";
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {urlToFile} from "../utils";
 
 const ProductForm = () => {
@@ -16,9 +16,21 @@ const ProductForm = () => {
         "description": "",
         "price": 0,
         "shopname": "Nike",
-        "categoryname": ""
-    })
+        "categoryname": "",
+        "size": []
+    });
+    const size = ["5.5", "6.0", "6.5", "7", "7.5", "8", "8.5", "9", "9.5"];
     const [imgCount, setImgCount] = useState([0]);
+    const [arrowSpin, setArrowSpin] = useState(false);
+    const [categoryArrow, setCategoryArrow] = useState(false);
+    const [selectSize, setSelectSize] = useState("");
+    const [selectedSizeIdx, setSelectedSizeIdx] = useState(-1);
+    const [sizeQuantity, setSizeQuantity] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [selectedCat, setSelectedCat] = useState("");
+
+    useEffect(() => {
+
+    }, [productInfo]);
 
     useEffect(() => {
         const getProductDetail = async () => {
@@ -34,6 +46,28 @@ const ProductForm = () => {
                 }
                 setImage(settingImages);
                 setImgCount(imagesCounting);
+
+                setSelectedCat(location.state.product.categoryname)
+
+                fetch(`http://localhost:8080/api/product/stock?productId=${location.state.product.id}`, {
+                    method: 'GET',
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.token
+                    }
+                }).then(res => {
+                    const serverRes = res.json();
+                    serverRes.then(data => {
+                        const settingData = data;
+                        const settingQuantity = sizeQuantity;
+                        for (let i = 0 ; i < settingData.length; i++) {
+                            settingQuantity[i] = settingData[i].quantity
+                        }
+                        setSizeQuantity(settingQuantity);
+                    })
+                })
+
             }
         }
 
@@ -130,9 +164,11 @@ const ProductForm = () => {
     }
 
 
-    const onSelectedChangeHandle = (option) => {
-        setProductInfo({...productInfo, 'categoryname': option.value})
-        setSelectedCategory({value: option.value, label: option.value})
+    const onSelectedChangeHandle = (e) => {
+        setSelectedCat(e.target.ariaValueText)
+        setProductInfo({...productInfo, 'categoryname': e.target.ariaValueText})
+        setSelectedCategory({value: e.target.ariaValueText, label: e.target.ariaValueText});
+        setCategoryArrow(!categoryArrow);
     }
 
 
@@ -215,7 +251,7 @@ const ProductForm = () => {
     }
 
     const handleSubmitForm = () => {
-        if ((image.length == 1 && image[0] == undefined) || productInfo.name.length == 0 || productInfo.price == 0 || productInfo.categoryname.length == 0) {
+        if ((image.length == 1 && image[0] == undefined) || productInfo.name.length == 0 || productInfo.price == 0 || productInfo.categoryname.length == 0 || sizeQuantity.toString().length === 0 || selectSize.length === 0) {
             alert("Please Fill Required Information");
             return;
         }
@@ -227,6 +263,28 @@ const ProductForm = () => {
 
     }
 
+    const sizeArrowHandle = () => {
+        setArrowSpin(!arrowSpin);
+    }
+
+    const onSizeChange = (e) => {
+        const sizeQuanArr = sizeQuantity;
+        sizeQuanArr[selectedSizeIdx] = (e.target.value.length === 0) ? 0 : parseInt(e.target.value);
+        setSizeQuantity(sizeQuanArr);
+        console.log(sizeQuantity);
+        setProductInfo(prevInfo => ({...prevInfo, 'size': sizeQuanArr}));
+    }
+
+    const sizeSelectHandle = (e) => {
+        console.log(e.target.ariaValueText);
+        setSelectSize(e.target.innerText);
+        setSelectedSizeIdx(e.target.ariaValueText);
+        setArrowSpin(!arrowSpin);
+    }
+
+    const categoryArrowHandle = () => {
+        setCategoryArrow(!categoryArrow);
+    }
 
     return <div>
         <h1 className="p-3.5 font-bold text-yellow-600 font-bold text-4xl">Product Information</h1>
@@ -286,10 +344,65 @@ const ProductForm = () => {
                     </label>
                 </div>
                 <div className="md:w-2/3">
-                    <div className="mb-3 xl:w-96">
-                        <Select placeholder="Select Category" value={selectedCategory} onChange={onSelectedChangeHandle} options={categoryList} />
+                    <div className="mb-3 mt-3  bg-gray-200 p-3.5 flex justify-between items-center rounded">
+                        <label className={`${selectedCat.length !== 0 ? 'text-gray-700':'text-gray-500'}`}>{selectedCat.length !== 0 ? selectedCat : "Select Category"}</label>
+                        <div onClick={categoryArrowHandle} className={`border-l-2 border-l-gray-700 pl-3 `}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-5 h-5 ${!categoryArrow ? 'rotate-0' : 'rotate-180'} transition duration-300`}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                            </svg>
+                        </div>
                     </div>
+                    {categoryArrow && <div className="relative">
+                        <div
+                            onClick={onSelectedChangeHandle}
+                            className=" absolute z-10 mt-1 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                            <div className="py-1" role="none">
+                                {categoryList.map((category, index) => <div aria-valuetext={category.value} key={index} className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
+                                                                       tabIndex="-1" id="menu-item-0 ">{category.value}</div>)}
+                            </div>
+                        </div>
+                    </div>}
                 </div>
+            </div>
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                    <label className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">
+                        Size
+                    </label>
+                </div>
+                <div className="xl:w-1/3">
+                    <div className="mb-3 mt-3  bg-gray-200 p-3.5 flex justify-between items-center rounded">
+                        <label className={`${selectSize.length !== 0 ? 'text-gray-700':'text-gray-500'}`}>{selectSize.length !== 0 ? selectSize : "Select Size"}</label>
+                        <div onClick={sizeArrowHandle} className={`border-l-2 border-l-gray-700 pl-3 `}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-5 h-5 ${!arrowSpin ? 'rotate-0' : 'rotate-180'} transition duration-300`}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                            </svg>
+                        </div>
+                    </div>
+                    {arrowSpin && <div className="relative">
+                        <div
+                            onClick={sizeSelectHandle}
+                            className=" absolute z-10 mt-1 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                            <div className="py-1" role="none">
+                                {size.map((sizeElement, index) => <div aria-valuetext={index} key={index} className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
+                                                                       tabIndex="-1" id="menu-item-0 ">{sizeElement}</div>)}
+                            </div>
+                        </div>
+                    </div>}
+
+                </div>
+                {selectSize && <div className="ml-2 flex items-center">
+                    <label>Qty</label>
+                    <input
+                        onChange={onSizeChange}
+                        className="ml-3 p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-1/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        id="inline-full-name" name="shopname" value={(sizeQuantity[selectedSizeIdx] === 0 ? '' : sizeQuantity[selectedSizeIdx])} type="number"/>
+                </div>}
+
+
+
             </div>
             <div className="border-4 stroke-amber-100">
                 <h4 className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">Product Image</h4>

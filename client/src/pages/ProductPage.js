@@ -146,24 +146,6 @@ const ProductPage = () => {
                                     product={product}
                                 />
                             ))}
-                            {products.map((product) => (
-                                <ProductCards
-                                    key={product.id}
-                                    product={product}
-                                />
-                            ))}
-                            {products.map((product) => (
-                                <ProductCards
-                                    key={product.id}
-                                    product={product}
-                                />
-                            ))}
-                            {products.map((product) => (
-                                <ProductCards
-                                    key={product.id}
-                                    product={product}
-                                />
-                            ))}
                         </div>
                     </div>
                 </div>

@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.util.Objects;
 
 @Setter
+@Getter
 @Entity(name = "in_stock")
 @Table(name = "in_stock")
 public class InStock {
