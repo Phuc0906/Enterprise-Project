@@ -358,55 +358,24 @@ const ProductForm = () => {
                         className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                         id="inline-full-name" name="price" type="number" value={productInfo.price} onChange={inputHandleChange}/>
                 </div>
-                <div className="mb-6 md:flex md:items-center">
-                    <div className="md:w-1/3">
-                        <label className="inline-block w-48 mb-1 font-bold text-gray-500 md:left-2 md:mb-0 pr-9">
-                            Product Description
-                        </label>
-                    </div>
-                    <div className="md:w-2/3">
-                        <input
-                            className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name"
-                            name="description"
-                            value={productInfo.description}
-                            type="text"
-                            onChange={inputHandleChange}
-                        />
-                    </div>
+            </div>
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                    <label className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">
+                        Shop
+                    </label>
                 </div>
-                <div className="mb-6 md:flex md:items-center">
-                    <div className="md:w-1/3">
-                        <label className="inline-block w-48 mb-1 font-bold text-gray-500 md:left-2 md:mb-0 pr-9">
-                            Price
-                        </label>
-                    </div>
-                    <div className="md:w-2/3">
-                        <input
-                            className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name"
-                            name="price"
-                            type="number"
-                            value={productInfo.price}
-                            onChange={inputHandleChange}
-                        />
-                    </div>
+                <div className="md:w-2/3">
+                    <input
+                        className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        id="inline-full-name" name="shopname" type="text" value={productInfo.shopname}/>
                 </div>
-                <div className="mb-6 md:flex md:items-center">
-                    <div className="md:w-1/3">
-                        <label className="inline-block w-48 mb-1 font-bold text-gray-500 md:left-2 md:mb-0 pr-9">
-                            Shop
-                        </label>
-                    </div>
-                    <div className="md:w-2/3">
-                        <input
-                            className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name"
-                            name="shopname"
-                            type="text"
-                            value={productInfo.shopname}
-                        />
-                    </div>
+            </div>
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                    <label className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">
+                        Category
+                    </label>
                 </div>
                 <div className="md:w-2/3">
                     <div className="mb-3 mt-3  bg-gray-200 p-3.5 flex justify-between items-center rounded">
@@ -424,7 +393,7 @@ const ProductForm = () => {
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                             <div className="py-1" role="none">
                                 {categoryList.map((category, index) => <div aria-valuetext={category.value} key={index} className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
-                                                                       tabIndex="-1" id="menu-item-0 ">{category.value}</div>)}
+                                                                            tabIndex="-1" id="menu-item-0 ">{category.value}</div>)}
                             </div>
                         </div>
                     </div>}
@@ -483,19 +452,22 @@ const ProductForm = () => {
                                               d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
                                 </div>
+
+
                             </div>
+
                         </div>
                     </div>
                 </div>
-                <button
-                    type="click"
-                    onClick={handleSubmitForm}
-                    className="m-3 pt-3 inline-block rounded-full bg-blue-800 px-6 pt-2.5 pb-2 text-white text-sm font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)]">
-                    Add Product
-                </button>
             </div>
+            <button
+                type="click"
+                onClick={handleSubmitForm}
+                className="m-3 pt-3 inline-block rounded-full bg-blue-800 px-6 pt-2.5 pb-2 text-white text-sm font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)]">
+                Add Product
+            </button>
         </div>
-    );
+    </div>
 };
 
 export default ProductForm;
