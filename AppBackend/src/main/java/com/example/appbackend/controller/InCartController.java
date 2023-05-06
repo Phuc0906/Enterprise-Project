@@ -1,6 +1,8 @@
 package com.example.appbackend.controller;
 
 import com.example.appbackend.dto.InCartDTO;
+import com.example.appbackend.model.InCart;
+import com.example.appbackend.repository.InCartRepository;
 import com.example.appbackend.request.CartRequest;
 import com.example.appbackend.response.InCartResponse;
 import com.example.appbackend.service.InCartService;
