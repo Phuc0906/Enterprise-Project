@@ -8,7 +8,9 @@ import com.example.appbackend.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,9 +48,36 @@ public class ProductService {
         }
     }
 
+    public List<ProductDTO> getAllProduct(int page) {
+        final int MAX_ITEMS_PER_PAGE = 20;
+        if (page <= 0) {
+            throw new IllegalStateException("Page should be greater than zero");
+        } else {
+            int end = page * MAX_ITEMS_PER_PAGE;
+            int start = end - MAX_ITEMS_PER_PAGE;
+
+            List<ProductDTO> res = new ArrayList<>();
+            List<ProductDTO> list = productRepository.findAll().stream().map(new ProductDtoMapper()).collect(Collectors.toList());
+            try {
+                while(list.get(start) != null && start < end) {
+                    res.add(list.get(start));
+                    start++;
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            if (res.size() > 0) {
+                return res;
+            } else {
+                throw new IllegalStateException("This page doesn't contain any product");
+            }
+        }
+    }
+
     public List<ProductDTO> getAllProduct() {
         return productRepository.findAll().stream().map(new ProductDtoMapper()).collect(Collectors.toList());
     }
+
 
     public void updateProduct(ProductDTO productDTO) throws Exception {
         Product product = productRepository.findById(productDTO.getId()).orElse(null);

@@ -69,11 +69,11 @@ const NavBar = ({ items }) => {
                     </div>
 
                     <div
-                        className={`flex items-center flex-shrink-0 p-1 ml-3 border min-w-fit transition-all rounded-md`}>
+                        className={`flex items-center flex-shrink-0 p-1 ml-3 border min-w-fit  rounded-md`}>
                         <input
                             type="text"
                             name="searchBar"
-                            className="focus:w-full"
+                            className="transition-all focus:w-full"
                             placeholder="Searching something"
                             onFocus={(e) => {
                                 const parent = e.target.parentElement;
