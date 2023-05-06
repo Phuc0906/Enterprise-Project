@@ -34,6 +34,7 @@ const NavBar = ({ items }) => {
             setBurgerClass("burger-bar unclicked");
             setMenuClass("menu unshow");
         }
+        document.body.classList.toggle("overflow-hidden");
         setIsMenuClicked(!isMenuClicked);
     };
 

@@ -21,7 +21,6 @@ nav {
     cursor: pointer;
 }
 
-
 .burger-bar {
     width: 2.6em;
     height: 0.3em;
@@ -30,18 +29,18 @@ nav {
 }
 
 .menu {
-    margin-top: 6.48em;
-    width: 12.5%;
-    height: 100vh;
-    background-color: white;
-    border: 1px solid #333333;
     position: absolute;
     top: 0;
+    min-height: 100vh;
+    margin-top: 6.48em;
+    width: 18%;
+    background-color: white;
+    border: 1px solid #333333;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    overflow: hidden;
 }
 
 .menu.unshow {
@@ -54,17 +53,17 @@ nav {
 }
 
 /*click animation*/
-.burger-bar.clicked:nth-child(1){
+.burger-bar.clicked:nth-child(1) {
     transform: rotate(43deg) translate(0.4em, 0.4em);
     transition: ease-out 0.5s;
 }
 
-.burger-bar.clicked:nth-child(2){
-    transform: scale(0.0);
+.burger-bar.clicked:nth-child(2) {
+    transform: scale(0);
     transition: ease-out 0.5s;
 }
 
-.burger-bar.clicked:nth-child(3){
+.burger-bar.clicked:nth-child(3) {
     transform: rotate(133deg) translate(-1em, 1em);
     transition: ease-out 0.5s;
 }
@@ -88,25 +87,8 @@ nav {
     font-size: 20px;
     padding: 20px 0;
     cursor: pointer;
-
 }
 
 .menu-item:hover {
-    background-color: #87BCD9;
+    background-color: #87bcd9;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -15,8 +15,6 @@ import ProductDetails from "./pages/ProductDetails";
 import UserProfilePage from "./pages/UserProfilePage";
 
 function App() {
-    const navigate = useNavigate();
-
     return (
         <Routes>
             <Route path="/login" element={<SignInForm />} />
