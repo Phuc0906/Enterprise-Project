@@ -5,6 +5,7 @@ import com.example.appbackend.mapper.ProductDtoMapper;
 import com.example.appbackend.model.Category;
 import com.example.appbackend.model.Product;
 import com.example.appbackend.repository.ProductRepository;
+import com.example.appbackend.request.ProductAddRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,8 +79,7 @@ public class ProductService {
         return productRepository.findAll().stream().map(new ProductDtoMapper()).collect(Collectors.toList());
     }
 
-
-    public void updateProduct(ProductDTO productDTO) throws Exception {
+    public void updateProduct(ProductAddRequest productDTO) throws Exception {
         Product product = productRepository.findById(productDTO.getId()).orElse(null);
         Category category = categoryService.findCategoryByName(productDTO.getCategoryname());
         if (product != null) {

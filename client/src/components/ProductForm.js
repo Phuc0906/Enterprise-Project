@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { paste } from "@testing-library/user-event/dist/paste";
 import Select from "react-select";
-import { useLocation } from "react-router-dom";
-import { urlToFile } from "../utils";
+import {Link, useLocation} from "react-router-dom";
+import {urlToFile} from "../utils";
 
 const ProductForm = () => {
     const IMAGE_URL =
@@ -13,13 +13,25 @@ const ProductForm = () => {
     const [categoryList, setCategoryList] = useState([{}]);
     const [selectedCategory, setSelectedCategory] = useState({});
     const [productInfo, setProductInfo] = useState({
-        name: "",
-        description: "",
-        price: 0,
-        shopname: "Nike",
-        categoryname: "",
+        "name": "",
+        "description": "",
+        "price": 0,
+        "shopname": "Nike",
+        "categoryname": "",
+        "size": []
     });
+    const size = ["5.5", "6.0", "6.5", "7", "7.5", "8", "8.5", "9", "9.5"];
     const [imgCount, setImgCount] = useState([0]);
+    const [arrowSpin, setArrowSpin] = useState(false);
+    const [categoryArrow, setCategoryArrow] = useState(false);
+    const [selectSize, setSelectSize] = useState("");
+    const [selectedSizeIdx, setSelectedSizeIdx] = useState(-1);
+    const [sizeQuantity, setSizeQuantity] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [selectedCat, setSelectedCat] = useState("");
+
+    useEffect(() => {
+
+    }, [productInfo]);
 
     useEffect(() => {
         const getProductDetail = async () => {
@@ -38,6 +50,28 @@ const ProductForm = () => {
                 }
                 setImage(settingImages);
                 setImgCount(imagesCounting);
+
+                setSelectedCat(location.state.product.categoryname)
+
+                fetch(`http://localhost:8080/api/product/stock?productId=${location.state.product.id}`, {
+                    method: 'GET',
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.token
+                    }
+                }).then(res => {
+                    const serverRes = res.json();
+                    serverRes.then(data => {
+                        const settingData = data;
+                        const settingQuantity = sizeQuantity;
+                        for (let i = 0 ; i < settingData.length; i++) {
+                            settingQuantity[i] = settingData[i].quantity
+                        }
+                        setSizeQuantity(settingQuantity);
+                    })
+                })
+
             }
         };
 
@@ -156,10 +190,12 @@ const ProductForm = () => {
         setImage(imgArr);
     };
 
-    const onSelectedChangeHandle = (option) => {
-        setProductInfo({ ...productInfo, categoryname: option.value });
-        setSelectedCategory({ value: option.value, label: option.value });
-    };
+    const onSelectedChangeHandle = (e) => {
+        setSelectedCat(e.target.ariaValueText)
+        setProductInfo({...productInfo, 'categoryname': e.target.ariaValueText})
+        setSelectedCategory({value: e.target.ariaValueText, label: e.target.ariaValueText});
+        setCategoryArrow(!categoryArrow);
+    }
 
     const uploadProduct = () => {
         // data.files.push(image);
@@ -250,12 +286,7 @@ const ProductForm = () => {
     };
 
     const handleSubmitForm = () => {
-        if (
-            (image.length == 1 && image[0] == undefined) ||
-            productInfo.name.length == 0 ||
-            productInfo.price == 0 ||
-            productInfo.categoryname.length == 0
-        ) {
+        if ((image.length == 1 && image[0] == undefined) || productInfo.name.length == 0 || productInfo.price == 0 || productInfo.categoryname.length == 0 || sizeQuantity.toString().length === 0 || selectSize.length === 0) {
             alert("Please Fill Required Information");
             return;
         }
@@ -264,141 +295,179 @@ const ProductForm = () => {
         } else {
             uploadProduct();
         }
-    };
+    }
 
-    return (
-        <div className="flex justify-center item-center">
-            <div className="w-full max-w-xl p-3.5">
-                <h1 className="p-3.5 text-center font-bold text-yellow-600 text-4xl mb-3">
-                    Product Information
-                </h1>
-                <div className="mb-6 md:flex md:items-center">
-                    <div className="md:w-1/3">
-                        <label className="inline-block w-48 mb-1 font-bold text-gray-500 md:left-2 md:mb-0 pr-9">
-                            Product Name
-                        </label>
-                    </div>
-                    <div className="md:w-2/3">
-                        <input
-                            className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name"
-                            name="name"
-                            value={productInfo.name}
-                            type="text"
-                            onChange={inputHandleChange}
-                        />
-                    </div>
+    const sizeArrowHandle = () => {
+        setArrowSpin(!arrowSpin);
+    }
+
+    const onSizeChange = (e) => {
+        const sizeQuanArr = sizeQuantity;
+        sizeQuanArr[selectedSizeIdx] = (e.target.value.length === 0) ? 0 : parseInt(e.target.value);
+        setSizeQuantity(sizeQuanArr);
+        console.log(sizeQuantity);
+        setProductInfo(prevInfo => ({...prevInfo, 'size': sizeQuanArr}));
+    }
+
+    const sizeSelectHandle = (e) => {
+        console.log(e.target.ariaValueText);
+        setSelectSize(e.target.innerText);
+        setSelectedSizeIdx(e.target.ariaValueText);
+        setArrowSpin(!arrowSpin);
+    }
+
+    const categoryArrowHandle = () => {
+        setCategoryArrow(!categoryArrow);
+    }
+
+    return <div>
+        <h1 className="p-3.5 font-bold text-yellow-600 font-bold text-4xl">Product Information</h1>
+        <div className="w-full max-w-xl p-3.5" >
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                    <label className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">
+                        Product Name
+                    </label>
                 </div>
-                <div className="mb-6 md:flex md:items-center">
-                    <div className="md:w-1/3">
-                        <label className="inline-block w-48 mb-1 font-bold text-gray-500 md:left-2 md:mb-0 pr-9">
-                            Product Description
-                        </label>
-                    </div>
-                    <div className="md:w-2/3">
-                        <input
-                            className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name"
-                            name="description"
-                            value={productInfo.description}
-                            type="text"
-                            onChange={inputHandleChange}
-                        />
-                    </div>
+                <div className="md:w-2/3">
+                    <input
+                        className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        id="inline-full-name" name="name" value={productInfo.name} type="text" onChange={inputHandleChange} />
                 </div>
-                <div className="mb-6 md:flex md:items-center">
-                    <div className="md:w-1/3">
-                        <label className="inline-block w-48 mb-1 font-bold text-gray-500 md:left-2 md:mb-0 pr-9">
-                            Price
-                        </label>
-                    </div>
-                    <div className="md:w-2/3">
-                        <input
-                            className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name"
-                            name="price"
-                            type="number"
-                            value={productInfo.price}
-                            onChange={inputHandleChange}
-                        />
-                    </div>
+            </div>
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                    <label className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">
+                        Product Description
+                    </label>
                 </div>
-                <div className="mb-6 md:flex md:items-center">
-                    <div className="md:w-1/3">
-                        <label className="inline-block w-48 mb-1 font-bold text-gray-500 md:left-2 md:mb-0 pr-9">
-                            Shop
-                        </label>
-                    </div>
-                    <div className="md:w-2/3">
-                        <input
-                            className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name"
-                            name="shopname"
-                            type="text"
-                            value={productInfo.shopname}
-                        />
-                    </div>
+                <div className="md:w-2/3">
+                    <input
+                        className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        id="inline-full-name" name="description" value={productInfo.description} type="text" onChange={inputHandleChange}/>
                 </div>
-                <div className="mb-6 md:flex md:items-center">
-                    <div className="md:w-1/3">
-                        <label className="inline-block w-48 mb-1 font-bold text-gray-500 md:left-2 md:mb-0 pr-9">
-                            Category
-                        </label>
-                    </div>
-                    <div className="md:w-2/3">
-                        <div className="mb-3 xl:w-96">
-                            <Select
-                                placeholder="Select Category"
-                                value={selectedCategory}
-                                onChange={onSelectedChangeHandle}
-                                options={categoryList}
-                            />
+            </div>
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                    <label className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">
+                        Price
+                    </label>
+                </div>
+                <div className="md:w-2/3">
+                    <input
+                        className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        id="inline-full-name" name="price" type="number" value={productInfo.price} onChange={inputHandleChange}/>
+                </div>
+            </div>
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                    <label className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">
+                        Shop
+                    </label>
+                </div>
+                <div className="md:w-2/3">
+                    <input
+                        className=" p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        id="inline-full-name" name="shopname" type="text" value={productInfo.shopname}/>
+                </div>
+            </div>
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                    <label className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">
+                        Category
+                    </label>
+                </div>
+                <div className="md:w-2/3">
+                    <div className="mb-3 mt-3  bg-gray-200 p-3.5 flex justify-between items-center rounded">
+                        <label className={`${selectedCat.length !== 0 ? 'text-gray-700':'text-gray-500'}`}>{selectedCat.length !== 0 ? selectedCat : "Select Category"}</label>
+                        <div onClick={categoryArrowHandle} className={`border-l-2 border-l-gray-700 pl-3 `}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-5 h-5 ${!categoryArrow ? 'rotate-0' : 'rotate-180'} transition duration-300`}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                            </svg>
                         </div>
                     </div>
-                </div>
-                <div className="border-4 stroke-amber-100">
-                    <h4 className="inline-block w-48 mb-1 font-bold text-gray-500 md:left-2 md:mb-0 pr-9">
-                        Product Image
-                    </h4>
-                    <div>
-                        <div className="flex justify-center">
-                            <div className="mb-3 w-96">
-                                {imgCount.map((count) => (
-                                    <ImageInputGenerator
-                                        key={count}
-                                        name={count}
-                                    />
-                                ))}
-                                <div className="flex items-end pt-6 space-x-3">
-                                    <div onClick={addImageHandle}>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth="1.5"
-                                            stroke="currentColor"
-                                            className="w-8 h-8">
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                            />
-                                        </svg>
-                                    </div>
-                                </div>
+                    {categoryArrow && <div className="relative">
+                        <div
+                            onClick={onSelectedChangeHandle}
+                            className=" absolute z-10 mt-1 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                            <div className="py-1" role="none">
+                                {categoryList.map((category, index) => <div aria-valuetext={category.value} key={index} className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
+                                                                            tabIndex="-1" id="menu-item-0 ">{category.value}</div>)}
                             </div>
                         </div>
+                    </div>}
+                </div>
+            </div>
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                    <label className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">
+                        Size
+                    </label>
+                </div>
+                <div className="xl:w-1/3">
+                    <div className="mb-3 mt-3  bg-gray-200 p-3.5 flex justify-between items-center rounded">
+                        <label className={`${selectSize.length !== 0 ? 'text-gray-700':'text-gray-500'}`}>{selectSize.length !== 0 ? selectSize : "Select Size"}</label>
+                        <div onClick={sizeArrowHandle} className={`border-l-2 border-l-gray-700 pl-3 `}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-5 h-5 ${!arrowSpin ? 'rotate-0' : 'rotate-180'} transition duration-300`}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                            </svg>
+                        </div>
+                    </div>
+                    {arrowSpin && <div className="relative">
+                        <div
+                            onClick={sizeSelectHandle}
+                            className=" absolute z-10 mt-1 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                            <div className="py-1" role="none">
+                                {size.map((sizeElement, index) => <div aria-valuetext={index} key={index} className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem"
+                                                                       tabIndex="-1" id="menu-item-0 ">{sizeElement}</div>)}
+                            </div>
+                        </div>
+                    </div>}
+
+                </div>
+                {selectSize && <div className="ml-2 flex items-center">
+                    <label>Qty</label>
+                    <input
+                        onChange={onSizeChange}
+                        className="ml-3 p-3.5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-1/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        id="inline-full-name" name="shopname" value={(sizeQuantity[selectedSizeIdx] === 0 ? '' : sizeQuantity[selectedSizeIdx])} type="number"/>
+                </div>}
+
+
+
+            </div>
+            <div className="border-4 stroke-amber-100">
+                <h4 className="w-48 inline-block text-gray-500 font-bold md:left-2 mb-1 md:mb-0 pr-9">Product Image</h4>
+                <div >
+                    <div className="flex justify-center">
+                        <div className="mb-3 w-96">
+                            {imgCount.map(count => <ImageInputGenerator key={count} name={count} />)}
+                            <div className="pt-6 flex items-end space-x-3">
+                                <div  onClick={addImageHandle}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
+                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+
+
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-                <button
-                    type="click"
-                    onClick={handleSubmitForm}
-                    className="m-3 pt-3 inline-block rounded-full bg-blue-800 px-6 pt-2.5 pb-2 text-white text-sm font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)]">
-                    Add Product
-                </button>
             </div>
+            <button
+                type="click"
+                onClick={handleSubmitForm}
+                className="m-3 pt-3 inline-block rounded-full bg-blue-800 px-6 pt-2.5 pb-2 text-white text-sm font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)]">
+                Add Product
+            </button>
         </div>
-    );
+    </div>
 };
 
 export default ProductForm;
