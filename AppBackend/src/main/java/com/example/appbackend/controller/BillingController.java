@@ -52,7 +52,7 @@ public class BillingController {
 
     @PostMapping
     public void addBilling(@RequestBody BillingDTO billingDTO) {
-        System.out.println(billingDTO);
+        System.out.println(billingDTO.getProducts().length);
         Billing tempBill = new Billing();
         tempBill.setAppUser(userRepository.findByPhoneNumber(billingDTO.getCustomerPhoneNumber()).orElse(null));
         tempBill.setShop(shopRepository.findByName(billingDTO.getShopName()).orElse(null));

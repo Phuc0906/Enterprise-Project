@@ -5,10 +5,12 @@ import axios from "axios";
 const CartItem = ({shop}) => {
     const [products, setProducts] = useState(shop.productList)
     const [totalPrice, setTotalPrice] = useState(0);
-    const productBillingDTO = [];
+
+    const [billingProducts, setBillingProducts] = useState([]);
 
     useEffect(() => {
-        let totalPriceVar = 0
+        let totalPriceVar = 0;
+        const productBillingDTO = [];
         for (let i = 0; i < shop.productList.length; i++) {
             totalPriceVar += (shop.productList[i].productPrice * shop.productList[i].quantity);
             const productBilling = {
@@ -17,8 +19,10 @@ const CartItem = ({shop}) => {
                 size: shop.productList[i].size,
             };
             productBillingDTO.push(productBilling)
+
         }
         setTotalPrice(totalPriceVar)
+        setBillingProducts(productBillingDTO)
     },shop.productList)
 
     const splittingPriceNumber = (price) => {
@@ -36,6 +40,7 @@ const CartItem = ({shop}) => {
     }
 
     function handleBuy() {
+
         fetch("http://localhost:8080/api/billing", {
             method: "POST",
             credentials: "include",
@@ -47,7 +52,7 @@ const CartItem = ({shop}) => {
                 "customerPhoneNumber": localStorage.profile.phone,
                 "shopName": shop.shopName,
                 "totalPrice": totalPrice,
-                "products": productBillingDTO
+                "products": billingProducts
             })
         })
             .then({
