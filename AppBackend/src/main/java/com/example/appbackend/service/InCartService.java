@@ -1,5 +1,6 @@
 package com.example.appbackend.service;
 
+import com.example.appbackend.dto.DeleteCartDT0;
 import com.example.appbackend.dto.InCartDTO;
 import com.example.appbackend.dto.ProductDTO;
 import com.example.appbackend.model.AppUser;
@@ -88,5 +89,15 @@ public class InCartService {
         }
 
         return responses;
+    }
+
+    public void deleteCart(DeleteCartDT0 deleteCartDT0, HttpServletRequest request) {
+        AppUser user = getUserByToken(request);
+        Product product = productRepository.findById(deleteCartDT0.getProductId()).orElseThrow();
+        if (user == null) {
+            throw new IllegalStateException("User not found");
+        }
+        InCart inCart = inCartRepository.getInCartByAppUserAndTypeAndProduct(user, deleteCartDT0.getSize(), product);
+        inCartRepository.delete(inCart);
     }
 }

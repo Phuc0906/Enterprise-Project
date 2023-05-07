@@ -107,7 +107,7 @@ const NavBar = ({ items }) => {
                             </span>
                         </div>
                     )}
-                    {localStorage.role === 1 && (
+                    {localStorage.role === 'USER' && (
                         <div className="relative">
                             <Link to="/cart">
                                 <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
