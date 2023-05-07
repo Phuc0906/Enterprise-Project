@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {IoTrashOutline} from "react-icons/io5";
+import {splittingPriceNumber} from "../utils";
 
 const CartProduct = ({product, onProductQuantityChange, productIdx, shopIdx, onQuantityChange}) => {
     const IMAGE_URL = `https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/`;
@@ -9,19 +10,7 @@ const CartProduct = ({product, onProductQuantityChange, productIdx, shopIdx, onQ
     const [productStatus, setProductStatus] = useState("This product is out of stock");
     const [showStatus, setShowStatus] = useState(false);
     const [leftQuantity, setLeftQuantity] = useState(0);
-    const splittingPriceNumber = (price) => {
-        let splittingNum = "";
-        let countDigit = 0;
-        for (let i = price.length - 1; i >= 0; i--) {
-            if (countDigit > 2) {
-                countDigit = 0;
-                splittingNum = ',' + splittingNum;
-            }
-            splittingNum = price[i] + splittingNum;
-            countDigit++;
-        }
-        return splittingNum;
-    }
+
 
     const quantityArrowHandle = () => {
         setQuantityArrow(!quantityArrow)

@@ -1,23 +1,10 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
+import {splittingPriceNumber} from "../utils";
 
 const ProductCards = ({product}) => {
     const IMAGE_URL = "https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/";
     const navigate = useNavigate();
-
-    const splittingPriceNumber = (price) => {
-        let splittingNum = "";
-        let countDigit = 0;
-        for (let i = price.length - 1; i >= 0; i--) {
-            if (countDigit > 2) {
-                countDigit = 0;
-                splittingNum = ',' + splittingNum;
-            }
-            splittingNum = price[i] + splittingNum;
-            countDigit++;
-        }
-        return splittingNum;
-    }
 
     const cardClickedHandle = () => {
         navigate(`/product/${product.id}`)

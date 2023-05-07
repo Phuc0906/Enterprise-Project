@@ -7,7 +7,7 @@ import ProductDetailsCarousel from "../components/ProductDetailsCarousel";
 import Footer from "../components/Footer";
 import SizeLabel from "../components/SizeLabel";
 import RatingStar from "../components/RatingStar";
-import {userNavContent} from "../utils";
+import {splittingPriceNumber, userNavContent} from "../utils";
 //Import cart and product
 
 const ProductDetails = () => {
@@ -68,20 +68,6 @@ const ProductDetails = () => {
         })
     }, [])
 
-
-    const splittingPriceNumber = (price) => {
-        let splittingNum = "";
-        let countDigit = 0;
-        for (let i = price.length - 1; i >= 0; i--) {
-            if (countDigit > 2) {
-                countDigit = 0;
-                splittingNum = ',' + splittingNum;
-            }
-            splittingNum = price[i] + splittingNum;
-            countDigit++;
-        }
-        return splittingNum;
-    }
 
     const addToCartHandle = () => {
 
