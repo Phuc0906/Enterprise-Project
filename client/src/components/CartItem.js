@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import CartProduct from "./CartProduct";
 import axios from "axios";
+import {splittingPriceNumber} from "../utils";
 
 const CartItem = ({shop, onProductQuantityChange, shopIdx}) => {
     const [products, setProducts] = useState(shop.productList)
@@ -25,19 +26,6 @@ const CartItem = ({shop, onProductQuantityChange, shopIdx}) => {
         setBillingProducts(productBillingDTO)
     },[shop.productList, isQuantityChange]);
 
-    const splittingPriceNumber = (price) => {
-        let splittingNum = "";
-        let countDigit = 0;
-        for (let i = price.length - 1; i >= 0; i--) {
-            if (countDigit > 2) {
-                countDigit = 0;
-                splittingNum = ',' + splittingNum;
-            }
-            splittingNum = price[i] + splittingNum;
-            countDigit++;
-        }
-        return splittingNum;
-    }
 
     function handleBuy() {
 

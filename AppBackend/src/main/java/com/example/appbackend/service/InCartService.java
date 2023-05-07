@@ -44,15 +44,17 @@ public class InCartService {
     }
 
     public void addProductToCart(CartRequest request, HttpServletRequest httpRequest) {
-        System.out.println("Given id: " + request.getProductId());
-        System.out.println("Quantity: " + request.getQuantity());
-        System.out.println("Size: " + request.getSize());
-
         AppUser user = getUserByToken(httpRequest);
-
         Product product = productRepository.findById(Long.valueOf(request.getProductId())).orElse(null);
+        InCart inCart = inCartRepository.getInCartByAppUserAndTypeAndProduct(user, request.getSize(), product);
+        if (inCart != null) {
+            inCart.setQuantity(inCart.getQuantity() + 1);
+            inCartRepository.save(inCart);
+            return;
+        }
+
         if ((product != null) && (user != null)) {
-            InCart inCart = new InCart(request.getQuantity(), request.getSize());
+            inCart = new InCart(request.getQuantity(), request.getSize());
             user.addInCart(inCart);
             product.addInCart(inCart);
             inCartRepository.save(inCart);

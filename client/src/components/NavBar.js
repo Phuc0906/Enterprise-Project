@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartIcon, UsersIcon } from "@heroicons/react/24/outline";
 import "../Burger.css";
@@ -16,6 +16,7 @@ const NavBar = ({ items }) => {
     const [isShowDropDown, setIsShopDropDown] = useState(false);
     const navigate = useNavigate();
     const signOut = useSignOut();
+    const [cartQuantity, setCartQuantity] = useState(0);
 
     const handleAccountClick = () => {
         setIsShopDropDown(!isShowDropDown);
@@ -25,6 +26,29 @@ const NavBar = ({ items }) => {
         signOut();
         window.location.reload();
     };
+
+    useEffect(() => {
+        fetch('http://localhost:8080/api/in-cart', {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.token
+            }
+        }).then(res => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                const shopSetting = data;
+                console.log(data);
+                let qty = 0;
+                for (let i = 0; i < shopSetting.length; i++) {
+                    qty += shopSetting[i].productList.length;
+                }
+                setCartQuantity(qty)
+
+            })
+        })
+    }, [])
 
     const updateMenu = () => {
         if (!isMenuClicked) {
@@ -108,18 +132,17 @@ const NavBar = ({ items }) => {
                         </div>
                     )}
                     {localStorage.role === 'USER' && (
-                        <div className="relative">
-                            <Link to="/cart">
-                                <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
-                            </Link>
-
-                            <span className="absolute flex h-5 w-5 top-0 right-0 translate-x-1/2 translate-y-[-70%]">
-                                <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
-                                <span className="relative inline-flex rounded-full h-5 w-5 bg-sky-500 items-center justify-center text-white text-[9px]">
-                                    10
+                        <Link to="/cart">
+                            <div className="relative">
+                                    <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
+                                <span className="absolute flex h-5 w-5 top-0 right-0 translate-x-1/2 translate-y-[-70%]">
+                                    <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                                    <span className="relative inline-flex rounded-full h-5 w-5 bg-sky-500 items-center justify-center text-white text-[9px]">
+                                        {cartQuantity}
+                                    </span>
                                 </span>
-                            </span>
-                        </div>
+                            </div>
+                        </Link>
                     )}
                     <div>
                         <UsersIcon

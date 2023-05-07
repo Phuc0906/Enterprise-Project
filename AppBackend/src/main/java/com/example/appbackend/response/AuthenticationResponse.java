@@ -14,4 +14,5 @@ public class AuthenticationResponse {
     private String accessToken;
     private String role;
     private UserDTO profile;
+    private int cartProducts;
 }

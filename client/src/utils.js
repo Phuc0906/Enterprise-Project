@@ -42,3 +42,6 @@ export const splittingPriceNumber = (price) => {
     }
     return splittingNum;
 }
+
+export let totalProduct = 0;
+

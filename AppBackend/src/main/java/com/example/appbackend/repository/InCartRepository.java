@@ -18,4 +18,5 @@ public interface InCartRepository extends JpaRepository<InCart, Long> {
 
     InCart getInCartByAppUserAndTypeAndProduct(AppUser user, String type, Product product);
 
+
 }

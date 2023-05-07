@@ -62,7 +62,6 @@ const CartProduct = ({product, onProductQuantityChange, productIdx, shopIdx, onQ
                 const serverRes = res.json();
                 serverRes.then((data) => {
                     setLeftQuantity(data.left);
-                    console.log(data);
                 });
             })
     }
@@ -85,10 +84,9 @@ const CartProduct = ({product, onProductQuantityChange, productIdx, shopIdx, onQ
                 serverRes.then((data) => {
                     console.log(data);
                 });
+                localStorage.cart = (parseInt(localStorage.cart) - 1).toString();
+                window.location.reload();
             })
-            .then((data) => {
-                console.log(data);
-            });
     }
 
     return (

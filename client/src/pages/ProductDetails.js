@@ -45,8 +45,6 @@ const ProductDetails = () => {
                 const settingData = data;
                 setProduct(settingData)
                 setImagesCounting(data.imagesCount);
-                console.log(data);
-                console.log(data.imagesCount)
             })
         })
 
@@ -60,10 +58,11 @@ const ProductDetails = () => {
         }).then(res => {
             const serverRes = res.json();
             serverRes.then(data => {
-                console.log(data);
                 const settingData = data;
+                settingData.sort(function (a, b) {
+                    return parseFloat(a.type) - parseFloat(b.type)
+                })
                 setQuantity(settingData);
-                console.log(quantity)
             })
         })
     }, [])
@@ -90,6 +89,8 @@ const ProductDetails = () => {
         }).then(res => {
             const serverRes = res.json();
             console.log(serverRes);
+            localStorage.cart = (parseInt(localStorage.cart) + 1).toString();
+            window.location.reload();
         })
     }
     return (
@@ -115,7 +116,7 @@ const ProductDetails = () => {
                                 <div className="mt-3">
                                     <label className="text-lg font-bold">Size</label>
                                     <div className="mt-3 flex flex-wrap gap-3">
-                                        {size.map((size,index) => <SizeLabel key={index} size={size} setSelected={setSizeSelected} selectedSize={sizeSelected} quantity={(quantity.length === 0) ? 0 : quantity[index].quantity} />)}
+                                        {quantity.map((qty,index) => <SizeLabel index={index} key={index} size={qty.type} setSelected={setSizeSelected} selectedSize={sizeSelected} quantity={qty.quantity} />)}
                                     </div>
                                 </div>
                                 <div className="mt-3">
