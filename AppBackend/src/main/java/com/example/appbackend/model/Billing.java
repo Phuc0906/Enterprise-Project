@@ -66,6 +66,10 @@ public class Billing {
         return id;
     }
 
+    public String getShop() {return shop.getName();}
+
+    public String getUser() {return appUser.getPhoneNumber();}
+
     public double getTotalPrice() {
         return totalPrice;
     }

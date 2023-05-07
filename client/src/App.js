@@ -13,6 +13,7 @@ import Cart from "./pages/Cart";
 import { RequireAuth } from "react-auth-kit";
 import ProductDetails from "./pages/ProductDetails";
 import UserProfilePage from "./pages/UserProfilePage";
+import Ship from "./pages/Ship";
 
 function App() {
     return (
@@ -85,6 +86,14 @@ function App() {
             />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
+            <Route
+                path="/ship"
+                element={
+                    <RequireAuth loginPath="/login">
+                        <Ship/>
+                    </RequireAuth>
+                }
+            />
         </Routes>
     );
 }

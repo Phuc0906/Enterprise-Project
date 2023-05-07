@@ -27,6 +27,7 @@ const SignInForm = () => {
             }
             localStorage.profile = JSON.stringify(profileData);
             localStorage.role = response.data.role;
+            localStorage.phoneNumber = profileData.phone;
 
             signIn({
                 token: response.data.accessToken,

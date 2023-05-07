@@ -5,7 +5,6 @@ import axios from "axios";
 const CartItem = ({shop}) => {
     const [products, setProducts] = useState(shop.productList)
     const [totalPrice, setTotalPrice] = useState(0);
-
     const [billingProducts, setBillingProducts] = useState([]);
 
     useEffect(() => {
@@ -40,7 +39,6 @@ const CartItem = ({shop}) => {
     }
 
     function handleBuy() {
-
         fetch("http://localhost:8080/api/billing", {
             method: "POST",
             credentials: "include",
@@ -49,7 +47,7 @@ const CartItem = ({shop}) => {
                 Authorization: "Bearer " + localStorage.token,
             },
             body: JSON.stringify({
-                "customerPhoneNumber": localStorage.profile.phone,
+                "customerPhoneNumber": localStorage.phoneNumber,
                 "shopName": shop.shopName,
                 "totalPrice": totalPrice,
                 "products": billingProducts

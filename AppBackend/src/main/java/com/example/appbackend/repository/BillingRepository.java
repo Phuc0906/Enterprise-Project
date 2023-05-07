@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
 public interface BillingRepository extends JpaRepository<Billing, Long> {
-    Page<Billing> findAllByStatus(int status, Pageable pageable);
+    List<Billing> findAllByStatus(int status);
 }
