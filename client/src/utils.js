@@ -18,3 +18,13 @@ export const getAuthHeaders = (authToken: string) => {
     headers.set("Authorization", authToken);
     return headers;
 };
+
+export const userNavContent = [
+    { name: "Home", page: "/" },
+    { name: "Products", page: "/products" }
+]
+
+export const shopNavContent = [
+    {name: "Dashboard", page: "/shop/dashboard"},
+    {name: "Product", page: "/shop/product"}
+]

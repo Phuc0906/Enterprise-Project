@@ -6,13 +6,10 @@ import NavBar from "../components/NavBar";
 import ProductDetailsCarousel from "../components/ProductDetailsCarousel";
 import Footer from "../components/Footer";
 import CartItem from "../components/CartItem";
+import {userNavContent} from "../utils";
 //Import cart and product
 
 const Cart = () => {
-    const items = [
-        {name: "Dashboard", page: "/shop/dashboard"},
-        {name: "Product", page: "/products"}
-    ]
     const [shops, setShops] = useState([]);
     const [isLoadShop, setLoad] = useState(false);
 
@@ -48,7 +45,7 @@ const Cart = () => {
 
     return (
     <div>
-        <NavBar items={items} />
+        <NavBar items={userNavContent} />
         <div className="flex flex-col min-h-screen">
             <div className="flex-grow mb-4">
                 <div className="w-full md:py-20">

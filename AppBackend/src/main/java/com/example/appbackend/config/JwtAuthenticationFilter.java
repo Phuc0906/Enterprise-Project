@@ -47,7 +47,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 System.out.println("Send 400 error");
                 return;
             }
-            System.out.println("IN here error");
 
             filterChain.doFilter(request, response);
             return;

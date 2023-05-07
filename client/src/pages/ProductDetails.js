@@ -7,13 +7,10 @@ import ProductDetailsCarousel from "../components/ProductDetailsCarousel";
 import Footer from "../components/Footer";
 import SizeLabel from "../components/SizeLabel";
 import RatingStar from "../components/RatingStar";
+import {userNavContent} from "../utils";
 //Import cart and product
 
 const ProductDetails = () => {
-    const items = [
-        {name: "Dashboard", page: "/shop/dashboard"},
-        {name: "Product", page: "/shop/product"}
-    ]
     const {id} = useParams();
     const [product, setProduct] = useState({
         "name": "",
@@ -111,7 +108,7 @@ const ProductDetails = () => {
     }
     return (
     <div>
-        <NavBar items={items} />
+        <NavBar items={userNavContent} />
         <div className="flex flex-col min-h-screen">
             <div className="flex-grow mb-4">
                 <div className="w-full">
