@@ -31,7 +31,7 @@ public class BillingProduct {
     @Column(
             name = "size"
     )
-    private int size;
+    private String size;
 
     @ManyToOne
     @JoinColumn(
@@ -44,7 +44,7 @@ public class BillingProduct {
     )
     private Billing billing;
 
-    public BillingProduct(Long productId, int quantity, int size) {
+    public BillingProduct(Long productId, int quantity, String size) {
         this.productId = productId;
         this.quantity = quantity;
         this.size = size;
@@ -68,7 +68,7 @@ public class BillingProduct {
         return quantity;
     }
 
-    public int getSize() {
+    public String getSize() {
         return size;
     }
 

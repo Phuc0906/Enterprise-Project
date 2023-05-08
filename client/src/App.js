@@ -14,6 +14,7 @@ import { RequireAuth } from "react-auth-kit";
 import ProductDetails from "./pages/ProductDetails";
 import UserProfilePage from "./pages/UserProfilePage";
 import Ship from "./pages/Ship";
+import BillingHistoryPage from "./pages/BillingHistoryPage";
 
 function App() {
     return (
@@ -73,6 +74,14 @@ function App() {
                 element={
                     <RequireAuth loginPath="/login">
                         <ShopProductPage />
+                    </RequireAuth>
+                }
+            />
+            <Route
+                path="/billing-history"
+                element={
+                    <RequireAuth loginPath="/login">
+                        <BillingHistoryPage />
                     </RequireAuth>
                 }
             />

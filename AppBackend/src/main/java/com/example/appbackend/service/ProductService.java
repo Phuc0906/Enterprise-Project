@@ -1,5 +1,6 @@
 package com.example.appbackend.service;
 
+import com.example.appbackend.dto.BillingProductResponse;
 import com.example.appbackend.dto.ProductDTO;
 import com.example.appbackend.mapper.ProductDtoMapper;
 import com.example.appbackend.model.Category;
@@ -9,6 +10,7 @@ import com.example.appbackend.request.ProductAddRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -103,6 +105,10 @@ public class ProductService {
 
     public List<ProductDTO> getProductsByCategoriesAndBrands(List<Long> categories, List<Long> brands) {
         return productRepository.getProductsByCategoriesAndBrands(categories, brands).stream().map(new ProductDtoMapper()).collect(Collectors.toList());
+    }
+
+    public List<BillingProductResponse> getProductsByBilling(Long billingId) {
+        return productRepository.getProductsByBilling(billingId);
     }
 
 
