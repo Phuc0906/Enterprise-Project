@@ -2,6 +2,7 @@ package com.example.appbackend.model;
 
 import com.example.appbackend.dto.BillingProductDTO;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity(name = "billing")
 @Table(name = "billing")
 @Setter
+@Getter
 public class Billing {
     @Id
     @GeneratedValue

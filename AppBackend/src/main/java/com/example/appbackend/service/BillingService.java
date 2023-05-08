@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.core.userdetails.UserDetailsResourceFactoryBean;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,5 +76,14 @@ public class BillingService {
         int currentStatus = billing.getStatus();
         billing.setStatus(currentStatus - 1);
         billingRepository.save(billing);
+    }
+
+    public List<BillingResponse> getUserBillings(String phoneNumber, int status) throws Exception {
+        try {
+            return billingRepository.getUserBilling(status, phoneNumber);
+        }catch (Exception ex) {
+            throw new Exception("Exception this step " + ex.toString());
+        }
+
     }
 }

@@ -75,9 +75,7 @@ public class BillingController {
     }
 
     @GetMapping(path = "/{phoneNumber}/{status}")
-    public List<BillingResponse> getUserBillings(@PathVariable("phoneNumber") String phoneNumber, @PathVariable("status") int status) {
-        System.out.println(status);
-        System.out.println(phoneNumber);
-        return billingRepository.getUserBilling(status, phoneNumber);
+    public List<BillingResponse> getUserBillings(@PathVariable("phoneNumber") String phoneNumber, @PathVariable("status") String status) throws Exception {
+        return billingService.getUserBillings(phoneNumber, Integer.parseInt(status));
     }
 }
