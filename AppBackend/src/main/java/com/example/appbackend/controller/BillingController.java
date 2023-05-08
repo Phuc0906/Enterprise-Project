@@ -5,9 +5,11 @@ import com.example.appbackend.dto.BillingProductDTO;
 import com.example.appbackend.dto.BillingResponse;
 import com.example.appbackend.model.Billing;
 import com.example.appbackend.model.BillingProduct;
+import com.example.appbackend.repository.BillingRepository;
 import com.example.appbackend.repository.ShopRepository;
 import com.example.appbackend.repository.UserRepository;
 import com.example.appbackend.service.BillingService;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -31,6 +33,9 @@ public class BillingController {
 
     @Autowired
     private ShopRepository shopRepository;
+
+    @Autowired
+    private BillingRepository billingRepository;
 
     @GetMapping
     public List<Billing> getAllBilling() {
@@ -67,5 +72,12 @@ public class BillingController {
             tempBill.addProduct(product);
         }
         billingService.addBilling(tempBill);
+    }
+
+    @GetMapping(path = "/{phoneNumber}/{status}")
+    public List<BillingResponse> getUserBillings(@PathVariable("phoneNumber") String phoneNumber, @PathVariable("status") int status) {
+        System.out.println(status);
+        System.out.println(phoneNumber);
+        return billingRepository.getUserBilling(status, phoneNumber);
     }
 }

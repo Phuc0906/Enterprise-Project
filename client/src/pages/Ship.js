@@ -6,7 +6,7 @@ const Ship = () => {
     const [bills,setBills] = useState([])
     const [loading,setLoading] = useState(true)
     useEffect(() => {
-        fetch("http://localhost:8080/api/billing/1", {
+        fetch("http://localhost:8080/api/billing/"+localStorage.phoneNumber+"/0", {
             method: "GET",
             credentials: "include",
             headers: {
@@ -17,7 +17,7 @@ const Ship = () => {
             .then(res => {
                 const serverRes = res.json();
                 serverRes.then(data => {
-                    setBills(data)
+                    //setBills(data)
                     console.log(data);
                 })
             })
