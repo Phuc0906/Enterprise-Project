@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import CartProduct from "./CartProduct";
 import axios from "axios";
+import {splittingPriceNumber} from "../utils";
 
-const CartItem = ({shop}) => {
+const CartItem = ({shop, onProductQuantityChange, shopIdx}) => {
     const [products, setProducts] = useState(shop.productList)
     const [totalPrice, setTotalPrice] = useState(0);
     const [billingProducts, setBillingProducts] = useState([]);
+    const [isQuantityChange, setQuantityChange] = useState(false);
 
     useEffect(() => {
         let totalPriceVar = 0;
@@ -22,21 +24,8 @@ const CartItem = ({shop}) => {
         }
         setTotalPrice(totalPriceVar)
         setBillingProducts(productBillingDTO)
-    },shop.productList)
+    },[shop.productList, isQuantityChange]);
 
-    const splittingPriceNumber = (price) => {
-        let splittingNum = "";
-        let countDigit = 0;
-        for (let i = price.length - 1; i >= 0; i--) {
-            if (countDigit > 2) {
-                countDigit = 0;
-                splittingNum = ',' + splittingNum;
-            }
-            splittingNum = price[i] + splittingNum;
-            countDigit++;
-        }
-        return splittingNum;
-    }
 
     function handleBuy() {
         fetch("http://localhost:8080/api/billing", {
@@ -58,10 +47,14 @@ const CartItem = ({shop}) => {
             })
     }
 
+    const onQuantityChange = () => {
+        setQuantityChange(!isQuantityChange);
+    }
+
     return (
         <>
         <div className="mt-5 text-3xl font-bold">{shop.shopName}</div>
-            {products.map((product, index) => <CartProduct product={product} key={index} />)}
+            {products.map((product, index) => <CartProduct product={product} key={index} onProductQuantityChange={onProductQuantityChange} shopIdx={shopIdx} productIdx={index} onQuantityChange={onQuantityChange} />)}
             <p>Total price: {splittingPriceNumber(totalPrice.toString()) + " vnd"}</p>
             <button className="py-4 font-semibold text-white rounded-lg bg-slate-900 px-7 hover:bg-gradient-to-r from-violet-800 to-orange-600" onClick={handleBuy}>Buy</button>
         </>

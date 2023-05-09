@@ -286,7 +286,7 @@ const ProductForm = () => {
     };
 
     const handleSubmitForm = () => {
-        if ((image.length == 1 && image[0] == undefined) || productInfo.name.length == 0 || productInfo.price == 0 || productInfo.categoryname.length == 0 || sizeQuantity.toString().length === 0 || selectSize.length === 0) {
+        if ((image.length == 1 && image[0] == undefined) && productInfo.name.length == 0 && productInfo.price == 0 && productInfo.categoryname.length == 0 && sizeQuantity.toString().length === 0 && selectSize.length === 0) {
             alert("Please Fill Required Information");
             return;
         }

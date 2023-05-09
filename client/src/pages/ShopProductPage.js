@@ -3,7 +3,7 @@ import NavBar from "../components/NavBar";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import {useAuthHeader} from "react-auth-kit";
-import {getAuthHeaders} from "../utils";
+import {getAuthHeaders, shopNavContent, splittingPriceNumber} from "../utils";
 
 const ShopProductPage = () => {
     const items = [
@@ -18,7 +18,7 @@ const ShopProductPage = () => {
             <th scope="col" className="px-6 py-4">{product.id}</th>
             <th scope="col" className="px-6 py-4">{product.name}</th>
             <th scope="col" className="px-6 py-4">{product.description}</th>
-            <th scope="col" className="px-6 py-4">{product.price}</th>
+            <th scope="col" className="px-6 py-4">{splittingPriceNumber(product.price.toString())}</th>
             <th scope="col" className="px-6 py-4">{product.categoryname}</th>
             <th scope="col" className="px-6 py-4">
                 <Link
@@ -56,7 +56,7 @@ const ShopProductPage = () => {
     }, [])
 
     return <div>
-        <NavBar items={items} />
+        <NavBar items={shopNavContent} />
         <div>
             <h2 className="text-3xl mt-8 text-center">Shop Product</h2>
             <div className="mt-8 ml-3">

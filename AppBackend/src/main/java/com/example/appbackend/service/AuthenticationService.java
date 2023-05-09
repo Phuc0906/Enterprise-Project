@@ -1,9 +1,11 @@
 package com.example.appbackend.service;
 
+import com.example.appbackend.dto.InCartDTO;
 import com.example.appbackend.dto.UserDTO;
 import com.example.appbackend.model.AppUser;
 import com.example.appbackend.model.Role;
 import com.example.appbackend.model.Shop;
+import com.example.appbackend.repository.InCartRepository;
 import com.example.appbackend.repository.ShopRepository;
 import com.example.appbackend.repository.UserRepository;
 import com.example.appbackend.request.AuthenticationRequest;
@@ -17,10 +19,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
+
+    @Autowired
+    private InCartRepository inCartRepository;
 
     @Autowired
     private ShopRepository shopRepository;
@@ -41,11 +48,15 @@ public class AuthenticationService {
         }
         var user = userRepository.findByPhoneNumber(request.getPhoneNumber())
                 .orElseThrow();
+
+        List<InCartDTO> cartDTOS = inCartRepository.getUserCartProducts(user.getId());
+
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .role(user.getRole().name())
                 .profile(new UserDTO(user.getName(), user.getEmail(), user.getAddress(), user.getRole().name(), user.getPhoneNumber(), user.getPassword()))
+                .cartProducts(cartDTOS.size())
                 .build();
     }
 

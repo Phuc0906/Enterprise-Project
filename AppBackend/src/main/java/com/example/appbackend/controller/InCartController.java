@@ -1,5 +1,6 @@
 package com.example.appbackend.controller;
 
+import com.example.appbackend.dto.DeleteCartDT0;
 import com.example.appbackend.dto.InCartDTO;
 import com.example.appbackend.model.InCart;
 import com.example.appbackend.repository.InCartRepository;
@@ -29,5 +30,10 @@ public class InCartController {
     @GetMapping()
     public List<InCartResponse> getUserCartProducts(HttpServletRequest request) {
         return inCartService.getUserCartProduct(request);
+    }
+
+    @DeleteMapping()
+    public void deleteCartProduct(@RequestBody DeleteCartDT0 cartProduct, HttpServletRequest request) {
+        inCartService.deleteCart(cartProduct, request);
     }
 }

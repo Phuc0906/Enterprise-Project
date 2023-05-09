@@ -1,14 +1,11 @@
 import React from "react";
 import NavBar from "../components/NavBar";
+import {shopNavContent} from "../utils";
 
 const ShopHomePage = () => {
-    const items = [
-        {name: "Dashboard", page: "/shop/dashboard"},
-        {name: "Product", page: "/shop/product"}
-    ]
 
     return <div>
-        <NavBar items={items} />
+        <NavBar items={shopNavContent} />
     </div>
 }
 

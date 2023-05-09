@@ -6,13 +6,10 @@ import NavBar from "../components/NavBar";
 import ProductDetailsCarousel from "../components/ProductDetailsCarousel";
 import Footer from "../components/Footer";
 import CartItem from "../components/CartItem";
+import {userNavContent} from "../utils";
 //Import cart and product
 
 const Cart = () => {
-    const items = [
-        {name: "Dashboard", page: "/shop/dashboard"},
-        {name: "Product", page: "/shop/product"}
-    ]
     const [shops, setShops] = useState([]);
     const [isLoadShop, setLoad] = useState(false);
 
@@ -35,23 +32,20 @@ const Cart = () => {
         })
     }, [])
 
-    const splittingPriceNumber = (price) => {
-        let splittingNum = "";
-        let countDigit = 0;
-        for (let i = price.length - 1; i >= 0; i--) {
-            if (countDigit > 2) {
-                countDigit = 0;
-                splittingNum = ',' + splittingNum;
-            }
-            splittingNum = price[i] + splittingNum;
-            countDigit++;
-        }
-        return splittingNum;
+    useEffect(() => {
+
+    }, [shops])
+
+    const onProductQuantityChange = (quantity, shopIdx, productIdx) => {
+        const shopArr = shops;
+        shopArr[shopIdx].productList[productIdx].quantity = quantity;
+        setShops(shopArr);
+        console.log(shopArr)
     }
 
     return (
     <div>
-        <NavBar items={items} />
+        <NavBar items={userNavContent} />
         <div className="flex flex-col min-h-screen">
             <div className="flex-grow mb-4">
                 <div className="w-full md:py-20">
@@ -62,7 +56,7 @@ const Cart = () => {
                             <div className="flex flex-col lg:flex-row gap-12 py-10">
                                 <div className="flex-[2]">
                                     <div className="text-lg font-bold">Cart Item</div>
-                                    {shops.map((shop, index) => <CartItem shop={shop} key={index} />)}
+                                    {shops.map((shop, index) => <CartItem shop={shop} key={index} onProductQuantityChange={onProductQuantityChange} shopIdx={index} />)}
                                 </div>
                             </div>
 

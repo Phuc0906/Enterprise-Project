@@ -76,6 +76,8 @@ public class ProductController {
         amazonS3Service.uploadImage(file, productId);
     }
 
+
+
     @PutMapping
     public void updateProduct(@RequestBody ProductAddRequest productDTO) throws Exception {
         inStockService.updateStock(productDTO);

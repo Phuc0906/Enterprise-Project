@@ -5,16 +5,13 @@ import Category from "../components/Category";
 import HomeProducts from "../components/HomeProducts";
 import HomeLastest from "../components/HomeLastest";
 import HomeFooter from "../components/HomeFooter";
+import {userNavContent} from "../utils";
 
 const Home = () => {
-    const items = [
-        { name: "Home", page: "/" },
-        { name: "Products", page: "/products" },
-    ];
 
     return (
         <div>
-            <NavBar items={items} />
+            <NavBar items={userNavContent} />
             <Slider></Slider>
             <Category></Category>
             <HomeProducts></HomeProducts>

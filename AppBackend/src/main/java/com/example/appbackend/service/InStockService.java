@@ -2,11 +2,13 @@ package com.example.appbackend.service;
 
 import com.example.appbackend.dto.InStockDTO;
 import com.example.appbackend.mapper.InStockMapper;
+import com.example.appbackend.model.AppUser;
 import com.example.appbackend.model.InStock;
 import com.example.appbackend.model.Product;
 import com.example.appbackend.repository.InStockRepository;
 import com.example.appbackend.repository.ProductRepository;
 import com.example.appbackend.request.ProductAddRequest;
+import com.example.appbackend.response.CheckStockResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,4 +59,12 @@ public class InStockService {
         }
         inStockRepository.saveAll(inStockList);
     }
+
+    public CheckStockResponse checkStock(Long productId, String size, Long quantity) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        InStock inStock = inStockRepository.findByProductAndType(product, size);
+        return new CheckStockResponse(inStock.getQuantity() - quantity);
+    }
+
+
 }
