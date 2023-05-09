@@ -11,7 +11,7 @@ const Ship = () => {
     const [bills,setBills] = useState([])
     const [loading,setLoading] = useState(true)
     useEffect(() => {
-        fetch("http://localhost:8080/api/billing/shipper/"+localStorage.phone+"/2", {
+        fetch("http://localhost:8080/api/billing/shipper/"+JSON.parse(localStorage.profile).phone+"/2", {
             method: "GET",
             credentials: "include",
             headers: {
@@ -29,7 +29,7 @@ const Ship = () => {
     },[loading])
 
     function handleReceived(id) {
-        fetch("http://localhost:8080/api/billing/up/"+id+"?phone="+localStorage.phone, {
+        fetch("http://localhost:8080/api/billing/up/"+id+"?phone="+JSON.parse(localStorage.profile).phone, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -43,7 +43,7 @@ const Ship = () => {
     }
 
     function handleCancel(id) {
-        fetch("http://localhost:8080/api/billing/down/"+id+"?phone="+localStorage.phone, {
+        fetch("http://localhost:8080/api/billing/down/"+id+"?phone="+JSON.parse(localStorage.profile).phone, {
             method: "POST",
             credentials: "include",
             headers: {
