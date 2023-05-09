@@ -2,7 +2,7 @@ import React from 'react';
 import CartProduct from "./CartProduct";
 import ShipProduct from "./ShipProduct";
 
-const BillItem = ({bill,handleReceived}) => {
+const BillItem = ({bill,handleReceived,handleCancel}) => {
     const [customer, setCustomer] = React.useState(bill.customer)
     const [shop, setShop] = React.useState(bill.shop)
     const [products, setProducts] = React.useState(bill.products)
@@ -31,7 +31,9 @@ const BillItem = ({bill,handleReceived}) => {
             <p>{bill.totalPrice}</p>
             <div className="flex justify-between mb-2">
                 <button onClick={()=>{handleShowProducts()}} className="bg-blue-500  text-white p-2 rounded-md mt-4">Show Products</button>
-                <button onClick={()=>{handleReceived(bill.id)}} className="bg-green-500 text-white p-2 rounded-md mt-4">Received</button>
+                {window.location.pathname=="/at-shop" && <button onClick={()=>{handleReceived(bill.id)}} className="bg-green-500 text-white p-2 rounded-md mt-4">Received</button>}
+                {window.location.pathname=="/ship" && <button onClick={()=>{handleReceived(bill.id)}} className="bg-teal-500 text-white p-2 rounded-md mt-4">Delivered</button>}
+                {window.location.pathname=="/ship" && <button onClick={()=>{handleCancel(bill.id)}} className="bg-red-500 text-white p-2 rounded-md mt-4">Cancel</button>}
             </div>
             {show && products.map((product, index) => <ShipProduct product={product}/>)}
         </div>

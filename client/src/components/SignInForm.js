@@ -36,6 +36,8 @@ const SignInForm = () => {
                 authState: {phonneNumber: values.account}
             })
 
+            navigate("/");
+
             // if (response.data.role === 'USER') {
             //     localStorage.role = 1; // 1 for use and 0 for shop
             //     navigate('/');

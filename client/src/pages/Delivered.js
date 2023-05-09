@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import BillItem from "../components/BillItem";
 import NavBar from "../components/NavBar";
 
-const Ship = () => {
+const Delivered = () => {
     const items = [
         { name: "At shop", page: "/at-shop" },
         { name: "Shipping", page: "/ship" },
@@ -11,7 +11,7 @@ const Ship = () => {
     const [bills,setBills] = useState([])
     const [loading,setLoading] = useState(true)
     useEffect(() => {
-        fetch("http://localhost:8080/api/billing/2", {
+        fetch("http://localhost:8080/api/billing/3", {
             method: "GET",
             credentials: "include",
             headers: {
@@ -42,31 +42,17 @@ const Ship = () => {
             })
     }
 
-    function handleCancel(id) {
-        fetch("http://localhost:8080/api/billing/down/"+id, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + localStorage.token,
-            }
-        })
-            .then(res => {
-                setLoading(!loading);
-            })
-    }
-
     return (
         <>
             <NavBar items={items} />
             <div className="flex flex-col lg:flex-row gap-12 py-10">
-                <div className="flex-[2] mx-4">
-                    <h1 className="text-xl font-bold text-center pb-6">Ship</h1>
-                    {bills.map((bill) => <BillItem bill={bill} handleReceived={handleReceived} handleCancel={handleCancel}/>)}
+                <div className="flex-[2] mx-4 justify-content: center align-items: center">
+                    <h1 className="text-xl font-bold text-center pb-6">Delivered</h1>
+                    {bills.map((bill) => <BillItem bill={bill} handleReceived={handleReceived}/>)}
                 </div>
             </div>
         </>
     );
 };
 
-export default Ship;
+export default Delivered;

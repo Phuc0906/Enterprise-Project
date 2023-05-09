@@ -14,6 +14,8 @@ import { RequireAuth } from "react-auth-kit";
 import ProductDetails from "./pages/ProductDetails";
 import UserProfilePage from "./pages/UserProfilePage";
 import Ship from "./pages/Ship";
+import AtShop from "./pages/AtShop";
+import Delivered from "./pages/Delivered";
 
 function App() {
     return (
@@ -91,6 +93,22 @@ function App() {
                 element={
                     <RequireAuth loginPath="/login">
                         <Ship/>
+                    </RequireAuth>
+                }
+            />
+            <Route
+                path="/at-shop"
+                element={
+                    <RequireAuth loginPath="/login">
+                        <AtShop/>
+                    </RequireAuth>
+                }
+            />
+            <Route
+                path="/delivered"
+                element={
+                    <RequireAuth loginPath="/login">
+                        <Delivered/>
                     </RequireAuth>
                 }
             />
