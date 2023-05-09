@@ -6,7 +6,8 @@ import ShopRecordChart from "../components/ShopRecordChart";
 const ShopDashboard = () => {
     const items = [
         {name: "Dashboard", page: "/shop/dashboard"},
-        {name: "Product", page: "/shop/product"}
+        {name: "Product", page: "/shop/product"},
+        {name: "Orders", page: "/shop/orders"}
     ]
 
     return <div>

@@ -102,4 +102,14 @@ public class BillingService {
             throw new Exception("Exception this step " + ex.toString());
         }
     }
+
+    public List<BillingResponse> getShopBillings(String shopName, int status) throws Exception {
+        try {
+            Shop shop = shopRepository.findByName(shopName).orElseThrow();
+            System.out.println(shopName+"----"+status);
+            return billingRepository.getShopBilling(status, shop.getId());
+        }catch (Exception ex) {
+            throw new Exception("Exception this step " + ex.toString());
+        }
+    }
 }
