@@ -34,6 +34,9 @@ public class BillingService {
     @Autowired
     private BillingProductRepository billingProductRepository;
 
+    @Autowired
+    private OnDeliveryService onDeliveryService;
+
     public void addBilling(Billing billing) {
         billingRepository.save(billing);
         billingProductRepository.saveAll(billing.getBillingProductList());
@@ -64,16 +67,22 @@ public class BillingService {
         return response;
     }
 
-    public void increaseStatus(Long id) {
+    public void increaseStatus(Long id, String phoneNumber) {
         Billing billing = billingRepository.findById(id).orElseThrow();
         int currentStatus = billing.getStatus();
+        if (currentStatus == 1) {
+            onDeliveryService.save(id,phoneNumber);
+        }
         billing.setStatus(currentStatus + 1);
         billingRepository.save(billing);
     }
 
-    public void decreaseStatus(Long id) {
+    public void decreaseStatus(Long id, String phoneNumber) {
         Billing billing = billingRepository.findById(id).orElseThrow();
         int currentStatus = billing.getStatus();
+        if(currentStatus ==2) {
+            onDeliveryService.delete(id,phoneNumber);
+        }
         billing.setStatus(currentStatus - 1);
         billingRepository.save(billing);
     }
@@ -84,6 +93,13 @@ public class BillingService {
         }catch (Exception ex) {
             throw new Exception("Exception this step " + ex.toString());
         }
+    }
 
+    public List<BillingResponse> getShipperBillings(String phoneNumber, int status) throws Exception {
+        try {
+            return billingRepository.getShipperBilling(status, phoneNumber);
+        }catch (Exception ex) {
+            throw new Exception("Exception this step " + ex.toString());
+        }
     }
 }

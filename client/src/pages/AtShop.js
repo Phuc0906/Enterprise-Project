@@ -29,7 +29,7 @@ const AtShop = () => {
     },[loading])
 
     function handleReceived(id) {
-        fetch("http://localhost:8080/api/billing/up/"+id, {
+        fetch("http://localhost:8080/api/billing/up/"+id+"?phone="+localStorage.phone,  {
             method: "POST",
             credentials: "include",
             headers: {

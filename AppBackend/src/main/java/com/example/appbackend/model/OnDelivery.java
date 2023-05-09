@@ -41,7 +41,7 @@ public class OnDelivery {
                     name = "shipper_id_delivery_fk"
             )
     )
-    private AppUser appUser;
+    private AppUser appUser; //shipper
 
     public OnDelivery() {
         deliveryDay = LocalDate.now().plusDays(3);
@@ -49,5 +49,11 @@ public class OnDelivery {
 
     public LocalDate getDeliveryDay() {
         return deliveryDay;
+    }
+
+    public OnDelivery(Billing billing, AppUser appUser) {
+        this.deliveryDay = LocalDate.now().plusDays(3);
+        this.billing = billing;
+        this.appUser = appUser;
     }
 }

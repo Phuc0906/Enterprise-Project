@@ -46,6 +46,7 @@ public class Billing {
     )
     private AppUser appUser;
 
+
     @ManyToOne
     @JoinColumn(
             name = "shop_id",
