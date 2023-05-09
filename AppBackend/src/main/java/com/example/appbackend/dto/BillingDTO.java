@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class BillingDTO {
+    private Long id;
     private String customerPhoneNumber;
     private String shopName;
     private double totalPrice;

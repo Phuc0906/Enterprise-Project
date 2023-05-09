@@ -13,6 +13,10 @@ import Cart from "./pages/Cart";
 import { RequireAuth } from "react-auth-kit";
 import ProductDetails from "./pages/ProductDetails";
 import UserProfilePage from "./pages/UserProfilePage";
+import Ship from "./pages/Ship";
+import BillingHistoryPage from "./pages/BillingHistoryPage";
+import AtShop from "./pages/AtShop";
+import Delivered from "./pages/Delivered";
 
 function App() {
     return (
@@ -76,6 +80,14 @@ function App() {
                 }
             />
             <Route
+                path="/billing-history"
+                element={
+                    <RequireAuth loginPath="/login">
+                        <BillingHistoryPage />
+                    </RequireAuth>
+                }
+            />
+            <Route
                 path="/profile"
                 element={
                     <RequireAuth loginPath="/login">
@@ -85,6 +97,30 @@ function App() {
             />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
+            <Route
+                path="/ship"
+                element={
+                    <RequireAuth loginPath="/login">
+                        <Ship/>
+                    </RequireAuth>
+                }
+            />
+            <Route
+                path="/at-shop"
+                element={
+                    <RequireAuth loginPath="/login">
+                        <AtShop/>
+                    </RequireAuth>
+                }
+            />
+            <Route
+                path="/delivered"
+                element={
+                    <RequireAuth loginPath="/login">
+                        <Delivered/>
+                    </RequireAuth>
+                }
+            />
         </Routes>
     );
 }

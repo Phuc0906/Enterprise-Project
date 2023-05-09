@@ -10,5 +10,5 @@ import lombok.Setter;
 public class BillingProductDTO {
     private Long productId;
     private int quantity;
-    private int size;
+    private String size;
 }

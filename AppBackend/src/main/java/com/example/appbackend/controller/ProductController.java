@@ -1,5 +1,6 @@
 package com.example.appbackend.controller;
 
+import com.example.appbackend.dto.BillingProductResponse;
 import com.example.appbackend.dto.InStockDTO;
 import com.example.appbackend.dto.ProductDTO;
 import com.example.appbackend.dto.ProductGetRequest;
@@ -7,18 +8,11 @@ import com.example.appbackend.mapper.InStockMapper;
 import com.example.appbackend.model.*;
 import com.example.appbackend.request.ProductAddRequest;
 import com.example.appbackend.response.ProductAddResponse;
-import com.example.appbackend.response.ProductAuthResponse;
 import com.example.appbackend.service.*;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,6 +43,11 @@ public class ProductController {
     @GetMapping(path = "/id/{id}")
     public ProductDTO getProductById(@PathVariable("id") String id) {
         return productService.getProductInfoById(Long.valueOf(id));
+    }
+
+    @GetMapping(path = "/billing/product")
+    public List<BillingProductResponse> getProductByBilling(@RequestParam("billing") String billingId) {
+        return productService.getProductsByBilling(Long.parseLong(billingId));
     }
 
     @PostMapping()

@@ -2,6 +2,7 @@ package com.example.appbackend.model;
 
 import com.example.appbackend.dto.BillingProductDTO;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity(name = "billing")
 @Table(name = "billing")
 @Setter
+@Getter
 public class Billing {
     @Id
     @GeneratedValue
@@ -70,6 +72,10 @@ public class Billing {
     public Long getId() {
         return id;
     }
+
+    public String getShop() {return shop.getName();}
+
+    public String getUser() {return appUser.getPhoneNumber();}
 
     public double getTotalPrice() {
         return totalPrice;
