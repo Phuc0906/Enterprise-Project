@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartIcon, UsersIcon } from "@heroicons/react/24/outline";
 import "../Burger.css";
@@ -20,7 +20,7 @@ const NavBar = ({ items }) => {
 
     useEffect(() => {
         console.log(localStorage.role);
-    }, [])
+    }, []);
 
     const handleAccountClick = () => {
         setIsShopDropDown(!isShowDropDown);
@@ -28,31 +28,36 @@ const NavBar = ({ items }) => {
 
     const signOutHandle = () => {
         signOut();
-        navigate('/login');
+        navigate("/login");
     };
 
+    const getProfile = () => {
+        return JSON.parse(localStorage.profile);
+    };
+
+    const { name } = getProfile();
+
     useEffect(() => {
-        fetch('http://localhost:8080/api/in-cart', {
-            method: 'GET',
+        fetch("http://localhost:8080/api/in-cart", {
+            method: "GET",
             credentials: "include",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.token
-            }
-        }).then(res => {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.token,
+            },
+        }).then((res) => {
             const serverRes = res.json();
-            serverRes.then(data => {
+            serverRes.then((data) => {
                 const shopSetting = data;
                 console.log(data);
                 let qty = 0;
                 for (let i = 0; i < shopSetting.length; i++) {
                     qty += shopSetting[i].productList.length;
                 }
-                setCartQuantity(qty)
-
-            })
-        })
-    }, [])
+                setCartQuantity(qty);
+            });
+        });
+    }, []);
 
     const updateMenu = () => {
         if (!isMenuClicked) {
@@ -80,7 +85,7 @@ const NavBar = ({ items }) => {
     };
 
     return (
-        <div>
+        <div className="shadow-third mb-[1rem]">
             <div className="flex items-center justify-center p-3">
                 <div className="flex items-center flex-1">
                     <div
@@ -121,7 +126,7 @@ const NavBar = ({ items }) => {
                     </h1>
                 </div>
                 <div className="flex items-end justify-end flex-1 p-3 mr-8 gap-x-6">
-                    {!localStorage.token && (
+                    {!localStorage.token ? (
                         <div className="flex items-center gap-x-2">
                             <span
                                 onClick={navigate("/register")}
@@ -134,11 +139,19 @@ const NavBar = ({ items }) => {
                                 Sign in
                             </span>
                         </div>
+                    ) : (
+                        <div>
+                            <span
+                                onClick={navigate("/register")}
+                                className="select-none font-extralight">
+                                {name}
+                            </span>
+                        </div>
                     )}
-                    {localStorage.role === 'USER' && (
+                    {localStorage.role === "USER" && (
                         <Link to="/cart">
                             <div className="relative">
-                                    <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
+                                <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
                                 <span className="absolute flex h-5 w-5 top-0 right-0 translate-x-1/2 translate-y-[-70%]">
                                     <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
                                     <span className="relative inline-flex rounded-full h-5 w-5 bg-sky-500 items-center justify-center text-white text-[9px]">
