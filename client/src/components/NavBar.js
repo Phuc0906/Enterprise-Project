@@ -27,7 +27,7 @@ const NavBar = ({ items }) => {
 
     const signOutHandle = () => {
         signOut();
-        window.location.reload();
+        navigate('/login');
     };
 
     const updateMenu = () => {
