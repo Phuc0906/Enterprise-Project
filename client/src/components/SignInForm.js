@@ -35,18 +35,13 @@ const SignInForm = () => {
                 tokenType: "Bearer",
                 authState: {phonneNumber: values.account}
             })
-
-            navigate("/");
-
-            // if (response.data.role === 'USER') {
-            //     localStorage.role = 1; // 1 for use and 0 for shop
-            //     navigate('/');
-            // }else {
-            //     localStorage.role = 0;
-            //     navigate('/shop/dashboard')
-            // }
-            // window.location.reload();
-
+          
+            if (response.data.role === 'USER') {
+                navigate('/');
+            }else {
+                navigate('/shop/dashboard')
+            }
+            window.location.reload();
         } catch (error) {
             console.error(error);
         }

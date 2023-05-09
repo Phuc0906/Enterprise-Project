@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartIcon, UsersIcon } from "@heroicons/react/24/outline";
 import "../Burger.css";
@@ -16,6 +16,10 @@ const NavBar = ({ items }) => {
     const [isShowDropDown, setIsShopDropDown] = useState(false);
     const navigate = useNavigate();
     const signOut = useSignOut();
+
+    useEffect(() => {
+        console.log(localStorage.role);
+    }, [])
 
     const handleAccountClick = () => {
         setIsShopDropDown(!isShowDropDown);
@@ -107,7 +111,7 @@ const NavBar = ({ items }) => {
                             </span>
                         </div>
                     )}
-                    {localStorage.role === 1 && (
+                    {localStorage.role === 'USER' && (
                         <div className="relative">
                             <Link to="/cart">
                                 <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
@@ -142,13 +146,14 @@ const NavBar = ({ items }) => {
                                         id="menu-item-0 ">
                                         Profile
                                     </Link>
-                                    <div
+                                    <Link
+                                        to={"/billing-history"}
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         role="menuitem"
                                         tabIndex="-1"
                                         id="menu-item-2">
                                         Billing History
-                                    </div>
+                                    </Link>
                                     <div
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         role="menuitem"
