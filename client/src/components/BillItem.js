@@ -1,6 +1,7 @@
 import React from 'react';
 import CartProduct from "./CartProduct";
 import ShipProduct from "./ShipProduct";
+import {splittingPriceNumber} from "../utils";
 
 const BillItem = ({bill,handleReceived,handleCancel}) => {
     const [customer, setCustomer] = React.useState(bill.customer)
@@ -28,7 +29,7 @@ const BillItem = ({bill,handleReceived,handleCancel}) => {
                 </div>
             </div>
             <p className="font-bold text-xl">Total Price</p>
-            <p>{bill.totalPrice}</p>
+            <p>{splittingPriceNumber(bill.totalPrice.toString())} vnd</p>
             <div className="flex justify-between mb-2">
                 <button onClick={()=>{handleShowProducts()}} className="bg-blue-500  text-white p-2 rounded-md mt-4">Show Products</button>
                 {window.location.pathname=="/at-shop" && <button onClick={()=>{handleReceived(bill.id)}} className="bg-green-500 text-white p-2 rounded-md mt-4">Received</button>}

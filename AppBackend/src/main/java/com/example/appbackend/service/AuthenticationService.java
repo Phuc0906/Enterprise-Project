@@ -61,13 +61,22 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse register(UserDTO request) {
+        Role role = null;
+        if (request.getRole().equals("USER")) {
+            role = Role.USER;
+        }else if (request.getRole().equals("SHOP")) {
+            role = Role.SHOP;
+        }else {
+            role = Role.SHIPPER;
+        }
+
         var user = AppUser.builder()
                 .name(request.getName())
                 .phoneNumber(request.getPhoneNumber())
                 .address(request.getAddress())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role((request.getRole().equals("USER")) ? Role.USER : Role.SHOP)
+                .role(role)
                 .build();
 
 

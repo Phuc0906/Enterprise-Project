@@ -12,14 +12,6 @@ const ProductForm = () => {
     const [image, setImage] = useState([undefined]);
     const [categoryList, setCategoryList] = useState([{}]);
     const [selectedCategory, setSelectedCategory] = useState({});
-    const [productInfo, setProductInfo] = useState({
-        "name": "",
-        "description": "",
-        "price": 0,
-        "shopname": "Nike",
-        "categoryname": "",
-        "size": []
-    });
     const size = ["5.5", "6.0", "6.5", "7", "7.5", "8", "8.5", "9", "9.5"];
     const [imgCount, setImgCount] = useState([0]);
     const [arrowSpin, setArrowSpin] = useState(false);
@@ -28,6 +20,15 @@ const ProductForm = () => {
     const [selectedSizeIdx, setSelectedSizeIdx] = useState(-1);
     const [sizeQuantity, setSizeQuantity] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [selectedCat, setSelectedCat] = useState("");
+    const shopName = JSON.parse(localStorage.profile).name;
+    const [productInfo, setProductInfo] = useState({
+        "name": "",
+        "description": "",
+        "price": 0,
+        "shopname": shopName,
+        "categoryname": "",
+        "size": []
+    });
 
     useEffect(() => {
 

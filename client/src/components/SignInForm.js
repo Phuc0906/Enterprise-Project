@@ -37,15 +37,16 @@ const SignInForm = () => {
                 tokenType: "Bearer",
                 authState: {phonneNumber: values.account}
             })
-          
+
             if (response.data.role === 'USER') {
                 navigate('/');
             }else if(response.data.role === 'SHIPPER') {
                 navigate('/at-shop')
-            } {
+            }else {
                 navigate('/shop/dashboard')
             }
             window.location.reload();
+
         } catch (error) {
             console.error(error);
         }
