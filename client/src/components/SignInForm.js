@@ -38,7 +38,9 @@ const SignInForm = () => {
           
             if (response.data.role === 'USER') {
                 navigate('/');
-            }else {
+            }else if(response.data.role === 'SHIPPER') {
+                navigate('/at-shop')
+            } {
                 navigate('/shop/dashboard')
             }
             window.location.reload();
