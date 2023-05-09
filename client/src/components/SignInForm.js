@@ -33,7 +33,7 @@ const SignInForm = () => {
                 token: response.data.accessToken,
                 expiresIn: 3600,
                 tokenType: "Bearer",
-                authState: {phonneNumber: values.account}
+                authState: {phoneNumber: values.account}
             })
           
             if (response.data.role === 'USER') {
