@@ -21,7 +21,7 @@ public class OnDelivery {
     )
     private LocalDate deliveryDay;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(
             name = "billing_id",
             nullable = false,
@@ -54,6 +54,14 @@ public class OnDelivery {
     public OnDelivery(Billing billing, AppUser appUser) {
         this.deliveryDay = LocalDate.now().plusDays(3);
         this.billing = billing;
+        this.appUser = appUser;
+    }
+
+    public void setBilling(Billing billing) {
+        this.billing = billing;
+    }
+
+    public void setAppUser(AppUser appUser) {
         this.appUser = appUser;
     }
 }

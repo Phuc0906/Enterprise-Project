@@ -25,9 +25,13 @@ public class OnDeliveryService {
     private BillingRepository billingRepository;
 
     public void save(Long id, String phoneNumber) {
+        System.out.println("In delivery - " + phoneNumber);
         AppUser user = userRepository.findByPhoneNumber(phoneNumber).orElse(null);
         Billing billing = billingRepository.findById(id).orElse(null);
-        OnDelivery onDelivery = new OnDelivery(billing, user);
+        System.out.println("In delivery " + id);
+        OnDelivery onDelivery = new OnDelivery();
+        user.addDelivery(onDelivery);
+        billing.setShipper(onDelivery);
         onDeliveryRepository.save(onDelivery);
     }
 
