@@ -7,13 +7,10 @@ import ProductDetailsCarousel from "../components/ProductDetailsCarousel";
 import Footer from "../components/Footer";
 import SizeLabel from "../components/SizeLabel";
 import RatingStar from "../components/RatingStar";
+import {splittingPriceNumber, userNavContent} from "../utils";
 //Import cart and product
 
 const ProductDetails = () => {
-    const items = [
-        {name: "Dashboard", page: "/shop/dashboard"},
-        {name: "Product", page: "/shop/product"}
-    ]
     const {id} = useParams();
     const [product, setProduct] = useState({
         "name": "",
@@ -48,8 +45,6 @@ const ProductDetails = () => {
                 const settingData = data;
                 setProduct(settingData)
                 setImagesCounting(data.imagesCount);
-                console.log(data);
-                console.log(data.imagesCount)
             })
         })
 
@@ -63,28 +58,15 @@ const ProductDetails = () => {
         }).then(res => {
             const serverRes = res.json();
             serverRes.then(data => {
-                console.log(data);
                 const settingData = data;
+                settingData.sort(function (a, b) {
+                    return parseFloat(a.type) - parseFloat(b.type)
+                })
                 setQuantity(settingData);
-                console.log(quantity)
             })
         })
     }, [])
 
-
-    const splittingPriceNumber = (price) => {
-        let splittingNum = "";
-        let countDigit = 0;
-        for (let i = price.length - 1; i >= 0; i--) {
-            if (countDigit > 2) {
-                countDigit = 0;
-                splittingNum = ',' + splittingNum;
-            }
-            splittingNum = price[i] + splittingNum;
-            countDigit++;
-        }
-        return splittingNum;
-    }
 
     const addToCartHandle = () => {
 
@@ -107,11 +89,13 @@ const ProductDetails = () => {
         }).then(res => {
             const serverRes = res.json();
             console.log(serverRes);
+            localStorage.cart = (parseInt(localStorage.cart) + 1).toString();
+            window.location.reload();
         })
     }
     return (
     <div>
-        <NavBar items={items} />
+        <NavBar items={userNavContent} />
         <div className="flex flex-col min-h-screen">
             <div className="flex-grow mb-4">
                 <div className="w-full">
@@ -132,7 +116,7 @@ const ProductDetails = () => {
                                 <div className="mt-3">
                                     <label className="text-lg font-bold">Size</label>
                                     <div className="mt-3 flex flex-wrap gap-3">
-                                        {size.map((size,index) => <SizeLabel key={index} size={size} setSelected={setSizeSelected} selectedSize={sizeSelected} quantity={(quantity.length === 0) ? 0 : quantity[index].quantity} />)}
+                                        {quantity.map((qty,index) => <SizeLabel index={index} key={index} size={qty.type} setSelected={setSizeSelected} selectedSize={sizeSelected} quantity={qty.quantity} />)}
                                     </div>
                                 </div>
                                 <div className="mt-3">

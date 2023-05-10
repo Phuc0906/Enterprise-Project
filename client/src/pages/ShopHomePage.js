@@ -1,5 +1,6 @@
 import React from "react";
 import NavBar from "../components/NavBar";
+import {shopNavContent} from "../utils";
 
 const ShopHomePage = () => {
     const items = [
@@ -9,7 +10,7 @@ const ShopHomePage = () => {
     ]
 
     return <div>
-        <NavBar items={items} />
+        <NavBar items={shopNavContent} />
     </div>
 }
 

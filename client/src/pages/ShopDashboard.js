@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "../components/NavBar";
 import ShopRecord from "../components/ShopRecord";
 import ShopRecordChart from "../components/ShopRecordChart";
+import {shopNavContent} from "../utils";
 
 const ShopDashboard = () => {
     const items = [
@@ -11,7 +12,7 @@ const ShopDashboard = () => {
     ]
 
     return <div>
-        <NavBar items={items} />
+        <NavBar items={shopNavContent} />
         <ShopRecord />
         <ShopRecordChart/>
     </div>

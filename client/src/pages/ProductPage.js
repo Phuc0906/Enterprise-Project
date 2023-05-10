@@ -3,12 +3,9 @@ import NavBar from "../components/NavBar";
 import CategoryBuilder from "../components/CategoryBuilder";
 import BrandsBuilder from "../components/BrandBuilder";
 import ProductCards from "../components/ProductCards";
+import {userNavContent} from "../utils";
 
 const ProductPage = () => {
-    const items = [
-        { name: "Home", page: "/" },
-        { name: "Products", page: "/products" },
-    ];
 
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
@@ -104,7 +101,7 @@ const ProductPage = () => {
 
     return (
         <div>
-            <NavBar items={items} />
+            <NavBar items={userNavContent} />
             <div className="mt-10 ml-10">
                 <div className="flex">
                     <div>
