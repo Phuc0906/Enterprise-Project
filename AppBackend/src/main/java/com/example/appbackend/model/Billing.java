@@ -46,6 +46,7 @@ public class Billing {
     )
     private AppUser appUser;
 
+
     @ManyToOne
     @JoinColumn(
             name = "shop_id",
@@ -57,11 +58,8 @@ public class Billing {
     )
     private Shop shop;
 
-    @OneToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            mappedBy = "billing"
-    )
-    private List<OnDelivery> deliveryList = new ArrayList<>();
+    @OneToOne(mappedBy = "billing")
+    private OnDelivery onDelivery;
 
     @OneToMany(
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
@@ -100,8 +98,8 @@ public class Billing {
         }
     }
 
-    public void toDelivery(OnDelivery onDelivery) {
-        deliveryList.add(onDelivery);
+    public void setShipper(OnDelivery onDelivery) {
+        this.onDelivery = onDelivery;
         onDelivery.setBilling(this);
     }
 }

@@ -29,7 +29,8 @@ const AtShop = () => {
     },[loading])
 
     function handleReceived(id) {
-        fetch("http://localhost:8080/api/billing/up/"+id, {
+        console.log("billing " + id);
+        fetch("http://localhost:8080/api/billing/up/"+id+"?phone="+JSON.parse(localStorage.profile).phone,  {
             method: "POST",
             credentials: "include",
             headers: {
@@ -48,7 +49,7 @@ const AtShop = () => {
             <div className="flex flex-col lg:flex-row gap-12 py-10">
                 <div className="flex-[2] mx-4">
                     <h1 className="text-xl font-bold text-center pb-6">At Shop</h1>
-                    {bills.map((bill) => <BillItem bill={bill} handleReceived={handleReceived}/>)}
+                    {bills.map((bill, index) => <BillItem key={index} bill={bill} handleReceived={handleReceived}/>)}
                 </div>
             </div>
         </>

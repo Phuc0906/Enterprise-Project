@@ -9,6 +9,7 @@ import com.example.appbackend.repository.BillingRepository;
 import com.example.appbackend.repository.ShopRepository;
 import com.example.appbackend.repository.UserRepository;
 import com.example.appbackend.service.BillingService;
+import com.example.appbackend.service.OnDeliveryService;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,6 @@ public class BillingController {
     @Autowired
     private ShopRepository shopRepository;
 
-    @Autowired
-    private BillingRepository billingRepository;
-
     @GetMapping
     public List<Billing> getAllBilling() {
         return billingService.getAllBilling();
@@ -48,13 +46,13 @@ public class BillingController {
     }
 
     @PostMapping(path = "/up/{id}")
-    public void upStatus(@PathVariable("id") Long id) {
-        billingService.increaseStatus(id);
+    public void upStatus(@PathVariable("id") Long id, @RequestParam("phone") String phoneNumber) {
+        billingService.increaseStatus(id, phoneNumber);
     }
 
     @PostMapping(path = "/down/{id}")
-    public void downStatus(@PathVariable("id") Long id) {
-        billingService.decreaseStatus(id);
+    public void downStatus(@PathVariable("id") Long id, @RequestParam("phone") String phoneNumber){
+        billingService.decreaseStatus(id, phoneNumber);
     }
 
     @PostMapping
@@ -77,5 +75,15 @@ public class BillingController {
     @GetMapping(path = "/{phoneNumber}/{status}")
     public List<BillingResponse> getUserBillings(@PathVariable("phoneNumber") String phoneNumber, @PathVariable("status") String status) throws Exception {
         return billingService.getUserBillings(phoneNumber, Integer.parseInt(status));
+    }
+    @GetMapping(path = "/shop/{shopName}/{status}")
+    public List<BillingResponse> getShopBillings(@PathVariable("shopName") String shopName, @PathVariable("status") String status) throws Exception {
+        System.out.println(shopName + " " + status);
+        return billingService.getShopBillings(shopName, Integer.parseInt(status));
+    }
+
+    @GetMapping(path = "shipper/{phoneNumber}/{status}")
+    public List<BillingResponse> getShipperBillings(@PathVariable("phoneNumber") String phoneNumber, @PathVariable("status") String status) throws Exception {
+        return billingService.getShipperBillings(phoneNumber, Integer.parseInt(status));
     }
 }
