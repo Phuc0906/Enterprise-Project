@@ -126,28 +126,12 @@ const NavBar = ({ items }) => {
                     </h1>
                 </div>
                 <div className="flex items-end justify-end flex-1 p-3 mr-8 gap-x-6">
-                    {!localStorage.token ? (
-                        <div className="flex items-center gap-x-2">
+                    <div>
                             <span
-                                onClick={navigate("/register")}
-                                className="uppercase select-none font-extralight">
-                                Register
-                            </span>
-                            <span
-                                onClick={navigate("/register")}
-                                className="uppercase select-none font-extralight">
-                                Sign in
-                            </span>
-                        </div>
-                    ) : (
-                        <div>
-                            <span
-                                onClick={navigate("/register")}
                                 className="select-none font-extralight">
                                 {name}
                             </span>
-                        </div>
-                    )}
+                    </div>
                     {localStorage.role === "USER" && (
                         <Link to="/cart">
                             <div className="relative">
