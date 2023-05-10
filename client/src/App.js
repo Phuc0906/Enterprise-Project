@@ -17,6 +17,7 @@ import Ship from "./pages/Ship";
 import BillingHistoryPage from "./pages/BillingHistoryPage";
 import AtShop from "./pages/AtShop";
 import Delivered from "./pages/Delivered";
+import ShopOrders from "./pages/ShopOrders";
 
 function App() {
     return (
@@ -76,6 +77,14 @@ function App() {
                 element={
                     <RequireAuth loginPath="/login">
                         <ShopProductPage />
+                    </RequireAuth>
+                }
+            />
+            <Route
+                path="/shop/orders"
+                element={
+                    <RequireAuth loginPath="/login">
+                        <ShopOrders/>
                     </RequireAuth>
                 }
             />
