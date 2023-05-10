@@ -44,7 +44,7 @@ const ProductCards = ({product}) => {
                 thumbWidth={90}
                 autoPlay={true}
                 autoFocus={true}
-                interval={1000}
+                interval={2500}
                 selectedItem={item}
                 className="productCarousel"
             >

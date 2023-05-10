@@ -60,7 +60,7 @@ const SignUpForm = () => {
                         name: values.fullname,
                         email: values.email,
                         address: values.address,
-                        role: (values.role === 'user') ? 'USER' : 'SHOP',
+                        role: (values.role === 'user') ? 'USER' : (values.role === 'shipper') ? 'SHIPPER' : 'SHOP',
                         phoneNumber: values.phone,
                         password: values.password
                     }).then(res => {
@@ -103,6 +103,7 @@ const SignUpForm = () => {
                                     <MSelect name="role" label="Role">
                                         <option value="seller">Seller</option>
                                         <option value="user">User</option>
+                                        <option value="shipper">SHIPPER</option>
                                     </MSelect>
                                     <MField
                                         name="password"

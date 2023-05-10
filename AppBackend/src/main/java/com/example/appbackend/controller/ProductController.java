@@ -115,6 +115,11 @@ public class ProductController {
         return productService.getAllProduct();
     }
 
+    @GetMapping("/shop")
+    public List<ProductDTO> getProductByShop(@RequestParam("shop") String shop) {
+        return productService.getProductsByShop(shop);
+    }
+
 
     @GetMapping(path = "/stock")
     public List<InStockDTO> getInStock(@RequestParam String productId) {
