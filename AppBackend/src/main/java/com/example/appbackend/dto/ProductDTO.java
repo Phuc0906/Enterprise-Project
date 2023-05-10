@@ -19,8 +19,9 @@ public class ProductDTO {
     private String categoryname;
 
     private int imagesCount;
+    private double rating;
 
-    public ProductDTO(Long id, String name, String description, Long price, String shopname, String categoryname, int imagesCount) {
+    public ProductDTO(Long id, String name, String description, Long price, String shopname, String categoryname, int imagesCount, double rating) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -28,14 +29,16 @@ public class ProductDTO {
         this.shopname = shopname;
         this.categoryname = categoryname;
         this.imagesCount = imagesCount;
+        this.rating = rating;
     }
 
-    public ProductDTO(String name, String description, Long price, String shopname, String categoryname) {
+    public ProductDTO(String name, String description, Long price, String shopname, String categoryname, double rating) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.shopname = shopname;
         this.categoryname = categoryname;
         this.imagesCount = 0;
+        this.rating = rating;
     }
 }

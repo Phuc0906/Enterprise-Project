@@ -5,9 +5,7 @@ import com.example.appbackend.dto.ProductDTO;
 import com.example.appbackend.mapper.ProductDtoMapper;
 import com.example.appbackend.model.Category;
 import com.example.appbackend.model.Product;
-import com.example.appbackend.model.Shop;
 import com.example.appbackend.repository.ProductRepository;
-import com.example.appbackend.repository.ShopRepository;
 import com.example.appbackend.request.ProductAddRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +22,6 @@ import java.util.stream.Collectors;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
-
-    @Autowired
-    private ShopRepository shopRepository;
 
     @Autowired
     private CategoryService categoryService;
@@ -49,7 +44,8 @@ public class ProductService {
                     product.getPrice(),
                     product.getShop().getName(),
                     product.getCategory().getName(),
-                    product.getImageCount()
+                    product.getImageCount(),
+                    product.getRating()
             );
         }else {
             throw new IllegalStateException("Product not found");
@@ -93,6 +89,7 @@ public class ProductService {
             product.setName(productDTO.getName());
             product.setDescription(productDTO.getDescription());
             product.setPrice(productDTO.getPrice());
+
             product.setCategory(category);
             productRepository.save(product);
         }else {
@@ -114,11 +111,6 @@ public class ProductService {
 
     public List<BillingProductResponse> getProductsByBilling(Long billingId) {
         return productRepository.getProductsByBilling(billingId);
-    }
-
-    public List<ProductDTO> getProductsByShop(String shopName) {
-        Shop shop = shopRepository.findByName(shopName).orElseThrow();
-        return productRepository.getProductsByShop(shop).stream().map(new ProductDtoMapper()).collect(Collectors.toList());
     }
 
 

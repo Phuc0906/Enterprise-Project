@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
+
 
 const RatingStar = ({ratingCount, idx, starSelect}) => {
 
     const startClickHandle = () => {
-        console.log("start click " + idx);
+        console.log("star click " + (idx+1));
         starSelect(idx);
     }
+
+
 
     return <div onClick={startClickHandle} className="">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={0.5} stroke="currentColor" className={`w-8 h-8 ${(idx <= ratingCount) ? 'fill-yellow-400' : ''}  hover:w-10 hover:h-10 hover:delay-100`}>
