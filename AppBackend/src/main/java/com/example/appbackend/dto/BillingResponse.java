@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +22,14 @@ public class BillingResponse {
     private ShopDTO shop;
     private double totalPrice;
     private List<BillingProduct> products;
+    private LocalDate date;
 
-    public BillingResponse(Long id, AppUser customer, Shop shop, double totalPrice, Billing billing) {
+    public BillingResponse(Long id, AppUser customer, Shop shop, double totalPrice, Billing billing, LocalDate date) {
         this.id = id;
         this.customer = new CustomerBillingDTO(customer);
         this.shop = new ShopDTO(shop);
         this.totalPrice = totalPrice;
         this.products = billing.getBillingProductList();
+        this.date = date;
     }
 }

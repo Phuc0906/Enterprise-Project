@@ -8,7 +8,11 @@ import com.example.appbackend.model.BillingProduct;
 import com.example.appbackend.repository.BillingRepository;
 import com.example.appbackend.repository.ShopRepository;
 import com.example.appbackend.repository.UserRepository;
+import com.example.appbackend.response.ProductRecord;
+import com.example.appbackend.response.ShopSummaryResponse;
 import com.example.appbackend.service.BillingService;
+import com.example.appbackend.service.InCartService;
+import com.example.appbackend.service.InStockService;
 import com.example.appbackend.service.OnDeliveryService;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +23,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "api/billing")
@@ -30,10 +36,16 @@ public class BillingController {
     private BillingService billingService;
 
     @Autowired
+    private InCartService inCartService;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private ShopRepository shopRepository;
+
+    @Autowired
+    private InStockService inStockService;
 
     @GetMapping
     public List<Billing> getAllBilling() {
@@ -65,11 +77,17 @@ public class BillingController {
         tempBill.setShop(shopRepository.findByName(billingDTO.getShopName()).orElse(null));
         tempBill.setStatus(0);
         tempBill.setTotalPrice(billingDTO.getTotalPrice());
+        List<Long> cartProductId = Arrays.stream(billingDTO.getProducts()).collect(Collectors.toList()).stream().map(products -> products.getProductId()).collect(Collectors.toList());
+        List<String> cartProductSize = Arrays.stream(billingDTO.getProducts()).collect(Collectors.toList()).stream().map(product -> product.getSize()).collect(Collectors.toList());
+        System.out.println(cartProductSize.size() + " size of id carts");
         for(BillingProductDTO productDTO : billingDTO.getProducts()) {
             BillingProduct product = new BillingProduct(productDTO);
             tempBill.addProduct(product);
+
         }
+        inCartService.deleteFromCart(List.of(billingDTO.getProducts()), billingDTO.getCustomerPhoneNumber());
         billingService.addBilling(tempBill);
+        inStockService.deleteFromStock(List.of(billingDTO.getProducts()), billingDTO.getCustomerPhoneNumber());
     }
 
     @GetMapping(path = "/{phoneNumber}/{status}")
@@ -85,5 +103,20 @@ public class BillingController {
     @GetMapping(path = "shipper/{phoneNumber}/{status}")
     public List<BillingResponse> getShipperBillings(@PathVariable("phoneNumber") String phoneNumber, @PathVariable("status") String status) throws Exception {
         return billingService.getShipperBillings(phoneNumber, Integer.parseInt(status));
+    }
+
+    @GetMapping(path = "shop-record/{shopName}")
+    public List<ShopSummaryResponse> getShopRecord(@PathVariable("shopName") String shopName) throws Exception {
+        return billingService.getShopSummary(shopName, 3);
+    }
+
+    @GetMapping(path = "product-record/{shopName}")
+    public List<ProductRecord> getProductsRecordOfShop(@PathVariable("shopName") String shopName) {
+        return billingService.getProductRecordsByShop(shopName);
+    }
+
+    @GetMapping(path = "category-record/{shopName}")
+    public List<ProductRecord> getCategoryRecordOfShop(@PathVariable("shopName") String shopName) {
+        return billingService.getCategoryRecordsByShop(shopName);
     }
 }

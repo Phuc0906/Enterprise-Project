@@ -1,12 +1,15 @@
 package com.example.appbackend.service;
 
+import com.example.appbackend.dto.BillingProductDTO;
 import com.example.appbackend.dto.InStockDTO;
 import com.example.appbackend.mapper.InStockMapper;
 import com.example.appbackend.model.AppUser;
+import com.example.appbackend.model.InCart;
 import com.example.appbackend.model.InStock;
 import com.example.appbackend.model.Product;
 import com.example.appbackend.repository.InStockRepository;
 import com.example.appbackend.repository.ProductRepository;
+import com.example.appbackend.repository.UserRepository;
 import com.example.appbackend.request.ProductAddRequest;
 import com.example.appbackend.response.CheckStockResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,9 @@ public class InStockService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public void addStock(int[] size, Product product) {
         double minimumSize = 5.5;
@@ -66,5 +72,13 @@ public class InStockService {
         return new CheckStockResponse(inStock.getQuantity() - quantity);
     }
 
+    public void deleteFromStock(List<BillingProductDTO> productsList, String phoneNumber) {
+        for (int i = 0; i < productsList.size(); i++) {
+            Product product = productRepository.findById(productsList.get(i).getProductId()).orElseThrow();
+            InStock inStock = inStockRepository.findByProductAndType(product, (productsList.get(i).getSize().length() == 1) ? (productsList.get(i).getSize() + ".0") : productsList.get(i).getSize());
+            inStock.setQuantity(inStock.getQuantity() - Long.valueOf(productsList.get(i).getQuantity()));
+            inStockRepository.save(inStock);
+        }
+    }
 
 }

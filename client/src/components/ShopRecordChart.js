@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
     Bar,
     BarChart,
@@ -13,83 +13,141 @@ import {
     YAxis
 } from "recharts";
 
-const ShopRecordChart = () => {
-    const data = [
-        {
-            "date": "Day 1",
-            "bought": 20
-        },
-        {
-            "date": "Day 2",
-            "bought": 50
-        },
-        {
-            "date": "Day 3",
-            "bought": 10
-        },
-        {
-            "date": "Day 4",
-            "bought": 5
-        },
-        {
-            "date": "Day 5",
-            "bought": 9
-        },
-        {
-            "date": "Day 6",
-            "bought": 70
-        },
-        {
-            "date": "Day 7",
-            "bought": 100
-        }
-    ]
+const ShopRecordChart = ({recordData}) => {
+    const [data, setData] = useState([]);
+    const [topProduct, setTopProduct] = useState([]);
+    const [categoryRecord, setCategoryRecord] = useState([]);
 
-    const topProduct = [
-        {
-            "name": "Product 1",
-            "sold": 200
-        },
-        {
-            "name": "Product 2",
-            "sold": 500
-        },
-        {
-            "name": "Product 3",
-            "sold": 2000
-        },
-        {
-            "name": "Product 4",
-            "sold": 1500
-        }
-    ]
+    useEffect(() => {
+        topProduct.sort((a, b) => {
+            return a.sold - b.sold;
+        })
+    }, [topProduct])
 
-    const categoryRecord = [
-        {
-            "name": "Category 1",
-            "sold": 200
-        },
-        {
-            "name": "Category 2",
-            "sold": 500
-        },
-        {
-            "name": "Category 3",
-            "sold": 2000
-        },
-        {
-            "name": "Category 4",
-            "sold": 1500
+    useEffect(() => {
+        let settingArr = [];
+        for (let i = 0; i < recordData.length; i++) {
+            settingArr.push({
+                "date": recordData[i].date,
+                "bought": recordData[i].billingResponses.length
+            })
         }
-    ]
+        setData(settingArr);
+        console.log(settingArr);
 
-    topProduct.sort((a, b) => {
-        return a.sold - b.sold;
-    })
+        fetch("http://localhost:8080/api/billing/product-record/"+JSON.parse(localStorage.profile).name, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.token,
+            }
+        })
+            .then(res => {
+                const serverRes = res.json();
+                serverRes.then(data => {
+                    console.log(data);
+                    setTopProduct(data);
+                    // setRecord(data);
+                })
+            })
+
+        fetch("http://localhost:8080/api/billing/category-record/"+JSON.parse(localStorage.profile).name, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.token,
+            }
+        })
+            .then(res => {
+                const serverRes = res.json();
+                serverRes.then(data => {
+                    console.log(data);
+                    setCategoryRecord(data);
+                    // setRecord(data);
+                })
+            })
+
+
+    }, [recordData])
+
+
+
+    // const data = [
+    //     {
+    //         "date": "Day 1",
+    //         "bought": 20
+    //     },
+    //     {
+    //         "date": "Day 2",
+    //         "bought": 50
+    //     },
+    //     {
+    //         "date": "Day 3",
+    //         "bought": 10
+    //     },
+    //     {
+    //         "date": "Day 4",
+    //         "bought": 5
+    //     },
+    //     {
+    //         "date": "Day 5",
+    //         "bought": 9
+    //     },
+    //     {
+    //         "date": "Day 6",
+    //         "bought": 70
+    //     },
+    //     {
+    //         "date": "Day 7",
+    //         "bought": 100
+    //     }
+    // ]
+
+    // const topProduct = [
+    //     {
+    //         "name": "Product 1",
+    //         "sold": 200
+    //     },
+    //     {
+    //         "name": "Product 2",
+    //         "sold": 500
+    //     },
+    //     {
+    //         "name": "Product 3",
+    //         "sold": 2000
+    //     },
+    //     {
+    //         "name": "Product 4",
+    //         "sold": 1500
+    //     }
+    // ]
+
+    // const categoryRecord = [
+    //     {
+    //         "name": "Category 1",
+    //         "sold": 200
+    //     },
+    //     {
+    //         "name": "Category 2",
+    //         "sold": 500
+    //     },
+    //     {
+    //         "name": "Category 3",
+    //         "sold": 2000
+    //     },
+    //     {
+    //         "name": "Category 4",
+    //         "sold": 1500
+    //     }
+    // ]
+
+
 
     return <div>
         <div className="rounded-2xl p-6 border-teal-200 border-[.125rem] ml-9 mt-10 mr-8 align-middle">
-            <h3 className="text-center mb-5 text-2xl">Products Sold last 7 days</h3>
+            <h3 className="text-center mb-5 text-2xl">Products Sold</h3>
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart width={730} height={400} data={data}
                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -110,26 +168,26 @@ const ShopRecordChart = () => {
                 <ResponsiveContainer width="100%" height={400}>
                     <BarChart barCategoryGap={30} margin={{ top: 5, right: 0, left: 20, bottom: 5 }} layout="vertical" data={topProduct}>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="sold" type={"number"} />
-                        <YAxis dataKey="name" reversed type="category" />
+                        <XAxis dataKey="totalSold" type={"number"} />
+                        <YAxis dataKey="productName" reversed type="category" />
                         <Tooltip />
                         <Legend verticalAlign="top"/>
-                        <Bar dataKey="sold" fill="#F0BD58" />
+                        <Bar dataKey="totalSold" fill="#F0BD58" />
                     </BarChart>
                 </ResponsiveContainer>
             </div>
             <div className="rounded-2xl p-6 border-teal-200 border-[.125rem] ml-9 mt-10 w-2/3 mr-8">
-                <h3 className="text-center mb-5 text-2xl">Category Customer Interested in last 7 days </h3>
+                <h3 className="text-center mb-5 text-2xl">Category Customer Interested</h3>
                 <ResponsiveContainer width="100%" height={400}>
                     <BarChart width={730} height={400} data={categoryRecord}
                                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name"/>
+                        <XAxis dataKey="productName"/>
                         <YAxis label={{value: 'Product Sold', angle: -90, position: 'insideLeft'}}/>
                         <Tooltip />
 
                         <Legend verticalAlign="top" iconType={"circle"} height={36}/>
-                        <Bar type="monotone" barSize={25} dataKey="sold" fill="#8884d8" />
+                        <Bar type="monotone" barSize={25} dataKey="totalSold" fill="#8884d8" />
                     </BarChart>
                 </ResponsiveContainer>
             </div>

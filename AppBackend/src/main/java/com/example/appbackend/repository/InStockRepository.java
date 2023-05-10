@@ -12,4 +12,6 @@ public interface InStockRepository extends JpaRepository<InStock, Long> {
     List<InStock> findByProduct(Product product);
 
     InStock findByProductAndType(Product product, String type);
+
+
 }
