@@ -5,10 +5,9 @@ import Category from "../components/Category";
 import HomeProducts from "../components/HomeProducts";
 import HomeLastest from "../components/HomeLastest";
 import HomeFooter from "../components/HomeFooter";
-import {userNavContent} from "../utils";
+import { userNavContent } from "../utils";
 
 const Home = () => {
-
     return (
         <div>
             <NavBar items={userNavContent} />

@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().contains("/auth") || request.getServletPath().contains("api-docs") || request.getServletPath().contains("swagger-ui") || request.getServletPath().contains("favicon.ico")) {
+        if (request.getServletPath().contains("/auth") || request.getServletPath().contains("/api/product/get") || request.getServletPath().contains("api-docs") || request.getServletPath().contains("swagger-ui") || request.getServletPath().contains("favicon.ico")) {
             filterChain.doFilter(request, response);
             return;
         }

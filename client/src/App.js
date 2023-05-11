@@ -23,14 +23,7 @@ function App() {
     return (
         <Routes>
             <Route path="/login" element={<SignInForm />} />
-            <Route
-                path="/"
-                element={
-                    <RequireAuth loginPath="/login">
-                        <Home />
-                    </RequireAuth>
-                }
-            />
+            <Route path="/" element={<Home />} />
             <Route path="/register" element={<SignUpForm />} />
             <Route
                 path="/products"
@@ -84,7 +77,7 @@ function App() {
                 path="/shop/orders"
                 element={
                     <RequireAuth loginPath="/login">
-                        <ShopOrders/>
+                        <ShopOrders />
                     </RequireAuth>
                 }
             />
@@ -110,7 +103,7 @@ function App() {
                 path="/ship"
                 element={
                     <RequireAuth loginPath="/login">
-                        <Ship/>
+                        <Ship />
                     </RequireAuth>
                 }
             />
@@ -118,7 +111,7 @@ function App() {
                 path="/at-shop"
                 element={
                     <RequireAuth loginPath="/login">
-                        <AtShop/>
+                        <AtShop />
                     </RequireAuth>
                 }
             />
@@ -126,7 +119,7 @@ function App() {
                 path="/delivered"
                 element={
                     <RequireAuth loginPath="/login">
-                        <Delivered/>
+                        <Delivered />
                     </RequireAuth>
                 }
             />
