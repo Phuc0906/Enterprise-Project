@@ -100,6 +100,11 @@ public class BillingController {
         return billingService.getShopBillings(shopName, Integer.parseInt(status));
     }
 
+    @GetMapping(path = "/shop/{shopName}")
+    public List<BillingResponse> getShopAllBillings(@PathVariable("shopName") String shopName) throws Exception {
+        return billingService.getAllBillings(shopName);
+    }
+
     @GetMapping(path = "shipper/{phoneNumber}/{status}")
     public List<BillingResponse> getShipperBillings(@PathVariable("phoneNumber") String phoneNumber, @PathVariable("status") String status) throws Exception {
         return billingService.getShipperBillings(phoneNumber, Integer.parseInt(status));

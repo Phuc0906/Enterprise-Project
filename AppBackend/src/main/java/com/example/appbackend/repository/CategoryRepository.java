@@ -13,5 +13,4 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("select new com.example.appbackend.response.ProductRecord(pr.category.name, sum(blp.quantity)) from product pr, billing_product blp, billing bl where bl.id = blp.billing.id and blp.productId = pr.id and bl.status = ?1 and bl.shop.name = ?2 group by pr.category.name")
     List<ProductRecord> getCategoryRecord(int status, String shopName);
-
 }

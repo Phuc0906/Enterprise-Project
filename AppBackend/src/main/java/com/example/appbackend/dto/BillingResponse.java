@@ -23,13 +23,16 @@ public class BillingResponse {
     private double totalPrice;
     private List<BillingProduct> products;
     private LocalDate date;
+    private int status;
 
-    public BillingResponse(Long id, AppUser customer, Shop shop, double totalPrice, Billing billing, LocalDate date) {
+    public BillingResponse(Long id, AppUser customer, Shop shop, double totalPrice, Billing billing, LocalDate date, int status) {
         this.id = id;
         this.customer = new CustomerBillingDTO(customer);
         this.shop = new ShopDTO(shop);
         this.totalPrice = totalPrice;
         this.products = billing.getBillingProductList();
         this.date = date;
+        this.status = status;
     }
+
 }
