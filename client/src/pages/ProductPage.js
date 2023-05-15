@@ -6,7 +6,6 @@ import ProductCards from "../components/ProductCards";
 import {userNavContent} from "../utils";
 
 const ProductPage = () => {
-
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
     const [selectedCategories, setSelectedCategory] = useState([]);

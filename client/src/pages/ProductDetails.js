@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 import Wrapper from "../components/Wrapper";
 import NavBar from "../components/NavBar";
@@ -25,13 +25,18 @@ const ProductDetails = () => {
         "imagesCount": 0,
         "rating": 0.0
     })
+    const navigate = useNavigate();
     const [imagesCounting, setImagesCounting] = useState(0);
     const size = ["5.5", "6.0", "6.5", "7", "7.5", "8", "8.5", "9", "9.5"];
     const [sizeSelected, setSizeSelected] = useState("");
-    const starCount = [0, 1, 2, 3, 4];
+    const starCount = [1, 2, 3, 4, 5];
     const [startSelect, setStarSelect] = useState(-1);
     const [quantity, setQuantity] = useState([]);
 
+    const rateClickedHandle = () => {
+        navigate(`/product/${id}/productRating`)
+        window.location.reload();
+    }
     useEffect(() => {
 
     }, [quantity])
@@ -143,7 +148,8 @@ const ProductDetails = () => {
 
                                         <div className="mt-3 ml-3">
                                             {starCount.map(star => <RatingStar key={star} idx={star} ratingCount={startSelect} starSelect={setStarSelect} />)}
-                                            <button className="animate-bounce cursor-pointer bg-gray-400 text-white p-2 rounded-full hover:bg-gray-600">Rate</button>
+                                            <button onClick={rateClickedHandle} className="animate-bounce cursor-pointer bg-gray-400 text-white p-2 rounded-full hover:bg-gray-600">Rate</button>
+
                                         </div>
                                     </div>
 
