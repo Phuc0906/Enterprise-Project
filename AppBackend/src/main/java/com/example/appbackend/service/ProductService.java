@@ -3,6 +3,7 @@ package com.example.appbackend.service;
 import com.example.appbackend.dto.BillingProductResponse;
 import com.example.appbackend.dto.ProductDTO;
 import com.example.appbackend.mapper.ProductDtoMapper;
+import com.example.appbackend.mapper.ProductDtoMapperWithRating;
 import com.example.appbackend.model.Category;
 import com.example.appbackend.model.Product;
 import com.example.appbackend.model.Shop;
@@ -65,7 +66,7 @@ public class ProductService {
             int start = end - MAX_ITEMS_PER_PAGE;
 
             List<ProductDTO> res = new ArrayList<>();
-            List<ProductDTO> list = productRepository.findAll().stream().map(new ProductDtoMapper()).collect(Collectors.toList());
+            List<ProductDTO> list = productRepository.findAll().stream().map(new ProductDtoMapperWithRating()).collect(Collectors.toList());
             try {
                 while(list.get(start) != null && start < end) {
                     res.add(list.get(start));
@@ -83,7 +84,7 @@ public class ProductService {
     }
 
     public List<ProductDTO> getAllProduct() {
-        return productRepository.findAll().stream().map(new ProductDtoMapper()).collect(Collectors.toList());
+        return productRepository.findAll().stream().map(new ProductDtoMapperWithRating()).collect(Collectors.toList());
     }
 
     public void updateProduct(ProductAddRequest productDTO) throws Exception {

@@ -156,4 +156,8 @@ public class BillingService {
         }
     }
 
+    public List<Long> getProductsByProductId(Long id, String phoneNumber) {
+        return billingRepository.getProductsByProductId(id, phoneNumber);
+    }
+
 }

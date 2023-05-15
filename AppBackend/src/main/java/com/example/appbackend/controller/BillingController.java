@@ -124,4 +124,9 @@ public class BillingController {
     public List<ProductRecord> getCategoryRecordOfShop(@PathVariable("shopName") String shopName) {
         return billingService.getCategoryRecordsByShop(shopName);
     }
+
+    @GetMapping(path = "check-bought/{productId}/{phone}")
+    public List<Long> getProductBillingById(@PathVariable("productId") String productId, @PathVariable("phone") String phone) {
+        return billingService.getProductsByProductId(Long.parseLong(productId), phone);
+    }
 }
