@@ -1,7 +1,4 @@
 import React, {useEffect} from 'react';
-import CartProduct from "./CartProduct";
-import ShipProduct from "./ShipProduct";
-import {splittingPriceNumber} from "../utils";
 
 const BillItem = ({bill,handleReceived,handleCancel}) => {
     const IMAGE_URL = `https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/`;
