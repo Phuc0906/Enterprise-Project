@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FireIcon } from "@heroicons/react/24/solid";
 import HomeProductCard from "./HomeProductCard";
+import HomeFooter from "./HomeFooter";
 
 const HomeProducts = () => {
     const [products, setProducts] = useState([]);
@@ -26,23 +27,50 @@ const HomeProducts = () => {
     const maxLength = 8;
 
     return (
-        <div className="px-4 py-7">
-            <div className="flex items-center gap-2 mb-4">
-                <FireIcon className="text-red-500 h-7 w-7"></FireIcon>
-                <h2 className="text-xl font-bold">Hot Item</h2>
-            </div>
-            <div className=" max-h-[400px] h-full grid grid-cols-4 gap-x-5 gap-y-12">
-                {products &&
+        <div>
+            <div className="w-full py-[10rem] px-4">
+                <div className="flex items-center gap-2 mb-4">
+                    <FireIcon className="text-red-500 h-7 w-7"></FireIcon>
+                    <h2 className="text-xl font-bold">Hot Item</h2>
+                </div>
+
+                <div className="max-w-[1240px] h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-12 mx-auto">
+                    {products &&
                     products.map((item) => {
                         return (
-                            <HomeProductCard
-                                key={item.id}
-                                product={item}></HomeProductCard>
+                            <HomeProductCard key={item.id} product={item}></HomeProductCard>
                         );
                     })}
+                </div>
             </div>
         </div>
+
+
+
+
+
     );
 };
 
 export default HomeProducts;
+
+
+
+
+
+// <div className="px-4 py-7">
+//     <div className="flex items-center gap-2 mb-4">
+//         <FireIcon className="text-red-500 h-7 w-7"></FireIcon>
+//         <h2 className="text-xl font-bold">Hot Item</h2>
+//     </div>
+//     <div className=" max-h-[400px] h-full grid grid-cols-4 gap-x-5 gap-y-12">
+//         {products &&
+//         products.map((item) => {
+//             return (
+//                 <HomeProductCard
+//                     key={item.id}
+//                     product={item}></HomeProductCard>
+//             );
+//         })}
+//     </div>
+// </div>
