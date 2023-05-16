@@ -123,15 +123,46 @@ const NavBar = ({ items }) => {
                         </span>
                             </div>
                         </Link>)}
-                    <div><UsersIcon className="w-6 h-6 onClick={handleAccountClick}" />{isShowDropDown && (
-                        <div className="absolute z-10 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg right-10 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical"
-                             aria-labelledby="menu-button" tabIndex="-1">
-                            <div className="py-1" role="none">
-                                <Link to={"/profile"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabIndex="-1" id="menu-item-0 ">Profile</Link>
-                                <Link to={"/billing-history"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabIndex="-1" id="menu-item-2">Billing History</Link>
-                                <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabIndex="-1" id="menu-item-2" onClick={signOutHandle}>Sign out</div>
+                    <div>
+                        <UsersIcon
+                            className="w-6 h-6 "
+                            onClick={handleAccountClick}
+                        />
+                        {isShowDropDown && (
+                            <div
+                                className="absolute z-10 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg right-10 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                role="menu"
+                                aria-orientation="vertical"
+                                aria-labelledby="menu-button"
+                                tabIndex="-1">
+                                <div className="py-1" role="none">
+                                    <Link
+                                        to={"/profile"}
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                        tabIndex="-1"
+                                        id="menu-item-0 ">
+                                        Profile
+                                    </Link>
+                                    <Link
+                                        to={"/billing-history"}
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                        tabIndex="-1"
+                                        id="menu-item-2">
+                                        Billing History
+                                    </Link>
+                                    <div
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                        tabIndex="-1"
+                                        id="menu-item-2"
+                                        onClick={signOutHandle}>
+                                        Sign out
+                                    </div>
+                                </div>
                             </div>
-                        </div>)}
+                        )}
                     </div>
                 </div>
             </div>

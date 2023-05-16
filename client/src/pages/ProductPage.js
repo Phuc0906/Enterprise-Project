@@ -102,12 +102,10 @@ const ProductPage = () => {
         <div>
             <NavBar items={userNavContent} />
             <div className="mt-10 ml-10">
-                <div className="flex">
+                <div className="flex flex-col md:flex-row">
                     <div>
-                        <div className="border-b-2 border-[#BDBDBD] w-40 pb-5 pr-16">
-                            <h3 className="text-xl text-[#003F62]">
-                                Categories
-                            </h3>
+                        <div className="border-b-2 border-[#BDBDBD] w-full md:w-40 pb-5 pr-16">
+                            <h3 className="text-xl text-[#003F62]">Categories</h3>
                             <div>
                                 {categories.map((category, index) => (
                                     <CategoryBuilder
@@ -119,7 +117,7 @@ const ProductPage = () => {
                                 ))}
                             </div>
                         </div>
-                        <div className="border-b-2 border-[#BDBDBD] mt-3 w-40 pb-5 pr-16">
+                        <div className="border-b-2 border-[#BDBDBD] mt-3 w-full md:w-40 pb-5 pr-16">
                             <h3 className="text-xl text-[#003F62]">Brands</h3>
                             <div>
                                 {brands.map((brand, index) => (
@@ -134,19 +132,17 @@ const ProductPage = () => {
                         </div>
                     </div>
                     {/*Product Cards*/}
-                    <div className="ml-10">
+                    <div className="ml-0 md:ml-10 mt-5 md:mt-0">
                         <div className="flex flex-wrap gap-8">
                             {products.map((product) => (
-                                <ProductCards
-                                    key={product.id}
-                                    product={product}
-                                />
+                                <ProductCards key={product.id} product={product} />
                             ))}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     );
 };
 
