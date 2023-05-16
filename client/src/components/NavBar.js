@@ -201,5 +201,6 @@ const NavBar = ({ items }) => {
             </div>
         </div>
     );
+
 };
 export default NavBar;
