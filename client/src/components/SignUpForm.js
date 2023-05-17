@@ -3,10 +3,12 @@ import { Formik, Form, useField } from "formik";
 import MField from "./MField";
 import * as Yub from "yup";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 // import * as Yub from "yup";
 
 const SignUpForm = () => {
     const [state, setState] = useState(false);
+    const navigate = useNavigate();
     return (
         <div>
             <h1 className="p-5 mt-8 text-3xl font-bold text-center">Sign Up</h1>
@@ -70,6 +72,7 @@ const SignUpForm = () => {
                     const parent = document.querySelector(".parent");
                     const template = `<div>Successfull</div>`;
                     parent.insertAdjacentHTML("afterbegin", template);
+                    navigate("/login")
                 }}>
                 {(formik) => {
                     return (
