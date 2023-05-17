@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {splittingPriceNumber} from "../utils";
 
 const ShopBillingDetail = () => {
-
+    const IMAGE_URL = `https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/`;
     const location = useLocation();
     const navigate = useNavigate();
     const [billing, setBilling] = useState({
@@ -73,16 +73,19 @@ const ShopBillingDetail = () => {
     }
 
     const ItemCard = ({product}) => {
-        return <div className="flex items-center mb-4">
-            <img className="w-[130px] h-[130px] rounded-2xl" src={'https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/4e894c2b76dd4c8e9013aafc016047af_9366/Giay_Superstar_trang_FV3284_01_standard.jpg'}/>
+        return <div className="flex items-center mb-4 ">
+            <img className="w-[130px] h-[130px] rounded-2xl" src={`${IMAGE_URL}${product.productId}-0.png`}/>
             <div className="flex flex-col gap-3 ml-5  w-2/3">
-                <label className="w-full leading-6" style={{wordWrap: 'break-word'}}>SUPERSTARSUPERSTARSUPERSTARSUPERSTARSUPERSTARvSUPERSTARSUPERSTARSUPERSTARSUPERSTARSUPERSTARSUPERSTARSUPERSTARvSUPERSTARSUPERSTAR</label>
-                <label className="text-gray-400">Category</label>
+                <label className="max-w-[430px] leading-6" style={{wordWrap: 'break-word'}}>{product.name}</label>
+                <label className="text-gray-400">{product.categoryname}</label>
             </div>
-            <label className="ml-4">Qty 3</label>
-            <label className="ml-4">2,500,000 vnd</label>
+            <label className="ml-9">Qty {product.quantity}</label>
+            <label className="ml-4">{splittingPriceNumber(product.price.toString())} vnd</label>
+
         </div>
     }
+
+
 
     return <div className=" bg-gray-50 w-screen h-screen">
         <div className="ml-auto mr-auto bg-white border-2 border-gray-400 text-center w-3/4 pt-5">
