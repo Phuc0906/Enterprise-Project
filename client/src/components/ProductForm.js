@@ -286,6 +286,7 @@ const ProductForm = () => {
             .catch((err) => {
                 console.log(err);
             });
+        navigate("/shop/product")
     };
 
     const handleSubmitForm = () => {
