@@ -26,6 +26,7 @@ const ProductDetails = () => {
     const starCount = [0, 1, 2, 3, 4];
     const [startSelect, setStarSelect] = useState(-1);
     const [quantity, setQuantity] = useState([]);
+    const [ratingCheck, setRatingCheck] = useState([]);
 
     useEffect(() => {}, [quantity]);
 
@@ -63,13 +64,29 @@ const ProductDetails = () => {
                 setQuantity(settingData);
             });
         });
+
+        fetch(`http://localhost:8080/api/billing/check-bought/${id}/${JSON.parse(localStorage.profile).phone}`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.token,
+            },
+        }).then((res) => {
+            const serverRes = res.json();
+            serverRes.then((data) => {
+                console.log(data);
+                setRatingCheck(data);
+            });
+        });
+
+
     }, []);
 
     const addToCartHandle = () => {
         if (sizeSelected.length === 0) {
             return;
         }
-
         fetch(`http://localhost:8080/api/in-cart`, {
             method: "POST",
             credentials: "include",
@@ -89,6 +106,24 @@ const ProductDetails = () => {
             window.location.reload();
         });
     };
+
+    const onRating = () => {
+        console.log(startSelect);
+        fetch(`http://localhost:8080/api/product/rating/${id}/${JSON.parse(localStorage.profile).phone}/${startSelect + 1}`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.token,
+            }
+        }).then((res) => {
+            const serverRes = res.json();
+            serverRes.then(data => {
+                console.log(data);
+            })
+        });
+    }
+
     return (
         <div>
             <NavBar items={userNavContent} />
@@ -140,7 +175,7 @@ const ProductDetails = () => {
                                             ))}
                                         </div>
                                     </div>
-                                    <div className="mt-3">
+                                    {(ratingCheck.length !== 0) ? <div className="mt-3">
                                         <label className="text-lg font-bold">
                                             Rating
                                         </label>
@@ -156,16 +191,17 @@ const ProductDetails = () => {
                                                         starSelect={
                                                             setStarSelect
                                                         }
+                                                        isDetail={true}
                                                     />
                                                 ))}
                                             </div>
                                             <div className="mt-3 ml-3">
-                                                <button className="p-2 text-white bg-gray-400 rounded-full cursor-pointer animate-bounce hover:bg-gray-600">
+                                                <button onClick={onRating} className="p-2 text-white bg-gray-400 rounded-full cursor-pointer animate-bounce hover:bg-gray-600">
                                                     Rate
                                                 </button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> : null}
                                     <button
                                         onClick={addToCartHandle}
                                         className="w-full py-3 mt-5 text-white bg-black rounded-full">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 // rating total
 // current rating
 // total product sells
@@ -12,12 +12,25 @@ const ProductSellingStatus = ({ title, value, theme }) => {
     );
 };
 
-const ShopRecord = () => {
+const ShopRecord = ({data}) => {
+
+    const [totalProduct, setTotalProduct] = useState([]);
+
+    useEffect(() => {
+        let totalProductSetting = 0;
+        console.log(data);
+        for (let i = 0; i < data.length; i++) {
+            console.log(data[i]);
+            totalProductSetting += data[i].billingResponses.length;
+        }
+        setTotalProduct(totalProductSetting);
+    }, [data])
+
     return (
         <section className="flex justify-center item-center gap-x-[9rem]">
             <ProductSellingStatus
                 title={"Sold"}
-                value={"200K"}
+                value={totalProduct}
                 theme={"bg-violet-200"}
             />
             <ProductSellingStatus

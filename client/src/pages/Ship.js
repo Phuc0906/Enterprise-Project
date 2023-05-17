@@ -11,6 +11,7 @@ const Ship = () => {
     const [bills,setBills] = useState([])
     const [loading,setLoading] = useState(true)
     useEffect(() => {
+        console.log(localStorage.profile);
         fetch("http://localhost:8080/api/billing/shipper/"+JSON.parse(localStorage.profile).phone+"/2", {
             method: "GET",
             credentials: "include",
@@ -62,7 +63,7 @@ const Ship = () => {
             <div className="flex flex-col lg:flex-row gap-12 py-10">
                 <div className="flex-[2] mx-4">
                     <h1 className="text-xl font-bold text-center pb-6">Ship</h1>
-                    {bills.map((bill) => <BillItem bill={bill} handleReceived={handleReceived} handleCancel={handleCancel}/>)}
+                    {bills.map((bill, index) => <BillItem key={index} bill={bill} handleReceived={handleReceived} handleCancel={handleCancel}/>)}
                 </div>
             </div>
         </>

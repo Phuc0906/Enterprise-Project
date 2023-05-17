@@ -44,7 +44,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             if ((authHeader == null) && (!request.getMethod().equals("OPTIONS"))) {
                 response.sendError (403);
-                System.out.println("Send 400 error");
                 return;
             }
 

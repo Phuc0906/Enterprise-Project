@@ -56,6 +56,12 @@ public class Product {
     )
     private Category category;
 
+    @OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            mappedBy = "product"
+    )
+    List<Rating> ratings = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(
             name = "shop_id",
@@ -130,6 +136,11 @@ public class Product {
     public void addInCart(InCart inCart) {
         inCarts.add(inCart);
         inCart.setProduct(this);
+    }
+
+    public void addRating(Rating rating) {
+        this.ratings.add(rating);
+        rating.setProduct(this);
     }
 
 

@@ -52,12 +52,12 @@ const CartItem = ({shop, onProductQuantityChange, shopIdx}) => {
     }
 
     return (
-        <>
+        <div className="border-2 border-slate-300 p-4 rounded-xl">
         <div className="mt-5 text-3xl font-bold">{shop.shopName}</div>
             {products.map((product, index) => <CartProduct product={product} key={index} onProductQuantityChange={onProductQuantityChange} shopIdx={shopIdx} productIdx={index} onQuantityChange={onQuantityChange} />)}
             <p>Total price: {splittingPriceNumber(totalPrice.toString()) + " vnd"}</p>
             <button className="py-4 font-semibold text-white rounded-lg bg-slate-900 px-7 hover:bg-gradient-to-r from-violet-800 to-orange-600" onClick={handleBuy}>Buy</button>
-        </>
+        </div>
     );
 }
 

@@ -60,7 +60,7 @@ const ProductPage = () => {
         }
         await setSelectedBrands(selectedBrd);
         console.log(selectedBrd);
-        getProducts(selectedBrd, selectedCategories);
+        getProducts(selectedCategories, selectedBrd);
     };
 
     useEffect(() => {

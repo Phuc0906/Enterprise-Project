@@ -4,6 +4,7 @@ import com.example.appbackend.dto.BillingProductResponse;
 import com.example.appbackend.dto.ProductDTO;
 import com.example.appbackend.model.Product;
 import com.example.appbackend.model.Shop;
+import com.example.appbackend.response.ProductRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<BillingProductResponse> getProductsByBilling(Long billingId);
 
     List<Product> getProductsByShop(Shop shop);
+
+    @Query("select new com.example.appbackend.response.ProductRecord(pr.name, sum(blp.quantity)) from product pr, billing_product blp, billing bl where bl.id = blp.billing.id and blp.productId = pr.id and bl.status = ?1 and bl.shop.name = ?2 group by pr.name")
+    List<ProductRecord> getRecordsOfShop(int status, String shopName);
 }

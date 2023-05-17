@@ -1,5 +1,6 @@
 package com.example.appbackend.service;
 
+import com.example.appbackend.dto.BillingProductDTO;
 import com.example.appbackend.dto.DeleteCartDT0;
 import com.example.appbackend.dto.InCartDTO;
 import com.example.appbackend.dto.ProductDTO;
@@ -101,5 +102,15 @@ public class InCartService {
         }
         InCart inCart = inCartRepository.getInCartByAppUserAndTypeAndProduct(user, deleteCartDT0.getSize(), product);
         inCartRepository.delete(inCart);
+    }
+
+    public void deleteFromCart(List<BillingProductDTO> productsList, String phoneNumber) {
+        AppUser user = userRepository.findByPhoneNumber(phoneNumber).orElseThrow();
+        List<InCart> inCarts = new ArrayList<>();
+        for (int i = 0; i < productsList.size(); i++) {
+            Product product = productRepository.findById(productsList.get(i).getProductId()).orElseThrow();
+            System.out.println(product.getId() + " - " + user.getName() + " - " + productsList.get(i).getSize());
+            inCartRepository.delete(inCartRepository.getInCartByAppUserAndTypeAndProduct(user, (productsList.get(i).getSize().length() == 1) ? (productsList.get(i).getSize() + ".0") : productsList.get(i).getSize(), product));
+        }
     }
 }
