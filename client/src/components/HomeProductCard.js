@@ -1,26 +1,31 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import {
     InformationCircleIcon,
     EllipsisHorizontalCircleIcon,
 } from "@heroicons/react/24/solid";
-import {splittingPriceNumber} from "../utils";
-import {useNavigate} from "react-router-dom";
+import { splittingPriceNumber } from "../utils";
+import { useNavigate } from "react-router-dom";
 const HomeProductCard = (props) => {
     const IMAGE_URL =
         "https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/";
     const { key, product } = props;
     const navigate = useNavigate();
 
-
     const onDetailClick = () => {
-        navigate(`/product/${product.id}`)
+        navigate(`/product/${product.id}`);
         window.location.reload();
-    }
+    };
 
     const onListClick = () => {
-        navigate('/products')
+        navigate("/products");
         window.location.reload();
-    }
+    };
+
+    const handleAddToCard = () => {
+        if (localStorage.length === 0) {
+            navigate("/login");
+        }
+    };
 
     return (
         <div className="relative flex flex-col h-full max-h-[400px] border rounded-lg shadow-primary group">
@@ -34,8 +39,12 @@ const HomeProductCard = (props) => {
                     </p>
 
                     <div className="flex items-center justify-center gap-2 mt-auto">
-                        <InformationCircleIcon onClick={onDetailClick} className="w-8 h-8 cursor-pointer "></InformationCircleIcon>
-                        <EllipsisHorizontalCircleIcon onClick={onListClick} className="w-8 h-8 cursor-pointer"></EllipsisHorizontalCircleIcon>
+                        <InformationCircleIcon
+                            onClick={onDetailClick}
+                            className="w-8 h-8 cursor-pointer "></InformationCircleIcon>
+                        <EllipsisHorizontalCircleIcon
+                            onClick={onListClick}
+                            className="w-8 h-8 cursor-pointer"></EllipsisHorizontalCircleIcon>
                     </div>
                 </div>
             </div>
@@ -50,11 +59,15 @@ const HomeProductCard = (props) => {
                 <div className="p-3 text-center">
                     <h2 className="text-lg font-semibold ">{product.name}</h2>
                     <span className="mt-[20px] block text-yellow-400">
-                        {`${splittingPriceNumber(product.price.toString())} VND`}
+                        {`${splittingPriceNumber(
+                            product.price.toString()
+                        )} VND`}
                     </span>
                 </div>
             </div>
-            <button className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] py-3 px-8 rounded-[18px] bg-slate-800 text-white z-50 group-hover:shadow-secondary transition-all">
+            <button
+                onClick={handleAddToCard}
+                className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] py-3 px-8 rounded-[18px] bg-slate-800 text-white z-50 hover:shadow-secondary transition-all">
                 Add to cart
             </button>
         </div>

@@ -39,15 +39,15 @@ const SignInForm = () => {
                 token: response.data.accessToken,
                 expiresIn: 3600,
                 tokenType: "Bearer",
-                authState: {phoneNumber: values.account}
-            })
+                authState: { phoneNumber: values.account },
+            });
 
-            if (response.data.role === 'USER') {
-                navigate('/');
-            }else if(response.data.role === 'SHIPPER') {
-                navigate('/at-shop')
-            }else {
-                navigate('/shop/dashboard')
+            if (response.data.role === "USER") {
+                navigate("/");
+            } else if (response.data.role === "SHIPPER") {
+                navigate("/at-shop");
+            } else {
+                navigate("/shop/dashboard");
             }
             window.location.reload();
             setFlag(true);
@@ -87,12 +87,14 @@ const SignInForm = () => {
                             placeholder="Enter your password"></MField>
                         <button
                             type="submit"
-                            className="w-full p-4 text-white bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl">
+                            className="w-full p-4 text-white bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl hover:bg-gradient-to-b hover:from-[#97D9E1] hover:to-[#D9AFD9] ">
                             Sign in
                         </button>
                         {!flag && (
                             <div className="p-3 bg-gradient-to-r from-[#eb3349] to-[#f45c43] text-transparent bg-clip-text font-semibold text-center select-none">
-                                <span>Your account or phone is incorrect</span>
+                                <span>
+                                    Your account or password is incorrect
+                                </span>
                             </div>
                         )}
                     </Form>
@@ -101,7 +103,7 @@ const SignInForm = () => {
             <div className="w-[50%] min-h-screen h-full bg-gradient-to-br from-cyan-500 to-blue-500">
                 <div className="flex items-center justify-center p-4 gap-x-5">
                     <span
-                        onClick={() => navigate("/home")}
+                        onClick={() => navigate("/")}
                         className="font-semibold text-center text-white cursor-pointer select-none">
                         Home
                     </span>

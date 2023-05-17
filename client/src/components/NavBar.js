@@ -19,7 +19,7 @@ const NavBar = ({ items }) => {
     const [cartQuantity, setCartQuantity] = useState(0);
 
     useEffect(() => {
-        console.log(localStorage.role);
+        // console.log(localStorage.role);
     }, []);
 
     const handleAccountClick = () => {
@@ -27,15 +27,14 @@ const NavBar = ({ items }) => {
     };
 
     const signOutHandle = () => {
+        localStorage.clear();
         signOut();
         navigate("/login");
     };
 
     const getProfile = () => {
-        return JSON.parse(localStorage.profile);
+        if (localStorage) return JSON.parse(localStorage.profile);
     };
-
-    const { name } = getProfile();
 
     useEffect(() => {
         fetch("http://localhost:8080/api/in-cart", {
@@ -126,13 +125,27 @@ const NavBar = ({ items }) => {
                     </h1>
                 </div>
                 <div className="flex items-end justify-end flex-1 p-3 mr-8 gap-x-6">
-                    <div>
-                            <span
-                                className="select-none font-extralight">
-                                {name}
+                    {localStorage.length > 0 ? (
+                        <div>
+                            <span className="select-none font-extralight">
+                                {getProfile().name}
                             </span>
-                    </div>
-                    {localStorage.role === "USER" && (
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-x-4">
+                            <span
+                                onClick={() => navigate("/login")}
+                                className="uppercase cursor-pointer select-none hover:bg-gradient-to-b hover:from-[#2AF598] hover:to-[#08AEEA] hover:text-transparent hover:bg-clip-text">
+                                Sign in
+                            </span>
+                            <span
+                                onClick={() => navigate("/register")}
+                                className="uppercase cursor-pointer select-none hover:bg-gradient-to-b hover:from-[#2AF598] hover:to-[#08AEEA] hover:text-transparent hover:bg-clip-text">
+                                Register
+                            </span>
+                        </div>
+                    )}
+                    {localStorage && localStorage.role === "USER" && (
                         <Link to="/cart">
                             <div className="relative">
                                 <ShoppingCartIcon className="w-6 h-6 "></ShoppingCartIcon>
@@ -145,47 +158,49 @@ const NavBar = ({ items }) => {
                             </div>
                         </Link>
                     )}
-                    <div>
-                        <UsersIcon
-                            className="w-6 h-6 "
-                            onClick={handleAccountClick}
-                        />
-                        {isShowDropDown && (
-                            <div
-                                className="absolute z-10 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg right-10 ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                role="menu"
-                                aria-orientation="vertical"
-                                aria-labelledby="menu-button"
-                                tabIndex="-1">
-                                <div className="py-1" role="none">
-                                    <Link
-                                        to={"/profile"}
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        role="menuitem"
-                                        tabIndex="-1"
-                                        id="menu-item-0 ">
-                                        Profile
-                                    </Link>
-                                    <Link
-                                        to={"/billing-history"}
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        role="menuitem"
-                                        tabIndex="-1"
-                                        id="menu-item-2">
-                                        Billing History
-                                    </Link>
-                                    <div
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        role="menuitem"
-                                        tabIndex="-1"
-                                        id="menu-item-2"
-                                        onClick={signOutHandle}>
-                                        Sign out
+                    {localStorage.token && (
+                        <div>
+                            <UsersIcon
+                                className="w-6 h-6 "
+                                onClick={handleAccountClick}
+                            />
+                            {isShowDropDown && (
+                                <div
+                                    className="absolute z-10 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg right-10 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                    role="menu"
+                                    aria-orientation="vertical"
+                                    aria-labelledby="menu-button"
+                                    tabIndex="-1">
+                                    <div className="py-1" role="none">
+                                        <Link
+                                            to={"/profile"}
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            role="menuitem"
+                                            tabIndex="-1"
+                                            id="menu-item-0 ">
+                                            Profile
+                                        </Link>
+                                        <Link
+                                            to={"/billing-history"}
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            role="menuitem"
+                                            tabIndex="-1"
+                                            id="menu-item-2">
+                                            Billing History
+                                        </Link>
+                                        <div
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            role="menuitem"
+                                            tabIndex="-1"
+                                            id="menu-item-2"
+                                            onClick={signOutHandle}>
+                                            Sign out
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
-                    </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className={menuClass} style={{ zIndex: "9" }}>
