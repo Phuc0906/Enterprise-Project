@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { paste } from "@testing-library/user-event/dist/paste";
 import Select from "react-select";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {urlToFile} from "../utils";
 
 const ProductForm = () => {
     const IMAGE_URL =
         "https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/";
     const location = useLocation();
+    const navigate =  useNavigate();
     const [image, setImage] = useState([undefined]);
     const [categoryList, setCategoryList] = useState([{}]);
     const [selectedCategory, setSelectedCategory] = useState({});
@@ -244,6 +245,7 @@ const ProductForm = () => {
             .then((data) => {
                 console.log(data);
             });
+        navigate("/shop/product");
     };
 
     const updateProduct = () => {
