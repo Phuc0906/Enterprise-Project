@@ -180,14 +180,14 @@ const NavBar = ({ items }) => {
                                             id="menu-item-0 ">
                                             Profile
                                         </Link>
-                                        <Link
+                                        {localStorage.role === "USER" && <Link
                                             to={"/billing-history"}
                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                             role="menuitem"
                                             tabIndex="-1"
                                             id="menu-item-2">
                                             Billing History
-                                        </Link>
+                                        </Link>}
                                         <div
                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                             role="menuitem"
