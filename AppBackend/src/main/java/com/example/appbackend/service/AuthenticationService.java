@@ -55,7 +55,7 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .role(user.getRole().name())
-                .profile(new UserDTO(user.getName(), user.getEmail(), user.getAddress(), user.getRole().name(), user.getPhoneNumber(), user.getPassword()))
+                .profile(new UserDTO(user.getId() , user.getName(), user.getEmail(), user.getAddress(), user.getRole().name(), user.getPhoneNumber(), user.getPassword()))
                 .cartProducts(cartDTOS.size())
                 .build();
     }

@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class UserDTO {
+    private Long id;
     private String name;
     private String email;
     private String address;
@@ -15,5 +15,22 @@ public class UserDTO {
     private String phoneNumber;
     private String password;
 
+    public UserDTO(String name, String email, String address, String role, String phoneNumber, String password) {
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.role = role;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
 
+    public UserDTO(Long id, String name, String email, String address, String role, String phoneNumber, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.role = role;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
 }
