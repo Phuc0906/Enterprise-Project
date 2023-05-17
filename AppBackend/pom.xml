@@ -13,9 +13,12 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>AppBackend</name>
     <description>AppBackend</description>
+<!--    <properties>-->
+<!--        <java.version>17</java.version>-->
+<!--        <starte-class>com.example.appbackend.AppBackendApplication</starte-class>-->
+<!--    </properties>-->
     <properties>
-        <java.version>17</java.version>
-        <starte-class>com.example.appbackend.AppBackendApplication</starte-class>
+        <start-class>com.example.appbackend.AppBackendApplication</start-class>
     </properties>
 
     <dependencies>
@@ -113,14 +116,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                    <mainClass>com.example.appbackend.AppBackendApplication</mainClass>
+                    <layout>JAR</layout>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -22,7 +22,7 @@ const HomeFooter = () => {
                         Become a member & get 15% off
                     </h2>
                     <button
-                        onClick={() => navigate("/login")}
+                        onClick={() => navigate("/register")}
                         className="py-4 font-semibold text-white rounded-lg bg-slate-900 px-7 hover:bg-gradient-to-r from-violet-800 to-orange-600">
                         Sign Up
                     </button>

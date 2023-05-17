@@ -147,16 +147,6 @@ public class BillingService {
         return categoryRepository.getCategoryRecord(3, shopName);
     }
 
-//    public List<BillingResponse> getShopAllBillings(String shopName) throws Exception {
-//        try {
-//            Shop shop = shopRepository.findByName(shopName).orElseThrow();
-//            return billingRepository.getAllBillingFromShop(shop.getId());
-//        }catch (Exception ex) {
-//
-//            throw new Exception("Exception this step " + ex.toString());
-//        }
-//    }
-
     public List<BillingResponse> getAllBillings(String shopName) throws Exception {
         try {
             Shop shop = shopRepository.findByName(shopName).orElseThrow();
@@ -164,6 +154,10 @@ public class BillingService {
         }catch (Exception ex) {
             throw new Exception("Exception this step " + ex.toString());
         }
+    }
+
+    public List<Long> getProductsByProductId(Long id, String phoneNumber) {
+        return billingRepository.getProductsByProductId(id, phoneNumber);
     }
 
 }

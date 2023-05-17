@@ -28,4 +28,7 @@ public interface BillingRepository extends JpaRepository<Billing, Long> {
     @Query("select new com.example.appbackend.dto.BillingResponse(bl.id, bl.appUser, bl.shop, bl.totalPrice, bl, bl.buyDate, bl.status) from billing bl where bl.shop.id = ?1")
     List<BillingResponse> getAllBillings(Long shopId);
 
+    @Query("select blp.productId  from billing bl, billing_product blp where blp.billing.id = bl.id and blp.productId = ?1 and bl.appUser.phoneNumber = ?2")
+    List<Long> getProductsByProductId(Long productId, String phoneNumber);
+
 }
