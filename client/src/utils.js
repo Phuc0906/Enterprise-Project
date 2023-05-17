@@ -21,7 +21,7 @@ export const getAuthHeaders = (authToken: string) => {
 
 export const userNavContent = [
     { name: "Home", page: "/" },
-    { name: "Products", page: "/products" }
+    { name: "Products", page: "/products"}
 ]
 
 export const shopNavContent = [
