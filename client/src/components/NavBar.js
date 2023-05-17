@@ -99,25 +99,6 @@ const NavBar = ({ items }) => {
                             <button className={burgerClass}></button>
                         </div>
                     </div>
-
-                    <div
-                        className={`flex items-center flex-shrink-0 p-1 ml-3 border min-w-fit  rounded-md`}>
-                        <input
-                            type="text"
-                            name="searchBar"
-                            className="transition-all focus:w-full"
-                            placeholder="Searching something"
-                            onFocus={(e) => {
-                                const parent = e.target.parentElement;
-                                parent.classList.add("w-full");
-                            }}
-                            onBlur={(e) => {
-                                const parent = e.target.parentElement;
-                                parent.classList.remove("w-full");
-                            }}
-                        />
-                        <MagnifyingGlassIcon className="flex-shrink-0 w-6 h-6"></MagnifyingGlassIcon>
-                    </div>
                 </div>
                 <div className="flex-1">
                     <h1 className="text-lg font-semibold text-center select-none">
