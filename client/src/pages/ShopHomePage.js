@@ -10,7 +10,7 @@ const ShopHomePage = () => {
     ]
 
     return <div>
-        <NavBar items={shopNavContent} />
+        <NavBar items={items} />
     </div>
 }
 

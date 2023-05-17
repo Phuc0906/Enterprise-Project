@@ -32,7 +32,7 @@ const ShopDashboard = () => {
     }, [])
 
     return <div>
-        <NavBar items={shopNavContent} />
+        <NavBar items={items} />
         <ShopRecord data={record} />
         <ShopRecordChart recordData={record}/>
     </div>

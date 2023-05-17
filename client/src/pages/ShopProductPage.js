@@ -8,7 +8,8 @@ import {getAuthHeaders, shopNavContent, splittingPriceNumber} from "../utils";
 const ShopProductPage = () => {
     const items = [
         {name: "Dashboard", page: "/shop/dashboard"},
-        {name: "Product", page: "/shop/product"}
+        {name: "Product", page: "/shop/product"},
+        {name: "Orders", page: "/shop/orders"}
     ]
     const [products, setProducts] = useState([]);
     const authHeader = useAuthHeader();
@@ -56,7 +57,7 @@ const ShopProductPage = () => {
     }, [])
 
     return <div>
-        <NavBar items={shopNavContent} />
+        <NavBar items={items} />
         <div>
             <h2 className="text-3xl mt-8 text-center">Shop Product</h2>
             <div className="mt-8 ml-3">
