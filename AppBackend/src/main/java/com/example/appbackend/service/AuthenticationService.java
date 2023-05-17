@@ -80,7 +80,7 @@ public class AuthenticationService {
                 .build();
 
 
-        if (!(request.getRole().equals("USER"))) {
+        if (!(request.getRole().equals("USER") || (request.getRole().equals("SHIPPER")))) {
             Shop shop = new Shop(request.getName(), request.getEmail());
             shopRepository.save(shop);
         }
