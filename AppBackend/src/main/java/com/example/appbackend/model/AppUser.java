@@ -66,6 +66,12 @@ public class AppUser implements UserDetails {
     )
     private List<InCart> inCarts = new ArrayList<>();
 
+    @OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            mappedBy = "appUser"
+    )
+    private List<Rating> ratings = new ArrayList<>();
+
 
     public void addBilling(Billing billing) {
         billingList.add(billing);
@@ -81,6 +87,11 @@ public class AppUser implements UserDetails {
     public void addInCart(InCart inCart) {
         inCarts.add(inCart);
         inCart.setAppUser(this);
+    }
+
+    public void addRating(Rating rating) {
+        this.ratings.add(rating);
+        rating.setAppUser(this);
     }
 
     @Override

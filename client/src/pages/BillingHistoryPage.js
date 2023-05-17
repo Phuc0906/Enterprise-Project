@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import NavBar from "../components/NavBar";
+import {splittingPriceNumber} from "../utils";
 
 const BillingHistoryPage = () => {
     const IMAGE_URL = `https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/`;
@@ -27,19 +28,6 @@ const BillingHistoryPage = () => {
             })
     },[billingStatus]);
 
-    const splittingPriceNumber = (price) => {
-        let splittingNum = "";
-        let countDigit = 0;
-        for (let i = price.length - 1; i >= 0; i--) {
-            if (countDigit > 2) {
-                countDigit = 0;
-                splittingNum = ',' + splittingNum;
-            }
-            splittingNum = price[i] + splittingNum;
-            countDigit++;
-        }
-        return splittingNum;
-    }
 
     const Billing = ({billing}) => {
         const [products, setProducts] = useState([]);

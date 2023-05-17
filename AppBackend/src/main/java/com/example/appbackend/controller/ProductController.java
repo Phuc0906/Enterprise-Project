@@ -26,6 +26,9 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     @Autowired
+    private RatingService ratingService;
+
+    @Autowired
     private ProductService productService;
 
     @Autowired
@@ -86,7 +89,8 @@ public class ProductController {
 
     @PostMapping(path = "/get-products")
     public List<ProductDTO> getProduct(@RequestBody ProductGetRequest request) {
-        System.out.println(request);
+        System.out.println(request.getBrands().length + " length of brands");
+        System.out.println(request.getCategories().length + " length of categories");
         List<Long> categories = new ArrayList<>();
         List<Long> brands = new ArrayList<>();
         for (int i = 0; i < request.getCategories().length; i++) {
@@ -138,4 +142,8 @@ public class ProductController {
         return productService.getAllProduct(page);
     }
 
+    @PostMapping(path = "/rating/{productId}/{phone}/{rate}")
+    public void rating(@PathVariable("productId") String productId, @PathVariable("phone") String phone, @PathVariable("rate") String rate) {
+        ratingService.addRating(Integer.parseInt(rate), phone, Long.parseLong(productId));
+    }
 }

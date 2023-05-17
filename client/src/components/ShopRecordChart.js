@@ -13,6 +13,7 @@ import {
     YAxis
 } from "recharts";
 import {splittingPriceNumber} from "../utils";
+import {Link} from "react-router-dom";
 
 const ShopRecordChart = ({recordData}) => {
     const [data, setData] = useState([]);
@@ -76,7 +77,6 @@ const ShopRecordChart = ({recordData}) => {
                 serverRes.then(data => {
                     console.log(data);
                     setCategoryRecord(data);
-                    // setRecord(data);
                 })
             })
 
@@ -107,11 +107,13 @@ const ShopRecordChart = ({recordData}) => {
             <th scope="col" className="px-6 py-4">{billing.date}</th>
             <th scope="col" className="px-6 py-4">{(billing.status === 0) ? 'Wait for processing' : (billing.status === 1) ? 'Wait for shipper' : (billing.status === 2) ? 'Delivering' : 'Delivered'}</th>
             <th scope="col" className="px-6 py-4">
-                <button
+                <Link
+                    to={'/shop/billing-detail'}
+                    state={{billing: billing}}
                     type="button"
                     className="inline-block rounded bg-blue-300 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
                     View Detail
-                </button>
+                </Link>
             </th>
         </tr>
     }
@@ -229,8 +231,12 @@ const ShopRecordChart = ({recordData}) => {
                                 </thead>
                                 <tbody>
                                 {billings.map((billing, index) => {
-                                    if ((index < maxIdx) && (index >= minIdx)) {
+                                    if (searchValue.length !== 0) {
                                         return <RowBuilder key={index} billing={billing} />
+                                    }else {
+                                        if ((index < maxIdx) && (index >= minIdx)) {
+                                            return <RowBuilder key={index} billing={billing} />
+                                        }
                                     }
                                     return null;
                                 })}

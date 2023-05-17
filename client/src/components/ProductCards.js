@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {splittingPriceNumber} from "../utils";
 import Slider from 'react-slick';
 import {Carousel} from "react-responsive-carousel";
+import RatingStar from "./RatingStar";
 
 const ProductCards = ({product}) => {
     const IMAGE_URL = "https://gr-project-bucket.s3.ap-southeast-1.amazonaws.com/";
@@ -11,7 +12,7 @@ const ProductCards = ({product}) => {
     const timeRef = useRef(null);
     const [item, setItem] = useState(0);
     const [images, setImages] = useState([]);
-
+    const starCount = [0, 1, 2, 3, 4];
     const cardClickedHandle = () => {
         navigate(`/product/${product.id}`)
         window.location.reload();
@@ -55,6 +56,9 @@ const ProductCards = ({product}) => {
         </div>
         <div className="ml-5">
             <h1 className="mt-[15.7px] text-sm w-[200px] text-[#003F62] font-bold flex-wrap">{product.name}</h1>
+            <div className="flex gap-1 mt-2">
+                {starCount.map(star => <RatingStar ratingCount={product.rating - 1} idx={star} key={star} />)}
+            </div>
             <h1 className="absolute bottom-4 text-[#4A4A4A]">{splittingPriceNumber(product.price.toString()) + " vnd"}</h1>
         </div>
 
