@@ -20,7 +20,7 @@ const RegisterPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         axios
-            .post("http://localhost:8080/user/register", user)
+            .post(`http://${process.env.REACT_APP_API_URL}/user/register`, user)
             .then((response) => {
                 console.log(response.data);
             })

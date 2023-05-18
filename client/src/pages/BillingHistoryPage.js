@@ -12,7 +12,7 @@ const BillingHistoryPage = () => {
 
     const [billings, setBilling] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:8080/api/billing/"+localStorage.phoneNumber+"/"+billingStatus, {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/`+localStorage.phoneNumber+"/"+billingStatus, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -33,7 +33,7 @@ const BillingHistoryPage = () => {
         const [products, setProducts] = useState([]);
 
         useEffect(() => {
-            fetch("http://localhost:8080/api/product/billing/product?billing=" + billing.id, {
+            fetch(`http://${process.env.REACT_APP_API_URL}/api/product/billing/product?billing=` + billing.id, {
                 method: "GET",
                 credentials: "include",
                 headers: {

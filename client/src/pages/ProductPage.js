@@ -19,7 +19,7 @@ const ProductPage = () => {
             brands: brandsArr,
         };
 
-        fetch("http://localhost:8080/api/product/get-products", {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/product/get-products`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -66,7 +66,7 @@ const ProductPage = () => {
     useEffect(() => {
         console.log("Re-run");
 
-        fetch("http://localhost:8080/api/category", {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/category`, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -81,7 +81,7 @@ const ProductPage = () => {
             });
         });
 
-        fetch("http://localhost:8080/api/shop", {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/shop`, {
             method: "GET",
             credentials: "include",
             headers: {

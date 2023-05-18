@@ -58,7 +58,7 @@ const SignUpForm = () => {
                     }, 2000);
                     setState(true);
 
-                    axios.post('http://localhost:8080/auth/register', {
+                    axios.post(`http://${process.env.REACT_APP_API_URL}/auth/register`, {
                         name: values.fullname,
                         email: values.email,
                         address: values.address,

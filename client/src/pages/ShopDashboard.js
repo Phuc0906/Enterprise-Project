@@ -14,7 +14,7 @@ const ShopDashboard = () => {
     const [record, setRecord] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/billing/shop-record/"+JSON.parse(localStorage.profile).name, {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/shop-record/`+JSON.parse(localStorage.profile).name, {
             method: "GET",
             credentials: "include",
             headers: {

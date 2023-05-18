@@ -15,7 +15,7 @@ const SignInForm = () => {
     const handleSubmit = useCallback(async (values) => {
         try {
             const response = await axios.post(
-                "http://localhost:8080/auth/authenticate",
+                `http://${process.env.REACT_APP_API_URL}/auth/authenticate`,
                 {
                     phoneNumber: values.account,
                     password: values.password,

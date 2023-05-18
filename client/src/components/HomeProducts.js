@@ -5,7 +5,7 @@ import HomeProductCard from "./HomeProductCard";
 const HomeProducts = () => {
     const [products, setProducts] = useState([]);
     const getProducts = () => {
-        fetch(`http://localhost:8080/api/product/get`, {
+        fetch(`http://${process.env.API_URL}/api/product/get`, {
             method: "GET",
             credentials: "include",
             headers: {

@@ -57,7 +57,7 @@ const ProductForm = () => {
                 setSelectedCat(location.state.product.categoryname);
 
                 fetch(
-                    `http://localhost:8080/api/product/stock?productId=${location.state.product.id}`,
+                    `http://${process.env.REACT_APP_API_URL}/api/product/stock?productId=${location.state.product.id}`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -83,7 +83,7 @@ const ProductForm = () => {
         getProductDetail();
 
         axios
-            .get("http://localhost:8080/api/category", {
+            .get(`http://${process.env.REACT_APP_API_URL}/api/category`, {
                 headers: {
                     Authorization: "Bearer " + localStorage.token,
                 },
@@ -217,7 +217,7 @@ const ProductForm = () => {
             imageData.append("file", image[i]);
         }
 
-        fetch("http://localhost:8080/api/product", {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/product`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -232,7 +232,7 @@ const ProductForm = () => {
                     console.log(data);
                     axios
                         .post(
-                            `http://localhost:8080/api/product/${data.product_id}/image/upload`,
+                            `http://${process.env.REACT_APP_API_URL}/api/product/${data.product_id}/image/upload`,
                             imageData,
                             {
                                 headers: {
@@ -265,7 +265,7 @@ const ProductForm = () => {
             imageData.append("file", image[i]);
         }
 
-        fetch("http://localhost:8080/api/product", {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/product`, {
             method: "PUT",
             credentials: "include",
             headers: {
@@ -279,7 +279,7 @@ const ProductForm = () => {
 
         axios
             .post(
-                `http://localhost:8080/api/product/${productInfo.id}/image/upload`,
+                `http://${process.env.REACT_APP_API_URL}/api/product/${productInfo.id}/image/upload`,
                 imageData,
                 {
                     headers: {

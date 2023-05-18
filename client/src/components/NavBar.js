@@ -37,7 +37,7 @@ const NavBar = ({ items }) => {
     };
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/in-cart", {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/in-cart`, {
             method: "GET",
             credentials: "include",
             headers: {

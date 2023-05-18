@@ -11,7 +11,7 @@ const AtShop = () => {
     const [bills,setBills] = useState([])
     const [loading,setLoading] = useState(true)
     useEffect(() => {
-        fetch("http://localhost:8080/api/billing/1", {
+        fetch(`http://${process.env.API_URL}/api/billing/1`, {
             method: "GET",
             credentials: "include",
             headers: {

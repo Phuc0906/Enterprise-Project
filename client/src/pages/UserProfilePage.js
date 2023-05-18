@@ -70,7 +70,7 @@ const UserProfilePage = () => {
                                     phone: values.phone
                                 })
 
-                                fetch('http://localhost:8080/api/user', {
+                                fetch(`http://${process.env.REACT_APP_API_URL}/api/user`, {
                                     method: 'PUT',
                                     credentials: "include",
                                     headers: {
@@ -158,7 +158,6 @@ const UserProfilePage = () => {
                                 )
                             })}
                             onSubmit={(values, actions) => {
-                                // console.log("SignUpFormFinal ~ actions", actions);
                                 console.log(values);
                                 setTimeout(() => {
                                     actions.resetForm({
@@ -168,24 +167,6 @@ const UserProfilePage = () => {
                                     });
                                     actions.setSubmitting(false);
                                 }, 2000);
-
-                                // fetch('http://localhost:8080/api/user', {
-                                //     method: 'PUT',
-                                //     credentials: "include",
-                                //     headers: {
-                                //         'Content-Type': 'application/json',
-                                //         'Authorization': 'Bearer ' + localStorage.token
-                                //     },
-                                //     body: JSON.stringify({
-                                //         phoneNumber: profile.phone,
-                                //         currentPassword: values.password,
-                                //         newPassword: values.newPassword
-                                //     })
-                                // }).then(res => {
-                                //     console.log(res);
-                                // }).then(data => {
-                                //     console.log(data)
-                                // });
                             }}>
                             {(formik) => {
                                 return (

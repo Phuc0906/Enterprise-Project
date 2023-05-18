@@ -56,7 +56,6 @@ const ProductCards = ({ product }) => {
                         />
                     ))}
                 </Carousel>
-                {/*<img className="w-full h-40 ml-auto mr-auto duration-500 ease-in-out rounded-2xl" src={`${IMAGE_URL}${product.id}-${currentIdx}.png`}/>*/}
             </div>
             <div className="ml-5">
                 <h1 className="mt-[15.7px] text-sm w-[200px] text-[#003F62] font-bold flex-wrap line-clamp-1">
