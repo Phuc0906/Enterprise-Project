@@ -22,8 +22,9 @@ const HomeProductCard = (props) => {
     };
 
     const handleAddToCard = () => {
-        if (localStorage.length === 0) {
+        if (localStorage.length === 0 || localStorage.role !== "USER") {
             navigate("/login");
+        } else {
         }
     };
 
