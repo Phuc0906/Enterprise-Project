@@ -1,13 +1,11 @@
 version: "3.8"
 services:
   api:
-    build: ./AppBackend
-    container_name: api_c
+    image: phuc0906/app_server:2.0.0
     ports:
       - '8080:8080'
   client:
-    build: ./client
-    container_name: client_c
+    image: phuc0906/app_client:2.0.0
     ports:
       - '3000:3000'
     stdin_open: true
