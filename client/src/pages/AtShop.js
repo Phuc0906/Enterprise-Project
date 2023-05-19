@@ -30,7 +30,7 @@ const AtShop = () => {
 
     function handleReceived(id) {
         console.log("billing " + id);
-        fetch("http://localhost:8080/api/billing/up/"+id+"?phone="+JSON.parse(localStorage.profile).phone,  {
+        fetch(`http://${process.env.API_URL}/api/billing/up/`+id+"?phone="+JSON.parse(localStorage.profile).phone,  {
             method: "POST",
             credentials: "include",
             headers: {
