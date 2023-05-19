@@ -4,8 +4,9 @@ import HomeProductCard from "./HomeProductCard";
 
 const HomeProducts = () => {
     const [products, setProducts] = useState([]);
+    const url = process.env.REACT_APP_API_URL;
     const getProducts = () => {
-        fetch(`http://${process.env.API_URL}/api/product/get`, {
+        fetch(`http://${url}/api/product/get`, {
             method: "GET",
             credentials: "include",
             headers: {
