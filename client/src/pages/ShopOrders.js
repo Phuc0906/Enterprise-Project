@@ -14,7 +14,7 @@ const ShopOrders = () => {
 
     const [billings, setBilling] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:8080/api/billing/shop/"+JSON.parse(localStorage.profile).name+"/"+billingStatus, {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/shop/`+JSON.parse(localStorage.profile).name+"/"+billingStatus, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -48,7 +48,7 @@ const ShopOrders = () => {
         const [products, setProducts] = useState([]);
 
         useEffect(() => {
-            fetch("http://localhost:8080/api/product/billing/product?billing=" + billing.id, {
+            fetch(`http://${process.env.REACT_APP_API_URL}/api/product/billing/product?billing=` + billing.id, {
                 method: "GET",
                 credentials: "include",
                 headers: {
@@ -65,7 +65,7 @@ const ShopOrders = () => {
         }, [])
 
         function handlePrepDone() {
-            fetch("http://localhost:8080/api/billing/up/"+billing.id+"?phone="+JSON.parse(localStorage.profile).phone, {
+            fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/up/`+billing.id+"?phone="+JSON.parse(localStorage.profile).phone, {
                 method: "POST",
                 credentials: "include",
                 headers: {

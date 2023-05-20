@@ -28,7 +28,7 @@ const CartItem = ({shop, onProductQuantityChange, shopIdx}) => {
 
 
     function handleBuy() {
-        fetch("http://localhost:8080/api/billing", {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing`, {
             method: "POST",
             credentials: "include",
             headers: {

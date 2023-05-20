@@ -27,7 +27,7 @@ const ShopBillingDetail = () => {
         console.log(location.state);
         setBilling(location.state.billing);
 
-        fetch("http://localhost:8080/api/product/billing/product?billing=" + location.state.billing.id, {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/product/billing/product?billing=` + location.state.billing.id, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -45,7 +45,7 @@ const ShopBillingDetail = () => {
     }, [])
 
     const onShopApproved = () => [
-        fetch("http://localhost:8080/api/billing/up/"+billing.id+"?phone="+billing.customer.phone,  {
+        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/up/`+billing.id+"?phone="+billing.customer.phone,  {
             method: "POST",
             credentials: "include",
             headers: {
