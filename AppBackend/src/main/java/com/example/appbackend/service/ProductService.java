@@ -45,8 +45,7 @@ public class ProductService {
                     product.getPrice(),
                     product.getShop().getName(),
                     product.getCategory().getName(),
-                    product.getImageCount(),
-                    product.getRating()
+                    product.getImageCount()
             );
         }else {
             throw new IllegalStateException("Product not found");
