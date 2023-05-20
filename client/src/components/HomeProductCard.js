@@ -58,7 +58,9 @@ const HomeProductCard = (props) => {
                     />
                 </div>
                 <div className="p-3 text-center">
-                    <h2 className="text-lg font-semibold ">{product.name}</h2>
+                    <h2 className="text-lg font-semibold line-clamp-1">
+                        {product.name}
+                    </h2>
                     <span className="mt-[20px] block text-yellow-400">
                         {`${splittingPriceNumber(
                             product.price.toString()
