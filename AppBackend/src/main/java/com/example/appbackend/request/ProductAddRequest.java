@@ -21,7 +21,9 @@ public class ProductAddRequest {
 
     private int[] size;
 
-    public ProductAddRequest(String name, String description, Long price, String shopname, String categoryname, int imagesCount, int[] size) {
+    private double rating;
+
+    public ProductAddRequest(String name, String description, Long price, String shopname, String categoryname, int imagesCount, int[] size,double rating) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -29,5 +31,7 @@ public class ProductAddRequest {
         this.categoryname = categoryname;
         this.imagesCount = imagesCount;
         this.size = size;
+        this.rating = rating;
     }
+
 }

@@ -31,7 +31,7 @@ const HomeProductCard = (props) => {
     return (
         <div className="relative flex flex-col h-full max-h-[400px] border rounded-lg shadow-primary group">
             <div className="absolute top-0 bottom-0 left-0 right-0 z-40 invisible p-4 leading-relaxed text-white transition-all bg-black rounded-lg opacity-80 group-hover:visible">
-                <div className="flex flex-col h-[350px]">
+                <div onClick={onDetailClick} className="flex flex-col h-[350px]">
                     <p className="flex-shrink-0 text-xl font-semibold">
                         {product.shopname}
                     </p>
@@ -58,7 +58,9 @@ const HomeProductCard = (props) => {
                     />
                 </div>
                 <div className="p-3 text-center">
-                    <h2 className="text-lg font-semibold ">{product.name}</h2>
+                    <h2 className="text-lg font-semibold line-clamp-1">
+                        {product.name}
+                    </h2>
                     <span className="mt-[20px] block text-yellow-400">
                         {`${splittingPriceNumber(
                             product.price.toString()
@@ -68,7 +70,7 @@ const HomeProductCard = (props) => {
             </div>
             <button
                 onClick={handleAddToCard}
-                className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] py-3 px-8 rounded-[18px] bg-slate-800 text-white z-50 hover:shadow-secondary transition-all">
+                className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] max-w-[150px] max-h-[48px] w-full h-full rounded-[18px] bg-slate-800 text-white z-50 hover:shadow-secondary transition-all line-clamp-1">
                 Add to cart
             </button>
         </div>

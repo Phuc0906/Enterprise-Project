@@ -12,7 +12,7 @@ const ProductPage = () => {
     const [selectedCategories, setSelectedCategory] = useState([]);
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [products, setProducts] = useState([]);
-    const [page, setPage] = useState(2);
+    const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState();
 
     const getProducts = (categoryArr, brandsArr) => {
@@ -190,6 +190,7 @@ const ProductPage = () => {
             </div>
             {products && (
                 <Pagination
+                    active={page}
                     click={handleClick}
                     totalPages={totalPages}></Pagination>
             )}

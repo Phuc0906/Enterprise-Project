@@ -43,6 +43,7 @@ public class ProductController {
     @Autowired
     private AmazonS3Service amazonS3Service;
 
+
     @GetMapping(path = "/id/{id}")
     public ProductDTO getProductById(@PathVariable("id") String id) {
         return productService.getProductInfoById(Long.valueOf(id));
@@ -55,7 +56,7 @@ public class ProductController {
 
     @PostMapping()
     public ProductAddResponse addProduct(@RequestBody ProductAddRequest productDTO) {
-        Product product = new Product(productDTO.getName(), productDTO.getDescription(), productDTO.getPrice());
+        Product product = new Product(productDTO.getName(), productDTO.getDescription(), productDTO.getPrice(), productDTO.getRating());
         Category category = categoryService.findCategoryByName(productDTO.getCategoryname());
         System.out.println(productDTO.getCategoryname());
         category.addProduct(product);
@@ -78,8 +79,6 @@ public class ProductController {
         productService.addProduct(product);
         amazonS3Service.uploadImage(file, productId);
     }
-
-
 
     @PutMapping
     public void updateProduct(@RequestBody ProductAddRequest productDTO) throws Exception {
@@ -117,11 +116,6 @@ public class ProductController {
             );
         }
         return productService.getAllProduct();
-    }
-
-    @GetMapping("/shop")
-    public List<ProductDTO> getProductByShop(@RequestParam("shop") String shop) {
-        return productService.getProductsByShop(shop);
     }
 
 

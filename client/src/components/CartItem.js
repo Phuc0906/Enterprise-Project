@@ -42,8 +42,8 @@ const CartItem = ({shop, onProductQuantityChange, shopIdx}) => {
                 "products": billingProducts
             })
         })
-            .then({
-                // delete from cart
+            .then(resonse => {
+                window.location.reload();
             })
     }
 
