@@ -36,7 +36,7 @@ const ShopProductPage = () => {
     useEffect(() => {
         console.log(JSON.parse(localStorage.profile))
 
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/product/get-products`, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/product/get-products`, {
             method: 'POST',
             credentials: "include",
             headers: {

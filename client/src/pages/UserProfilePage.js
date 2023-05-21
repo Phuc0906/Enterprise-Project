@@ -70,7 +70,7 @@ const UserProfilePage = () => {
                                     phone: values.phone
                                 })
 
-                                fetch(`http://${process.env.REACT_APP_API_URL}/api/user`, {
+                                fetch(`https://${process.env.REACT_APP_API_URL}/api/user`, {
                                     method: 'PUT',
                                     credentials: "include",
                                     headers: {

@@ -11,7 +11,7 @@ const CategoryForm = () => {
     const authHeader = useAuthHeader();
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post(`http://${process.env.REACT_APP_API_URL}/category`,data, getAuthHeaders(authHeader()))
+        axios.post(`https://${process.env.REACT_APP_API_URL}/category`,data, getAuthHeaders(authHeader()))
             .then(response => {
                 console.log(response.data);
             })

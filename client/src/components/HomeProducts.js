@@ -6,7 +6,7 @@ const HomeProducts = () => {
     const [products, setProducts] = useState([]);
     const url = process.env.REACT_APP_API_URL;
     const getProducts = () => {
-        fetch(`http://${url}/api/product/get`, {
+        fetch(`https://${url}/api/product/get`, {
             method: "GET",
             credentials: "include",
             headers: {

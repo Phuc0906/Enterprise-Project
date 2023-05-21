@@ -28,7 +28,7 @@ const ProductRating = ({ productId, currentRating }) => {
         let data = [];
         data.push(rating);
 
-        fetch("http://localhost:8080/api/product/${id}", {
+        fetch("https://localhost:8080/api/product/${id}", {
             method: "PUT",
             credentials: "include",
             headers: {
@@ -44,7 +44,7 @@ const ProductRating = ({ productId, currentRating }) => {
     };
 
     const addRating = (productId, rating) => {
-        const url = `http://localhost:8080/api/product/${id}/rating`;
+        const url = `https://localhost:8080/api/product/${id}/rating`;
         const data = { rating: rating };
         const options = {
             method: "PUT",

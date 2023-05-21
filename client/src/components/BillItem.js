@@ -26,7 +26,7 @@ const BillItem = ({bill,handleReceived,handleCancel}) => {
     }
 
     useEffect(() => {
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/product/billing/product?billing=` + bill.id, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/product/billing/product?billing=` + bill.id, {
             method: "GET",
             credentials: "include",
             headers: {

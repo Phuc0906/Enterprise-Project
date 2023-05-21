@@ -47,7 +47,7 @@ const ShopRecordChart = ({recordData}) => {
         }
         setData(settingArr);
 
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/product-record/`+JSON.parse(localStorage.profile).name, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/billing/product-record/`+JSON.parse(localStorage.profile).name, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -62,7 +62,7 @@ const ShopRecordChart = ({recordData}) => {
                 })
             })
 
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/category-record/`+JSON.parse(localStorage.profile).name, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/billing/category-record/`+JSON.parse(localStorage.profile).name, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -116,7 +116,7 @@ const ShopRecordChart = ({recordData}) => {
     }
 
     const getBillingData = () => {
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/shop/`+JSON.parse(localStorage.profile).name,  {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/billing/shop/`+JSON.parse(localStorage.profile).name,  {
             method: "GET",
             credentials: "include",
             headers: {

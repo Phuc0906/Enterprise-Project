@@ -22,7 +22,7 @@ const ProductPage = () => {
         };
 
         fetch(
-            `http://${process.env.REACT_APP_API_URL}/api/product/get-products`,
+            `https://${process.env.REACT_APP_API_URL}/api/product/get-products`,
             {
                 method: "POST",
                 credentials: "include",
@@ -78,7 +78,7 @@ const ProductPage = () => {
     useEffect(() => {
         console.log("Re-run");
 
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/category`, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/category`, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -93,7 +93,7 @@ const ProductPage = () => {
             });
         });
 
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/shop`, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/shop`, {
             method: "GET",
             credentials: "include",
             headers: {

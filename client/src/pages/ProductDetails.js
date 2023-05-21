@@ -31,7 +31,7 @@ const ProductDetails = () => {
     useEffect(() => {}, [quantity]);
 
     useEffect(() => {
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/product/id/${id}`, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/product/id/${id}`, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -47,7 +47,7 @@ const ProductDetails = () => {
             });
         });
 
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/product/stock?productId=${id}`, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/product/stock?productId=${id}`, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -65,7 +65,7 @@ const ProductDetails = () => {
             });
         });
 
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/check-bought/${id}/${JSON.parse(localStorage.profile).phone}`, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/billing/check-bought/${id}/${JSON.parse(localStorage.profile).phone}`, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -87,7 +87,7 @@ const ProductDetails = () => {
         if (sizeSelected.length === 0) {
             return;
         }
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/in-cart`, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/in-cart`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -109,7 +109,7 @@ const ProductDetails = () => {
 
     const onRating = () => {
         console.log(startSelect);
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/product/rating/${id}/${JSON.parse(localStorage.profile).phone}/${startSelect + 1}`, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/product/rating/${id}/${JSON.parse(localStorage.profile).phone}/${startSelect + 1}`, {
             method: "POST",
             credentials: "include",
             headers: {

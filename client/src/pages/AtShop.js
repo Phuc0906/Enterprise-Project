@@ -11,7 +11,7 @@ const AtShop = () => {
     const [bills,setBills] = useState([])
     const [loading,setLoading] = useState(true)
     useEffect(() => {
-        fetch(`http://${process.env.API_URL}/api/billing/1`, {
+        fetch(`https://${process.env.API_URL}/api/billing/1`, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -30,7 +30,7 @@ const AtShop = () => {
 
     function handleReceived(id) {
         console.log("billing " + id);
-        fetch(`http://${process.env.API_URL}/api/billing/up/`+id+"?phone="+JSON.parse(localStorage.profile).phone,  {
+        fetch(`https://${process.env.API_URL}/api/billing/up/`+id+"?phone="+JSON.parse(localStorage.profile).phone,  {
             method: "POST",
             credentials: "include",
             headers: {

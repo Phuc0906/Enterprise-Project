@@ -11,7 +11,7 @@ const Delivered = () => {
     const [bills,setBills] = useState([])
     const [loading,setLoading] = useState(true)
     useEffect(() => {
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/shipper/`+JSON.parse(localStorage.profile).phone+"/3", {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/billing/shipper/`+JSON.parse(localStorage.profile).phone+"/3", {
             method: "GET",
             credentials: "include",
             headers: {
@@ -29,7 +29,7 @@ const Delivered = () => {
     },[loading])
 
     function handleReceived(id) {
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/up/`+id+"?phone="+JSON.parse(localStorage.profile).phone, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/billing/up/`+id+"?phone="+JSON.parse(localStorage.profile).phone, {
             method: "POST",
             credentials: "include",
             headers: {

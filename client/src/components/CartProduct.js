@@ -50,7 +50,7 @@ const CartProduct = ({product, onProductQuantityChange, productIdx, shopIdx, onQ
 
     const checkStock = (quantity) => {
         console.log("Size type:" + typeof product.size);
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/in-stock?productId=${product.productId}&size=${(product.size.includes('.') ? product.size : product.size + '.0')}&quantity=${quantity}`, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/in-stock?productId=${product.productId}&size=${(product.size.includes('.') ? product.size : product.size + '.0')}&quantity=${quantity}`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -67,7 +67,7 @@ const CartProduct = ({product, onProductQuantityChange, productIdx, shopIdx, onQ
     }
 
     const deleteProduct = () => {
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/in-cart`, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/in-cart`, {
             method: "DELETE",
             credentials: "include",
             headers: {

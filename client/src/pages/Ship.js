@@ -12,7 +12,7 @@ const Ship = () => {
     const [loading,setLoading] = useState(true)
     useEffect(() => {
         console.log(localStorage.profile);
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/shipper/`+JSON.parse(localStorage.profile).phone+"/2", {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/billing/shipper/`+JSON.parse(localStorage.profile).phone+"/2", {
             method: "GET",
             credentials: "include",
             headers: {
@@ -30,7 +30,7 @@ const Ship = () => {
     },[loading])
 
     function handleReceived(id) {
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/up/`+id+"?phone="+JSON.parse(localStorage.profile).phone, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/billing/up/`+id+"?phone="+JSON.parse(localStorage.profile).phone, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -44,7 +44,7 @@ const Ship = () => {
     }
 
     function handleCancel(id) {
-        fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/down/`+id+"?phone="+JSON.parse(localStorage.profile).phone, {
+        fetch(`https://${process.env.REACT_APP_API_URL}/api/billing/down/`+id+"?phone="+JSON.parse(localStorage.profile).phone, {
             method: "POST",
             credentials: "include",
             headers: {
