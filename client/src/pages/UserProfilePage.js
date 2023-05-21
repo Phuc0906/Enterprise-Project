@@ -97,8 +97,8 @@ const UserProfilePage = () => {
                             {(formik) => {
                                 return (
                                     <Form
-                                        className={`w-full `}>
-                                        <div className="flex gap-8">
+                                        className={`w-full`}>
+                                        <div className="flex flex-col md:flex-row gap-8 ">
                                             <MField
                                                 name="fullname"
                                                 placeholder="Enter your Full name"
@@ -109,14 +109,14 @@ const UserProfilePage = () => {
                                                 label="Phone"
                                                 type="text"></MField>
                                         </div>
-                                        <div className="mt-6 w-[600px]">
+                                        <div className="mt-6 w-full md:w-[600px] ">
                                             <MField
                                                 name="address"
                                                 placeholder="Enter your address"
                                                 label="Address"
                                                 type="text"></MField>
                                         </div>
-                                        <div className="mt-6 w-[600px]">
+                                        <div className="mt-6 w-[600px] ">
                                             <MField
                                                 name="email"
                                                 placeholder="Enter your Email"
@@ -171,7 +171,7 @@ const UserProfilePage = () => {
                             {(formik) => {
                                 return (
                                     <Form
-                                        className={`w-1/2 `}>
+                                        className={`w-full md:w-1/2`}>
                                         <div className="mt-6">
                                             <MField
                                                 name="password"

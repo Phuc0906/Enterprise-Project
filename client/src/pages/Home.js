@@ -5,6 +5,7 @@ import Category from "../components/Category";
 import HomeProducts from "../components/HomeProducts";
 import HomeLastest from "../components/HomeLastest";
 import HomeFooter from "../components/HomeFooter";
+import Footer from "../components/Footer";
 import { userNavContent } from "../utils";
 
 const Home = () => {
@@ -15,7 +16,7 @@ const Home = () => {
             <Category></Category>
             <HomeProducts></HomeProducts>
             <HomeLastest></HomeLastest>
-            <HomeFooter></HomeFooter>
+            <Footer></Footer>
         </div>
     );
 };
