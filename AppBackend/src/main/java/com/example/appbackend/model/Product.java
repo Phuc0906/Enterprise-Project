@@ -41,8 +41,7 @@ public class Product {
     private Long price;
 
     @Column(
-            name = "rating",
-            nullable = false
+            name = "rating"
     )
     private double rating;
 
@@ -86,11 +85,11 @@ public class Product {
     )
     private List<InCart> inCarts = new ArrayList<>();
 
-    public Product(String name, String description, Long price, double rating) {
+    public Product(String name, String description, Long price) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.rating = rating;
+        this.rating = 0;
     }
 
     public Product() {

@@ -24,6 +24,8 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+
+
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 

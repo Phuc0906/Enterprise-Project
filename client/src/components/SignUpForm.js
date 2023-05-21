@@ -11,7 +11,7 @@ const SignUpForm = () => {
     const navigate = useNavigate();
     return (
         <div>
-            <h1 className="p-5 mt-8 text-2xl md:text-3xl lg:text-4xl font-bold text-center">Sign Up</h1>
+            <h1 className="p-5 mt-8 text-3xl font-bold text-center">Sign Up</h1>
             <Formik
                 initialValues={{
                     firstName: "",
@@ -161,7 +161,7 @@ const MCheckBox = ({ children, ...props }) => {
     // console.log(children);
     return (
         <div>
-            <div className="flex flex-col md:flex-row items-center gap-2">
+            <div className="flex items-center gap-2">
                 <input
                     className="p-3 border border-gray-100 rounded-lg"
                     type="checkbox"
@@ -174,7 +174,6 @@ const MCheckBox = ({ children, ...props }) => {
                 <div className="text-sm text-red-500">{meta.error}</div>
             ) : null}
         </div>
-
     );
 };
 
