@@ -9,10 +9,10 @@ const Pagination = ({ totalPages, click, active }) => {
                     <div
                         key={index}
                         onClick={() => click(index + 1)}
-                        className={`w-[30px] h-[30px] rounded-full bg-gradient-to-br from-slate-900 to-slate-700 flex items-center justify-center text-white cursor-pointer select-none ${
+                        className={`w-[30px] h-[30px] rounded-full  flex items-center justify-center text-white cursor-pointer select-none ${
                             index + 1 === active
-                                ? "bg-gradient-to-br from-cyan-700 to-green-600"
-                                : ""
+                                ? "bg-gradient-to-br from-blue-600 to-cyan-600"
+                                : "bg-gradient-to-br from-slate-900 to-slate-700"
                         }`}>
                         {index + 1}
                     </div>

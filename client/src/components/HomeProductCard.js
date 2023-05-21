@@ -70,7 +70,7 @@ const HomeProductCard = (props) => {
             </div>
             <button
                 onClick={handleAddToCard}
-                className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] py-3 px-8 rounded-[18px] bg-slate-800 text-white z-50 hover:shadow-secondary transition-all">
+                className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] max-w-[150px] max-h-[48px] w-full h-full rounded-[18px] bg-slate-800 text-white z-50 hover:shadow-secondary transition-all line-clamp-1">
                 Add to cart
             </button>
         </div>

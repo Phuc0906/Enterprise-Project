@@ -17,11 +17,13 @@ const LatestCard = (props) => {
                 alt=""
             />
             <div className="absolute flex flex-col items-start bottom-1/2 left-[30px] translate-y-[100%] text-white leading-relaxed gap-y-3">
-                <h3 className="text-3xl font-extrabold ">{label}</h3>
-                <span>{desc}</span>
+                <h3 className="text-3xl font-extrabold line-clamp-1">
+                    {label}
+                </h3>
+                <span className="line-clamp-1">{desc}</span>
                 <button
                     onClick={scrollToTop}
-                    className="py-3 mt-4 bg-black px-7 rounded-xl hover:shadow-secondary">
+                    className="py-3 mt-4 bg-black px-7 rounded-xl hover:shadow-secondary line-clamp-1">
                     {button}
                 </button>
             </div>
