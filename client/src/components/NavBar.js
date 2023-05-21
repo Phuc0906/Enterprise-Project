@@ -48,7 +48,6 @@ const NavBar = ({ items }) => {
             const serverRes = res.json();
             serverRes.then((data) => {
                 const shopSetting = data;
-                console.log(data);
                 let qty = 0;
                 for (let i = 0; i < shopSetting.length; i++) {
                     qty += shopSetting[i].productList.length;

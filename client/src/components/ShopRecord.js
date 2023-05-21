@@ -18,10 +18,11 @@ const ShopRecord = ({data}) => {
 
     useEffect(() => {
         let totalProductSetting = 0;
-        console.log(data);
         for (let i = 0; i < data.length; i++) {
-            console.log(data[i]);
-            totalProductSetting += data[i].billingResponses.length;
+            const billingProducts = data[i].billingResponses;
+            for (let j = 0; j < billingProducts.length; j++) {
+                totalProductSetting += billingProducts[j].quantity
+            }
         }
         setTotalProduct(totalProductSetting);
     }, [data])
@@ -35,12 +36,12 @@ const ShopRecord = ({data}) => {
             />
             <ProductSellingStatus
                 title={"Rating Count"}
-                value={"200K"}
+                value={"4.5"}
                 theme={"bg-yellow-200"}
             />
             <ProductSellingStatus
-                title={"Sold"}
-                value={"200K"}
+                title={"Comments"}
+                value={"35"}
                 theme={"bg-green-200"}
             />
         </section>

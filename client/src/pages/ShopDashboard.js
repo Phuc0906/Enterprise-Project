@@ -25,7 +25,6 @@ const ShopDashboard = () => {
             .then(res => {
                 const serverRes = res.json();
                 serverRes.then(data => {
-                    console.log(data);
                     setRecord(data);
                 })
             })

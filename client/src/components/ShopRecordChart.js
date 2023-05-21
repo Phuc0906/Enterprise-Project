@@ -46,7 +46,6 @@ const ShopRecordChart = ({recordData}) => {
             })
         }
         setData(settingArr);
-        console.log(settingArr);
 
         fetch(`http://${process.env.REACT_APP_API_URL}/api/billing/product-record/`+JSON.parse(localStorage.profile).name, {
             method: "GET",
@@ -59,7 +58,6 @@ const ShopRecordChart = ({recordData}) => {
             .then(res => {
                 const serverRes = res.json();
                 serverRes.then(data => {
-                    console.log(data);
                     setTopProduct(data);
                 })
             })
@@ -75,7 +73,6 @@ const ShopRecordChart = ({recordData}) => {
             .then(res => {
                 const serverRes = res.json();
                 serverRes.then(data => {
-                    console.log(data);
                     setCategoryRecord(data);
                 })
             })
@@ -130,7 +127,6 @@ const ShopRecordChart = ({recordData}) => {
             .then(res => {
                 const serverRes = res.json();
                 serverRes.then(data => {
-                    console.log(data);
                     setBillings(data);
                     if (data.length % 10 === 0) {
                         setTotalBillingPage(data.length / 10);
