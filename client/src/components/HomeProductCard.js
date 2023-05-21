@@ -31,7 +31,7 @@ const HomeProductCard = (props) => {
     return (
         <div className="relative flex flex-col h-full max-h-[400px] border rounded-lg shadow-primary group">
             <div className="absolute top-0 bottom-0 left-0 right-0 z-40 invisible p-4 leading-relaxed text-white transition-all bg-black rounded-lg opacity-80 group-hover:visible">
-                <div className="flex flex-col h-[350px]">
+                <div onClick={onDetailClick} className="flex flex-col h-[350px]">
                     <p className="flex-shrink-0 text-xl font-semibold">
                         {product.shopname}
                     </p>
