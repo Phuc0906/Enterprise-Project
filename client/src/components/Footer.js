@@ -38,12 +38,7 @@ const Footer = () => {
                                 <p className="text-sm">Women</p>
                                 <p className="text-sm">Sale off</p>
                             </div>
-                            <div className="w-full md:w-1/3">
-                                <h3 className="text-lg font-semibold mb-2">About us</h3>
-                                <p className="text-sm">About Sneaker</p>
-                                <p className="text-sm">Market</p>
-                                <p className="text-sm">Careers</p>
-                            </div>
+
                             <div className="w-full md:w-1/3">
                                 <h3 className="text-lg font-semibold mb-2">Support</h3>
                                 <p className="text-sm">FAQ</p>
@@ -52,13 +47,7 @@ const Footer = () => {
                                 <p className="text-sm">General policy</p>
                                 <p className="text-sm">Order tracking</p>
                             </div>
-                            <div className="w-full md:w-1/3">
-                                <h3 className="text-lg font-semibold mb-2">Quick Links</h3>
-                                <ul className="text-sm">
-                                    <li><a href="../Home">Home</a></li>
-                                    <li><a href="../ShopHomePage">Shop</a></li>
-                                </ul>
-                            </div>
+
                             <div className="w-full md:w-1/3">
                                 <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
                                 <p className="text-sm">Email: support@example.com</p>
