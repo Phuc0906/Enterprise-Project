@@ -70,7 +70,6 @@ public class AppUser implements UserDetails {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             mappedBy = "appUser"
     )
-
     private List<Rating> ratings = new ArrayList<>();
 
 
