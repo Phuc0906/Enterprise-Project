@@ -103,7 +103,7 @@ const SignInForm = () => {
             <div className=" items-center justify-center w-full md:w-[50%] h-[90%] md:min-h-screen md:h-full bg-gradient-to-br from-cyan-500 to-blue-500 order-1 md:order-2">
                 <div className="flex items-center justify-center p-4 gap-x-5">
                         <span
-                            onClick={() => navigate("/home")}
+                            onClick={() => navigate("/")}
                             className="font-semibold text-center text-white cursor-pointer select-none">
                             Home
                         </span>

@@ -58,7 +58,7 @@ const SignUpForm = () => {
                     }, 2000);
                     setState(true);
 
-                    axios.post(`https://${process.env.REACT_APP_API_URL}/auth/register`, {
+                    axios.post(`https://${process.env.REACT_APP_API_URL}/api/auth/register`, {
                         name: values.fullname,
                         email: values.email,
                         address: values.address,
