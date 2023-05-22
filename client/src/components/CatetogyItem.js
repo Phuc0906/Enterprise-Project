@@ -3,6 +3,14 @@ import { useNavigate } from "react-router";
 
 const CatetogyItem = ({ image, title }) => {
     const navigate = useNavigate();
+    const handleClick = () => {
+        if (localStorage.length === 0 || localStorage.role !== "USER") {
+            navigate("/login");
+        } else {
+            navigate(`/products`);
+            // window.location.reload();
+        }
+    };
     return (
         <div className="relative w-full h-full">
             <img className="object-cover w-full h-full" src={image} alt="" />
@@ -11,7 +19,7 @@ const CatetogyItem = ({ image, title }) => {
                 {title}
             </h3>
             <button
-                onClick={() => navigate("/products")}
+                onClick={handleClick}
                 className="uppercase absolute px-10 py-4 text-white shadow-md bottom-5 rounded-2xl bg-slate-900 left-1/2 translate-x-[-50%] hover:bg-gradient-to-br from-[#1e130c] to-[#9a8478] transition-colors">
                 Shop Now
             </button>
