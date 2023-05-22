@@ -43,12 +43,15 @@ const ProductForm = () => {
                 const settingImages = [];
                 const imagesCounting = [];
                 for (let i = 0; i < location.state.product.imagesCount; i++) {
+                    console.log(IMAGE_URL + `${location.state.product.id}-${i}.png`)
                     await urlToFile(
                         IMAGE_URL + `${location.state.product.id}-${i}.png`,
                         "image/png"
                     ).then((res) => {
                         settingImages.push(res);
                         imagesCounting.push(imagesCounting.length);
+                    }).catch(err => {
+                        console.log(err)
                     });
                 }
                 setImage(settingImages);
@@ -133,6 +136,9 @@ const ProductForm = () => {
     };
 
     const ImageInputGenerator = (props) => {
+        console.log(image[parseInt(props.name)])
+
+
         return (
             <div className="pt-3">
                 <label

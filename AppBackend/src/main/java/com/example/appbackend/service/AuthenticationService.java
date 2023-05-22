@@ -65,6 +65,8 @@ public class AuthenticationService {
         if (request.getRole().equals("USER")) {
             role = Role.USER;
         }else if (request.getRole().equals("SHOP")) {
+            Shop shop = new Shop(request.getName(), request.getEmail());
+            shopRepository.save(shop);
             role = Role.SHOP;
         }else {
             role = Role.SHIPPER;
@@ -78,12 +80,6 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(role)
                 .build();
-
-
-        if (!(request.getRole().equals("USER") || (request.getRole().equals("SHIPPER")))) {
-            Shop shop = new Shop(request.getName(), request.getEmail());
-            shopRepository.save(shop);
-        }
 
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
