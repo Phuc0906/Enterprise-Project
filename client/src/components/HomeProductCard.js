@@ -25,6 +25,8 @@ const HomeProductCard = (props) => {
         if (localStorage.length === 0 || localStorage.role !== "USER") {
             navigate("/login");
         } else {
+            navigate(`/product/${product.id}`);
+            window.location.reload();
         }
     };
 
@@ -38,15 +40,6 @@ const HomeProductCard = (props) => {
                     <p className="max-w-full mt-3 line-clamp-3">
                         {product.description}
                     </p>
-
-                    <div className="flex items-center justify-center gap-2 mt-auto">
-                        <InformationCircleIcon
-                            onClick={onDetailClick}
-                            className="w-8 h-8 cursor-pointer "></InformationCircleIcon>
-                        <EllipsisHorizontalCircleIcon
-                            onClick={onListClick}
-                            className="w-8 h-8 cursor-pointer"></EllipsisHorizontalCircleIcon>
-                    </div>
                 </div>
             </div>
             <div className="h-full max-h-full">
@@ -71,7 +64,7 @@ const HomeProductCard = (props) => {
             <button
                 onClick={handleAddToCard}
                 className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] max-w-[150px] max-h-[48px] w-full h-full rounded-[18px] bg-slate-800 text-white z-50 hover:shadow-secondary transition-all line-clamp-1">
-                Add to cart
+                View detail
             </button>
         </div>
     );
