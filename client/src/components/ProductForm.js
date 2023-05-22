@@ -137,8 +137,6 @@ const ProductForm = () => {
 
     const ImageInputGenerator = (props) => {
         console.log(image[parseInt(props.name)])
-
-
         return (
             <div className="pt-3">
                 <label
@@ -251,6 +249,8 @@ const ProductForm = () => {
                         )
                         .then((res) => {
                             console.log(res);
+                            navigate("/shop/product");
+                            window.location.reload();
                         })
                         .catch((err) => {
                             console.log(err);
@@ -271,21 +271,30 @@ const ProductForm = () => {
             imageData.append("file", image[i]);
         }
 
-        fetch(`https://${process.env.REACT_APP_API_URL}/api/product`, {
-            method: "PUT",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + localStorage.token,
-            },
-            body: JSON.stringify(productInfo),
-        }).then((res) => {
-            console.log(res);
-        });
+        axios
+            .put(
+                `http://localhost:8080/api/product`,
+                productInfo,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + localStorage.token,
+                    },
+                    withCredentials: true,
+                }
+            )
+            .then((res) => {
+                console.log(res);
+                // navigate("/shop/product");
+                // window.location.reload();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
         axios
             .post(
-                `https://${process.env.REACT_APP_API_URL}/api/product/${productInfo.id}/image/upload`,
+                `http://${process.env.REACT_APP_API_URL}/api/product/${productInfo.id}/image/upload`,
                 imageData,
                 {
                     headers: {
@@ -297,11 +306,13 @@ const ProductForm = () => {
             )
             .then((res) => {
                 console.log(res);
+                // navigate("/shop/product");
+                // window.location.reload();
             })
             .catch((err) => {
                 console.log(err);
             });
-        navigate("/shop/product");
+
     };
 
     const handleSubmitForm = () => {
@@ -322,7 +333,6 @@ const ProductForm = () => {
         } else {
             uploadProduct();
         }
-        window.location.reload();
     };
 
     const sizeArrowHandle = () => {

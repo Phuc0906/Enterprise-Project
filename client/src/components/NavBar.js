@@ -108,7 +108,7 @@ const NavBar = ({ items }) => {
                     {localStorage.length > 0 ? (
                         <div>
                             <span className="select-none font-extralight">
-                                {getProfile().name}
+                                {(localStorage.profile !== undefined) ? getProfile().name : ""}
                             </span>
                         </div>
                     ) : (
