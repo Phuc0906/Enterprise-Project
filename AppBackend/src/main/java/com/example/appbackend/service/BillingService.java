@@ -85,6 +85,13 @@ public class BillingService {
         billingRepository.save(billing);
     }
 
+    public void deleteBilling(Long id) {
+        Billing billing = billingRepository.findById(id).orElseThrow();
+        List<BillingProduct> billingProducts = billingProductRepository.findByBilling(billing);
+        billingProductRepository.deleteAll(billingProducts);
+        billingRepository.delete(billing);
+    }
+
     public void decreaseStatus(Long id, String phoneNumber) {
         Billing billing = billingRepository.findById(id).orElseThrow();
         int currentStatus = billing.getStatus();

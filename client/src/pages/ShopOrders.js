@@ -79,6 +79,17 @@ const ShopOrders = () => {
         }
 
         function handleCancel() {
+            fetch(`https://${process.env.REACT_APP_API_URL}/api/billing/`+billing.id, {
+                method: "DELETE",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + localStorage.token,
+                }
+            })
+                .then(res => {
+                    setLoading(!loading);
+                })
         }
 
         return <div className="border-2 border-gray-300 p-3 rounded-xl mb-5">

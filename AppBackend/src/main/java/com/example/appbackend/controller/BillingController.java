@@ -67,6 +67,11 @@ public class BillingController {
         billingService.decreaseStatus(id, phoneNumber);
     }
 
+    @DeleteMapping(path = "{id}")
+    public void deleteBilling(@PathVariable("id") Long id) {
+        billingService.deleteBilling(id);
+    }
+
     @PostMapping
     public void addBilling(@RequestBody BillingDTO billingDTO) {
         Billing tempBill = new Billing();
