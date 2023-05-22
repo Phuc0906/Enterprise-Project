@@ -25,7 +25,11 @@ const ShopDashboard = () => {
             .then(res => {
                 const serverRes = res.json();
                 serverRes.then(data => {
-                    setRecord(data);
+                    const settingData = data.sort(function (a, b) {
+                        return new Date(a.date) - new Date(b.date);
+                    })
+                    console.log(settingData)
+                    setRecord(settingData);
                 })
             })
     }, [])
