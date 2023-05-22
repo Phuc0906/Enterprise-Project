@@ -85,7 +85,7 @@ const UserProfilePage = () => {
                                     })
                                 }).then(res => {
                                     console.log(res);
-                                    window.location.reload();
+                                    alert("Information was updated successfully")
                                 }).then(data => {
                                     console.log(data)
                                 });
