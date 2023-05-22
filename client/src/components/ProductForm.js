@@ -286,8 +286,6 @@ const ProductForm = () => {
             )
             .then((res) => {
                 console.log(res);
-                // navigate("/shop/product");
-                // window.location.reload();
             })
             .catch((err) => {
                 console.log(err);
@@ -307,8 +305,8 @@ const ProductForm = () => {
             )
             .then((res) => {
                 console.log(res);
-                // navigate("/shop/product");
-                // window.location.reload();
+                navigate("/shop/product");
+                window.location.reload();
             })
             .catch((err) => {
                 console.log(err);
