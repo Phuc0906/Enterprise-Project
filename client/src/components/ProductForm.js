@@ -271,6 +271,8 @@ const ProductForm = () => {
             imageData.append("file", image[i]);
         }
 
+        productInfo.size = sizeQuantity;
+
 
         axios
             .put(
