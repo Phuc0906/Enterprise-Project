@@ -271,9 +271,10 @@ const ProductForm = () => {
             imageData.append("file", image[i]);
         }
 
+
         axios
             .put(
-                `http://localhost:8080/api/product`,
+                `https://${process.env.REACT_APP_API_URL}/api/product`,
                 productInfo,
                 {
                     headers: {
@@ -294,7 +295,7 @@ const ProductForm = () => {
 
         axios
             .post(
-                `http://${process.env.REACT_APP_API_URL}/api/product/${productInfo.id}/image/upload`,
+                `https://${process.env.REACT_APP_API_URL}/api/product/${productInfo.id}/image/upload`,
                 imageData,
                 {
                     headers: {
