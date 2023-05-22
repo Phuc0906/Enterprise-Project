@@ -181,7 +181,15 @@ const ShopRecordChart = ({recordData}) => {
                     <BarChart barCategoryGap={30} margin={{ top: 5, right: 0, left: 20, bottom: 5 }} layout="vertical" data={topProduct}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="totalSold" type={"number"} />
-                        <YAxis dataKey="productName" reversed type="category" />
+                        <YAxis  dataKey="productName" reversed type="category"
+                                tickFormatter={(value) => {
+                                    // Replace this logic with your desired label truncation or abbreviation method
+                                    if (value.length > 10) {
+                                        return value.substring(0, 10) + '...';
+                                    }
+                                    return value;
+                                }}
+                        />
                         <Tooltip />
                         <Legend verticalAlign="top"/>
                         <Bar dataKey="totalSold" fill="#F0BD58" />
